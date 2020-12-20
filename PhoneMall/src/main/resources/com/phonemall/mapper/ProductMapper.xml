@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.phonemall.mapper.ProductMapper">
+
+<select id = "getList" resultType ="com.phonemall.domain.ProductVO">
+<!-- XML에서 부등호를 사용하기위해 CDATA사용 -->
+<![CDATA[
+	select * from product where product_id>0
+]]>
+</select>
+ 
+<insert id = "insert">
+	INSERT INTO product (product_title, product_price, product_description)
+	VALUES(#{product_title}, #{product_price}, #{product_description})
+
+</insert>
+  
+<insert id = "insertSelectKey" useGeneratedKeys="true" keyProperty="product_id" parameterType="com.phonemall.domain.ProductVO">
+	INSERT INTO product (product_title, product_price, product_description)
+	VALUES(#{product_title}, #{product_price}, #{product_description})
+</insert>
+
+<select id="read" resultType="com.phonemall.domain.ProductVO">
+	SELECT * FROM product WHERE product_id = #{product_id}
+</select>
+
+<delete id="delete">
+	DELETE FROM product WHERE product_id = #{product_id}
+</delete>
+
+<update id="update">
+	UPDATE product
+	SET product_title = #{product_title},
+	product_price = #{product_price},
+	product_description = #{product_description}
+	WHERE product_id = #{product_id}
+</update>
+
+</mapper>
