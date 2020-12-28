@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="message-box box-shadow white-bg">
-                                <form action="/product/register" method="post">
+                                <form role="form" action="/product/register" method="post">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h4 class="blog-section-title border-left mb-30">제품 등록</h4>
@@ -50,22 +50,22 @@
                                                     <div class="widget-color f-left">
                                                         <ul>
                                                             <li class="color-1">
-                                                            	<input type="checkbox" id="color" name="color"> &nbsp;
+                                                            	<input type="checkbox" id="product_colorList" value = "pink"> &nbsp;
                                                             </li>
                                                             <li class="color-2">
-                                                                <input type="checkbox" id="color" name="color"> &nbsp;                                              
+                                                                <input type="checkbox" id="product_colorList" value = "brown"> &nbsp;                                              
                                                             </li>
                                                             <li class="color-3">
-                                                            	<input type="checkbox" id="color" name="color"> &nbsp;
+                                                            	<input type="checkbox" id="product_colorList" value = "red"> &nbsp;
                                                             </li>
                                                             <li class="color-4">
-                                                            	<input type="checkbox" id="color" name="color"> &nbsp;
+                                                            	<input type="checkbox" id="product_colorList" value = "blue"> &nbsp;
                                                             </li>
                                                             <li class="color-5">
-                                                            	<input type="checkbox" id="color" name="color"> &nbsp;
+                                                            	<input type="checkbox" id="product_colorList" value = "lightGreen"> &nbsp;
                                                             </li>
                                                             <li class="color-6">
-                                                            	<input type="checkbox" id="color" name="color"> &nbsp;
+                                                            	<input type="checkbox" id="product_colorList" value = "green"> &nbsp;
                                                             </li>
                                                         </ul>
                                                         <br/>
@@ -75,11 +75,19 @@
                                         </div>
                                         
                                         <div class="col-lg-12">
+											<p class="color-title f-left">Image</p>
+											<input type="file"  name='uploadFile' multiple>
+                                        
+                                        </div>
+                                          
+                                        <div class="col-lg-12">
                                             <textarea class="custom-textarea" name="product_description" placeholder="제품 설명"></textarea>
+                                        </div>
+                                      
+                                        <div class="col-lg-12">
                                         	<button class="submit-btn-1 mt-30 btn-hover-1" type="submit">등록</button>
                                         	<button class="submit-btn-1 mt-30 btn-hover-1" type="reset" style="background-color : #575757;">초기화</button>
                                         </div>
-
                                     </div>
                                 </form>
                                 <p class="form-messege"></p>
@@ -92,5 +100,25 @@
         </section>
         <!-- End page content -->
  
- 
  <%@include file="/WEB-INF/views/layout/foot.jsp" %>
+ 
+<script>
+$(document).ready(function(e){
+	var formObj = $("form[role='form']");
+	$("button[type='submit']").on("click",function(e){
+		e.preventDefault();
+		console.log("submit clicked");
+	    
+	    var str ="";
+		
+	    $("input[id='product_colorList']:checked").each(function(i) {
+	    	// 체크된 것만 값을 뽑아서 배열에 push
+	    	str += "<input type ='hidden' name='product_colorList["+i+"].product_color' value='"+$(this).val()+"'>";
+	    });
+
+	    formObj.append(str).submit();
+	});
+	
+});
+
+</script>
