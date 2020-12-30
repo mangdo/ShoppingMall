@@ -70,7 +70,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="login">
+                                        <a href="/customlogin">
                                             <i class="zmdi zmdi-lock"></i>
                                             Login
                                         </a>

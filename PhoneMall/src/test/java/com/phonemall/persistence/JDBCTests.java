@@ -25,7 +25,7 @@ public class JDBCTests {
 		try(Connection con = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/phoneMall?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true",
 				"root",
-				"1234")){
+				"kiosk1234")){
 			log.info(con);
 			System.out.println(con);
 			

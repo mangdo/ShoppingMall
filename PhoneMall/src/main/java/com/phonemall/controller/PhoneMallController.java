@@ -1,7 +1,9 @@
 package com.phonemall.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,30 +46,35 @@ public class PhoneMallController {
 		return "/mypage/wishList";
 	}
 	
-	@RequestMapping("/login")
-	public String toLoginPage() {
-		return "/mypage/login";
-	}
-	
-	
-	//@GetMapping("/login")
-
-	public void loginInput(String error,String logout, Model model) {
+	@RequestMapping("/customlogin")
+	public String loginInput(String error,String logout, Model model) {
 		
 		log.info("error: " + error);
 		log.info("logout: " + logout);
 		
-		if(error!=null) {
+		
+		if(error!= null) {
 			model.addAttribute("error","Login Error Check Your Account");
 			
 		}
 		
-		if(logout!=null) {
-			model.addAttribute("logout","Lougout!!");
+		if(logout != null) {
+			
+			model.addAttribute("logout","Logout!!");
 		}
+		
+		return "/mypage/login";
+		
 	}
 	
-
+	@RequestMapping("/accessError")	
+	public String accessDenied(Authentication auth, Model model) {
+		log.info("access Denied: " + auth);
+		
+		model.addAttribute("msg","Access Denied");
+		
+		return "/access/accessError";
+	}
 
 	
 	@RequestMapping("/viewCart")
