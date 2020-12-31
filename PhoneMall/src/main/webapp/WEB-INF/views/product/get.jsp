@@ -94,9 +94,7 @@
 	                                            <a class="button extra-small button-black mb-20" data-oper='modify'>
 	                            					<span>수정</span>
 	                                            </a>
-	                                            <form id='operForm' action='product/modify' method='get'>
-	                                            	<input type="hidden" id='product_id' name='product_id' value='<c:out value="${product.product_id}"/>'>
-	                                            </form>
+	                                            
                                             </div>
                                             <!-- single-pro-color-rating -->
                                             <div class="single-pro-color-rating clearfix">
@@ -435,6 +433,14 @@
         </section>
         <!-- End page content -->
         
+<!-- 수정페이지 이동시킬때 필요한 정보와 
+나중에 수정/삭제페이지에서 목록 페이지로 이동시킬때 필요한 정보 -->
+<form id='operForm' action='product/modify' method='get'>
+	<input type="hidden" id='product_id' name='product_id' value='<c:out value="${product.product_id}"/>'>
+	<input type="hidden" name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+	<input type="hidden" name='amount' value='<c:out value="${cri.amount}"/>'>
+</form>
+
  <%@include file="/WEB-INF/views/layout/foot.jsp" %>
  
  <script type="text/javascript">

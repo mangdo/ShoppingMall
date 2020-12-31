@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.phonemall.domain.Criteria;
 import com.phonemall.domain.ProductColorListVO;
 import com.phonemall.domain.ProductVO;
 import com.phonemall.mapper.ProductColorListMapper;
@@ -22,9 +23,9 @@ public class ProductServiceImpl implements ProductService {
 	private ProductColorListMapper colorListMapper;
 	
 	@Override
-	public List<ProductVO> getList() {
+	public List<ProductVO> getList(Criteria cri) {
 		log.info("getList product");
-		return mapper.getList();
+		return mapper.getListWithPaging(cri);
 	}
 	@Override
 	public void register(ProductVO product) {
@@ -90,6 +91,12 @@ public class ProductServiceImpl implements ProductService {
 		log.info("get color list by id," + product_id);
 		
 		return colorListMapper.findById(product_id);
+	}
+	@Override
+	public int getTotal(Criteria cri) {
+		
+		log.info("get total count");
+		return mapper.getTotalCount(cri);
 	}
 
 

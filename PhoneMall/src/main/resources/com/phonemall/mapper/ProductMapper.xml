@@ -38,4 +38,17 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE product_id = #{product_id}
 </update>
 
+<select id = "getListWithPaging" resultType = "com.phonemall.domain.ProductVO">
+	<![CDATA[
+	SELECT * FROM product
+	WHERE product_id > 0
+	ORDER BY product_id DESC
+	LIMIT #{pageStart}, #{amount}
+	]]>
+</select>
+
+<select id="getTotalCount" resultType="int">
+	SELECT count(*) FROM product WHERE product_id>0
+</select>
+
 </mapper>

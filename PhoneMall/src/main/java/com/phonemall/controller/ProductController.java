@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.phonemall.domain.ProductVO;
+import com.phonemall.domain.Criteria;
+import com.phonemall.domain.PageDTO;
 import com.phonemall.domain.ProductColorListVO;
 
 import com.phonemall.service.ProductService;
@@ -35,10 +38,14 @@ public class ProductController {
 	private ProductService service;
 	
 	@GetMapping("/list")
-	public String list(Model model) {
+	public String list(Criteria cri, Model model) {
 		
 		log.info("/list");
-		model.addAttribute("list",service.getList());
+		model.addAttribute("list",service.getList(cri));
+		int total = service.getTotal(cri);
+		log.info(total);
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+
 		return "/product/list";
 	}
 	
@@ -59,7 +66,7 @@ public class ProductController {
 	}
 	
 	@GetMapping({"/get"})
-	public String get(@RequestParam("product_id") Long product_id, Model model) {
+	public String get(@RequestParam("product_id") Long product_id, @ModelAttribute("cri") Criteria cri, Model model) {
 		
 		log.info("/get");
 		model.addAttribute("product",service.get(product_id));
@@ -68,7 +75,7 @@ public class ProductController {
 	}
 	
 	@GetMapping({"/modify"})
-	public String modify(@RequestParam("product_id") Long product_id, Model model) {
+	public String modify(@RequestParam("product_id") Long product_id, @ModelAttribute("cri") Criteria cri,Model model) {
 		
 		log.info("/modify");
 		model.addAttribute("product",service.get(product_id));
@@ -77,23 +84,29 @@ public class ProductController {
 	}
 	
 	@PostMapping("/modify")
-	public String modify(ProductVO product, RedirectAttributes rttr) {
+	public String modify(ProductVO product, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		log.info("modify : "+product);
 		
 		if(service.modify(product)) {
 			rttr.addFlashAttribute("result","succes");
 		}
-
+		
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+		
 		return "redirect:/product/list";
 
 	}
 	
 	@PostMapping("/remove")
-	public String remove(@RequestParam("product_id") Long product_id, RedirectAttributes rttr) {
+	public String remove(@RequestParam("product_id") Long product_id,@ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		log.info("remove product "+product_id);
 		if(service.remove(product_id)) {
 			rttr.addFlashAttribute("result","success");
 		}
+		
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
 
 		return "redirect:/product/list";
 	}

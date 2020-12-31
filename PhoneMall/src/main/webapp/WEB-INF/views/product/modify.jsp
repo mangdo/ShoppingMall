@@ -85,6 +85,11 @@
                                         </div>
 
                                     </div>
+                                    
+                                    <!-- 목록페이지로 보내기위해서 -->
+                                    <input type="hidden" name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+									<input type="hidden" name='amount' value='<c:out value="${cri.amount}"/>'>
+                                
                                 </form>
                                 <p class="form-messege"></p>
                             </div>
@@ -95,8 +100,7 @@
             <!-- MESSAGE BOX SECTION END -->               
         </section>
         <!-- End page content -->
- 
- 
+
  <%@include file="/WEB-INF/views/layout/foot.jsp" %>
  
  <script type="text/javascript">
@@ -127,8 +131,14 @@
 		 }else if(operation==='list'){
 			 
 			 //move to list
+			 //pageNum과 amount를 제외한 <form>의 내용은 지운다.
 			 formObj.attr("action","/product/list").attr("method","get");
+			 var pageNumTag = $("input[name='pageNum']").clone();
+			 var amountTag = $("input[name='amount']").clone();
+			 
 			 formObj.empty();
+			 formObj.append(pageNumTag);
+			 formObj.append(amountTag)
 		 }
 		 
 		 formObj.submit();

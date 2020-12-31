@@ -1,5 +1,7 @@
 package com.phonemall.mapper;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.phonemall.domain.Criteria;
 import com.phonemall.domain.ProductVO;
 
 import lombok.Setter;
@@ -18,7 +21,7 @@ import lombok.extern.log4j.Log4j;
 public class ProductMapperTests {
 	@Setter(onMethod_=@Autowired)
 	private ProductMapper mapper;
-	
+	/*
 	@Test
 	public void testGetList() {
 		mapper.getList().forEach(product->log.info(product));
@@ -75,6 +78,17 @@ public class ProductMapperTests {
 		int count = mapper.update(product);
 		log.info("update count : "+count);
 	}
+	*/
 	
+	@Test
+	public void testPaging() {
+		
+		Criteria cri = new Criteria();
+		// 2page
+		cri.setPageNum(2);
+	
+		List<ProductVO> list = mapper.getListWithPaging(cri);
+		list.forEach(product->log.info(product));
+	}
 
 }

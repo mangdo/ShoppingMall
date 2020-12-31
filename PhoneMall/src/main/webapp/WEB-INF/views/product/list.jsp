@@ -79,7 +79,7 @@
                                                     </div>
                                                     <div class="product-info">
                                                         <h6 class="product-title">
-                                                        	<a href='/product/get?product_id=<c:out value="${product.product_id}"/>'>
+                                                        	<a class ='move' href='<c:out value="${product.product_id}"/>'>
                                                             <c:out value="${product.product_title }"/></a>
                                                         </h6>
                                                         <div class="pro-rating">
@@ -336,15 +336,30 @@
                                 <!-- Tab Content end -->
                                 <!-- shop-pagination start -->
                                 <ul class="shop-pagination box-shadow text-center ptblr-10-30">
-                                    <li><a href="#"><i class="zmdi zmdi-chevron-left"></i></a></li>
-                                    <li><a href="#">01</a></li>
-                                    <li><a href="#">02</a></li>
-                                    <li><a href="#">03</a></li>
-                                    <li><a href="#">...</a></li>
-                                    <li><a href="#">05</a></li>
-                                    <li class="active"><a href="#"><i class="zmdi zmdi-chevron-right"></i></a></li>
+                                	<c:if test = "${pageMaker.prev}">
+                                		<li class="paginate_button"><a href="${pageMaker.startPage - 1}">
+                                		<i class="zmdi zmdi-chevron-left"></i>
+                                		</a></li>
+                                	</c:if>
+                                    
+                                    <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                                    	<li class="paginate_button"><a href="${num}">${num}</a></li>
+                                    </c:forEach>
+                                    
+                                    <c:if test = "${pageMaker.next}">
+                                    	<li class="paginate_button active">
+                                    	<a href="${pageMaker.endPage + 1}">
+                                    	<i class="zmdi zmdi-chevron-right">
+                                    	</i></a></li>
+                                	</c:if>
                                 </ul>
                                 <!-- shop-pagination end -->
+                                
+                                <!-- 페이징처리를 위한 form을 넘김 -->
+                                <form id='actionForm' action="/product/list" method='get'>
+                                	<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+                                	<input type='hidden' name='amount' value='${pageMaker.cri.amount }'>
+                                </form>
                             </div>
                         </div>
                         <div class="col-md-3 col-md-pull-9 col-xs-12">
@@ -507,7 +522,7 @@ aria-lablelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-header">
 				<button type = "button" class = "close" data-dimiss="modal"
 				aria-hidden="true">&times;</button>
-				<h4 class= "modal-title" id ="myModalLabel">Modal Tittle</h4>
+				<h4 class= "modal-title" id ="myModalLabel">Modal Title</h4>
 			</div>
 			<div class="modal-body">처리가 완료되었습니다.</div>
 			<div class = "modal-footer">
@@ -544,5 +559,29 @@ $(document).ready(function(){
 	$("#regBtn").on("click",function(){
 		self.location = "/product/register";
 	});
+	
+	// 페이징 처리
+	var actionForm = $("#actionForm");
+	$(".paginate_button a").on("click",function(e){
+		e.preventDefault();
+		
+		console.log('click');
+		
+		// 숫자 버튼눌렀을때 그 숫자값(href)을 pageNum값으로 바꾼다.
+		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		actionForm.submit();
+		
+	});
+	
+	// 개별 상품 조회
+	$(".move").on("click",function(e){
+		e.preventDefault();
+		
+		actionForm.append("<input type='hidden' name ='product_id' value='"+$(this).attr("href")+"'>");
+		actionForm.attr("action", "/product/get");
+		
+		actionForm.submit();
+	});
+	
 });
 </script>

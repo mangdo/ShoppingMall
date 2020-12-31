@@ -34,15 +34,17 @@ public class ProductControllerTests {
 	public void setup() {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
 	}
-	/*
+	
 	@Test
 	public void testList() throws Exception{
 		log.info(
 				mockMvc.perform(MockMvcRequestBuilders.get("/product/list")
-				).andReturn().getModelAndView().getModelMap());
+						.param("pageNum", "2")
+						.param("amount", "6")
+						).andReturn().getModelAndView().getModelMap());
 	}
 	
-	
+	/*
 	@Test
 	public void testRegister() throws Exception{
 		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/product/register")
@@ -64,7 +66,7 @@ public class ProductControllerTests {
 				.param("product_id","9")
 				).andReturn().getModelAndView().getModelMap());
 	}
-	*/
+	
 	
 	@Test
 	public void testModify() throws Exception{
@@ -78,7 +80,7 @@ public class ProductControllerTests {
 		log.info(resultPage);
 	}
 	
-	/*
+	
 	@Test
 	public void testRemove() throws Exception{
 		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/product/remove")
