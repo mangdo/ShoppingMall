@@ -439,6 +439,7 @@
 	<input type="hidden" id='product_id' name='product_id' value='<c:out value="${product.product_id}"/>'>
 	<input type="hidden" name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 	<input type="hidden" name='amount' value='<c:out value="${cri.amount}"/>'>
+	<input type="hidden" name='keyword' value='<c:out value="${cri.keyword}"/>'>
 </form>
 
  <%@include file="/WEB-INF/views/layout/foot.jsp" %>

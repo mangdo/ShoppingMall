@@ -85,8 +85,11 @@ public class ProductMapperTests {
 		
 		Criteria cri = new Criteria();
 		// 2page
-		cri.setPageNum(2);
-	
+		// cri.setPageNum(2);
+		
+		//검색
+		cri.setKeyword("iphone");
+		
 		List<ProductVO> list = mapper.getListWithPaging(cri);
 		list.forEach(product->log.info(product));
 	}

@@ -355,18 +355,22 @@
                                 </ul>
                                 <!-- shop-pagination end -->
                                 
-                                <!-- 페이징처리를 위한 form을 넘김 -->
+                                <!-- 페이지번호 클릭해서 이동할때 -->
                                 <form id='actionForm' action="/product/list" method='get'>
                                 	<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
                                 	<input type='hidden' name='amount' value='${pageMaker.cri.amount }'>
+                                	<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>'>
                                 </form>
                             </div>
                         </div>
                         <div class="col-md-3 col-md-pull-9 col-xs-12">
                             <!-- widget-search -->
                             <aside class="widget-search mb-30">
-                                <form action="#">
-                                    <input type="text" placeholder="Search here...">
+                                <form id='searchForm' action="/product/list" method='get'>
+                                    <input type='hidden' name='pageNum' value='<c:out value ="${pageMaker.cri.pageNum}"/>'/>
+                                	<input type='hidden' name='amount' value='<c:out value ="${pageMaker.cri.amount}"/>'/>
+                                    
+                                    <input type="text" name = "keyword" placeholder="Search here..." value='<c:out value = "${pageMaker.cri.keyword}"/>'/>
                                     <button type="submit"><i class="zmdi zmdi-search"></i></button>
                                 </form>
                             </aside>
@@ -375,16 +379,14 @@
                                 <h6 class="widget-title border-left mb-20">Categories</h6>
                                 <div id="cat-treeview" class="product-cat">
                                     <ul>
-                                        <li class="closed"><a href="#">Brand One</a>
+                                        <li class="closed"><a href="#">SAMSUNG</a>
                                             <ul>
                                                 <li><a href="#">Mobile</a></li>
                                                 <li><a href="#">Tab</a></li>
                                                 <li><a href="#">Watch</a></li>
-                                                <li><a href="#">Head Phone</a></li>
-                                                <li><a href="#">Memory</a></li>
                                             </ul>
                                         </li>                                       
-                                        <li class="open"><a href="#">Brand Two</a>
+                                        <li class="open"><a href="#">APPLE</a>
                                             <ul>
                                                 <li><a href="#">Mobile</a></li>
                                                 <li><a href="#">Tab</a></li>
@@ -393,7 +395,7 @@
                                                 <li><a href="#">Memory</a></li>
                                             </ul>
                                         </li>
-                                        <li class="closed"><a href="#">Accessories</a>
+                                        <li class="closed"><a href="#">LG</a>
                                             <ul>
                                                 <li><a href="#">Footwear</a></li>
                                                 <li><a href="#">Sunglasses</a></li>
@@ -401,7 +403,7 @@
                                                 <li><a href="#">Utilities</a></li>
                                             </ul>
                                         </li>
-                                        <li class="closed"><a href="#">Top Brands</a>
+                                        <li class="closed"><a href="#">Google</a>
                                             <ul>
                                                 <li><a href="#">Mobile</a></li>
                                                 <li><a href="#">Tab</a></li>
@@ -410,7 +412,7 @@
                                                 <li><a href="#">Memory</a></li>
                                             </ul>
                                         </li>
-                                        <li class="closed"><a href="#">Jewelry</a>
+                                        <li class="closed"><a href="#">BlackBerry</a>
                                             <ul>
                                                 <li><a href="#">Footwear</a></li>
                                                 <li><a href="#">Sunglasses</a></li>
@@ -432,29 +434,15 @@
                                     <div id="slider-range"></div>
                                 </div>
                             </aside>
-                            <!-- widget-color -->
-                            <aside class="widget widget-color box-shadow mb-30">
-                                <h6 class="widget-title border-left mb-20">color</h6>
-                                <ul>
-                                    <li class="color-1"><a href="#">LightSalmon</a></li>
-                                    <li class="color-2"><a href="#">Dark Salmon</a></li>
-                                    <li class="color-3"><a href="#">Tomato</a></li>
-                                    <li class="color-4"><a href="#">Deep Sky Blue</a></li>
-                                    <li class="color-5"><a href="#">Electric Purple</a></li>
-                                    <li class="color-6"><a href="#">Atlantis</a></li>
-                                </ul>
-                            </aside>
+
                             <!-- operating-system -->
                             <aside class="widget operating-system box-shadow mb-30">
-                                <h6 class="widget-title border-left mb-20">operating system</h6>
+                                <h6 class="widget-title border-left mb-20">통신사</h6>
                                 <form action="action_page.php">
-                                    <label><input type="checkbox" name="operating-1" value="phone-1">Windows Phone</label><br>
-                                    <label><input type="checkbox" name="operating-1" value="phone-1">Bleckgerry ios</label><br>
-                                    <label><input type="checkbox" name="operating-1" value="phone-1">Android</label><br>
-                                    <label><input type="checkbox" name="operating-1" value="phone-1">ios</label><br>
-                                    <label><input type="checkbox" name="operating-1" value="phone-1">Windows Phone</label><br>
-                                    <label><input type="checkbox" name="operating-1" value="phone-1">Symban</label><br>
-                                    <label class="mb-0"><input type="checkbox" name="operating-1" value="phone-1">Bleckgerry os</label><br>
+                                    <label><input type="checkbox" name="operating-1" value="phone-1">SKT</label><br>
+                                    <label><input type="checkbox" name="operating-1" value="phone-1">KT</label><br>
+                                    <label><input type="checkbox" name="operating-1" value="phone-1">LG U+</label><br>
+                                    <label class="mb-0"><input type="checkbox" name="operating-1" value="phone-1">알뜰폰</label><br>
                                 </form>
                             </aside>
                             <!-- widget-product -->
@@ -583,5 +571,20 @@ $(document).ready(function(){
 		actionForm.submit();
 	});
 	
+	// 검색
+	var searchForm = $("#searchForm");
+	
+	$("#searchForm button").on("click",function(e){
+		
+		if(!searchForm.find("input[name='keyword']").val()){
+			alert("키워드를 입력하세요");
+			return false;
+		}
+		
+		searchForm.find("input[name='pageNum']").val("1");
+		e.preventDefault();
+		
+		searchForm.submit();
+	})
 });
 </script>

@@ -91,10 +91,7 @@ public class ProductController {
 			rttr.addFlashAttribute("result","succes");
 		}
 		
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
-		
-		return "redirect:/product/list";
+		return "redirect:/product/list"+cri.getListLink();
 
 	}
 	
@@ -105,10 +102,8 @@ public class ProductController {
 			rttr.addFlashAttribute("result","success");
 		}
 		
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
 
-		return "redirect:/product/list";
+		return "redirect:/product/list"+cri.getListLink();
 	}
 	
 	@GetMapping("/register")
