@@ -88,25 +88,19 @@
                                     <div class="col-lg-7">
                                         <div class="single-product-info">
                                             <h3 class="text-black-1"><c:out value="${product.product_title}"/></h3>
+                                            <h6 class="brand-name-2">
+                                            	<c:out value="${product.product_brand }"/> / <c:out value="${product.product_type }"/> / <c:out value="${product.product_carrier }"/>
+                                            </h6>
                                             <!--  hr -->
                                             <hr>
-                                            <div> 
-	                                            <a class="button extra-small button-black mb-20" data-oper='modify'>
-	                            					<span>수정</span>
-	                                            </a>
-	                                            
-                                            </div>
+                                            
                                             <!-- single-pro-color-rating -->
                                             <div class="single-pro-color-rating clearfix">
                                                 <div class="sin-pro-color f-left">
                                                     <p class="color-title f-left">Color</p>
                                                     <div class="widget-color f-left">
-                                                        <ul>                                                        
-                                                            <!-- <li class="color-1"><a href="#"></a></li>
-                                                            <li class="color-2"><a href="#"></a></li>
-                                                            <li class="color-3"><a href="#"></a></li>
-                                                            <li class="color-4"><a href="#"></a></li>
-                                                        	-->
+                                                        <ul>
+                                                        <li class='color-1'><a href='#'></a></li> <li class='color-1'><a href='#'></a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -126,7 +120,7 @@
                                                 <div class="sin-plus-minus f-left clearfix">
                                                     <p class="color-title f-left">Qty</p>
                                                     <div class="cart-plus-minus f-left">
-                                                        <input type="text" value="02" name="qtybutton"
+                                                        <input type="text" value="01" name="qtybutton"
                                                             class="cart-plus-minus-box">
                                                     </div>
                                                 </div>
@@ -156,14 +150,18 @@
                                             <!-- hr -->
                                             <hr>
                                             <!-- single-product-price -->
-                                            <h3 class="pro-price"><c:out value="${product.product_price}"/></h3>
+                                            <h3 class="pro-price">Price :&nbsp; <c:out value="${product.product_price}"/> 원</h3>
                                             <!--  hr -->
                                             <hr>
                                             <div>
                                                 <a href="#" class="button extra-small button-black" tabindex="-1">
                                                     <span class="text-uppercase">Buy now</span>
                                                 </a>
+                                                <a class="button extra-small button-black" tabindex="-1" data-oper='modify'>
+	                            					<span>수정</span>
+	                                            </a>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                     <!-- single-product-info end -->
@@ -180,14 +178,14 @@
                                                 <li><a href="#reviews" data-toggle="tab">reviews</a></li>
                                             </ul>
                                             <div class="tab-content">
-                                                <div role="tabpanel" class="tab-pane active show" id="description">
+                                                <div role="tabpanel" class="tab-pane active" id="description">
                                                     <p> 상품 설명입니다. </p>
                                                     <p>  <c:out value="${product.product_description}"/>  </p>
                                                     
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="information">
                                                     <p> information </p>
-                                                    <p> 페이지이다. </p>
+                                                    <p> <c:out value="${product.product_information}"/> </p>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="reviews">
                                                     <!-- reviews-tab-desc -->
@@ -433,13 +431,9 @@
         </section>
         <!-- End page content -->
         
-<!-- 수정페이지 이동시킬때 필요한 정보와 
-나중에 수정/삭제페이지에서 목록 페이지로 이동시킬때 필요한 정보 -->
+<!-- 수정페이지 이동시킬때 필요한 정보 -->
 <form id='operForm' action='product/modify' method='get'>
 	<input type="hidden" id='product_id' name='product_id' value='<c:out value="${product.product_id}"/>'>
-	<input type="hidden" name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
-	<input type="hidden" name='amount' value='<c:out value="${cri.amount}"/>'>
-	<input type="hidden" name='keyword' value='<c:out value="${cri.keyword}"/>'>
 </form>
 
  <%@include file="/WEB-INF/views/layout/foot.jsp" %>
@@ -458,17 +452,17 @@
 			 $(arr).each(function(i, color){
 				
 				if(color.product_color=="pink")
-					str+="<li class='color-1'><a href='#'></a></li>";
+					str+="&nbsp; <li class='color-1'><a href='#'></a></li>";
 				else if (color.product_color=="brown")
-					str+="<li class='color-2'><a href='#'></a></li>";
+					str+="&nbsp; <li class='color-2'><a href='#'></a></li>";
 				else if (color.product_color=="red")
-					str+="<li class='color-3'><a href='#'></a></li>";
+					str+="&nbsp; <li class='color-3'><a href='#'></a></li>";
 				else if (color.product_color=="blue")
-					str+="<li class='color-4'><a href='#'></a></li>";
+					str+="&nbsp; <li class='color-4'><a href='#'></a></li>";
 				else if (color.product_color=="lightGreen")
-					str+="<li class='color-5'><a href='#'></a></li>";
+					str+="&nbsp; <li class='color-5'><a href='#'></a></li>";
 				else if (color.product_color=="green")
-					str+="<li class='color-6'><a href='#'></a></li>";
+					str+="&nbsp; <li class='color-6'><a href='#'></a></li>";
 				
 			 });
 			 

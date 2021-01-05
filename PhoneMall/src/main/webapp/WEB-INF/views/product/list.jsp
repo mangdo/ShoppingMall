@@ -37,12 +37,10 @@
                                 <div class="shop-option box-shadow mb-30 clearfix">
                                     <!-- Nav tabs -->
                                     <ul class="shop-tab f-left" role="tablist">
-                                        <li class="active">
-                                            <a href="#grid-view" data-toggle="tab"><i class="zmdi zmdi-view-module"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#list-view" data-toggle="tab"><i class="zmdi zmdi-view-list-alt"></i></a>
-                                        </li>
+	                                    	<li class="active"> <a href="#grid-view" data-toggle="tab" class="gridView"><i class="zmdi zmdi-view-module"></i></a> </li>
+                                        	<li> <a href="#list-view" data-toggle="tab" class = "listView"><i class="zmdi zmdi-view-list-alt"></i></a> </li>
+
+                                        
                                     </ul>
                                     <!-- short-by -->
                                     <div class="short-by f-left text-center">
@@ -69,11 +67,12 @@
                                         <div class="row">
                                         
                                             <c:forEach items="${list}" var="product">
-                                            <!-- product-item start -->
+                                            
+				                            <!-- product-item start -->
                                             <div class="col-md-4 col-sm-4 col-xs-12">
                                                 <div class="product-item">
                                                     <div class="product-img">
-                                                        <a href="single-product.html">
+                                                        <a class ='move' href='<c:out value="${product.product_id}"/>'>
                                                             <img src="/resources/img/product/9.jpg" alt=""/>
                                                         </a>
                                                     </div>
@@ -89,7 +88,7 @@
                                                             <a href="#"><i class="zmdi zmdi-star-half"></i></a>
                                                             <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
                                                         </div>
-                                                        <h3 class="pro-price"><c:out value="${product.product_price }"/></h3>
+                                                        <h3 class="pro-price"><c:out value="${product.product_price }"/> 원</h3>
                                                         <ul class="action-button">
                                                             <li>
                                                                 <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
@@ -117,18 +116,20 @@
                                     <!-- list-view -->
                                     <div role="tabpanel" class="tab-pane" id="list-view">
                                         <div class="row">
-                                            <!-- product-item start -->
+	                                        <c:forEach items="${list}" var="product">
+			                                <!-- product-item start -->
                                             <div class="col-md-12">
                                                 <div class="shop-list product-item">
                                                     <div class="product-img">
-                                                        <a href="single-product.html">
+                                                        <a class ='move' href='<c:out value="${product.product_id}"/>'>
                                                             <img src="/resources/img/product/7.jpg" alt=""/>
                                                         </a>
                                                     </div>
                                                     <div class="product-info">
                                                         <div class="clearfix">
                                                             <h6 class="product-title f-left">
-                                                                <a href="single-product.html">Dummy Product Name </a>
+                                                            	<a class ='move' href='<c:out value="${product.product_id}"/>'>
+                                                            	<c:out value="${product.product_title }"/></a>
                                                             </h6>
                                                             <div class="pro-rating f-right">
                                                                 <a href="#"><i class="zmdi zmdi-star"></i></a>
@@ -138,9 +139,11 @@
                                                                 <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
                                                             </div>
                                                         </div>
-                                                        <h6 class="brand-name mb-30">Brand Name</h6>
-                                                        <h3 class="pro-price">$ 869.00</h3>
-                                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                                                        <h6 class="brand-name mb-30">
+                                                        	<c:out value="${product.product_brand }"/> / <c:out value="${product.product_type }"/> / <c:out value="${product.product_carrier }"/>
+                                                        </h6>
+                                                        <h3 class="pro-price"><c:out value="${product.product_price }"/> 원</h3>
+                                                        <p><c:out value="${product.product_information }"/></p>
                                                         <ul class="action-button">
                                                             <li>
                                                                 <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
@@ -159,180 +162,11 @@
                                                 </div>
                                             </div>
                                             <!-- product-item end -->
-                                            <!-- product-item start -->
-                                            <div class="col-md-12">
-                                                <div class="shop-list product-item">
-                                                    <div class="product-img">
-                                                        <a href="single-product.html">
-                                                            <img src="/resources/img/product/10.jpg" alt=""/>
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-info">
-                                                        <div class="clearfix">
-                                                            <h6 class="product-title f-left">
-                                                                <a href="single-product.html">Dummy Product Name </a>
-                                                            </h6>
-                                                            <div class="pro-rating f-right">
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
-                                                            </div>
-                                                        </div>
-                                                        <h6 class="brand-name mb-30">Brand Name</h6>
-                                                        <h3 class="pro-price">$ 869.00</h3>
-                                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                                                        <ul class="action-button">
-                                                            <li>
-                                                                <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" data-toggle="modal"  data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- product-item end -->
-                                            <!-- product-item start -->
-                                            <div class="col-md-12">
-                                                <div class="shop-list product-item">
-                                                    <div class="product-img">
-                                                        <a href="single-product.html">
-                                                            <img src="/resources/img/product/4.jpg" alt=""/>
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-info">
-                                                        <div class="clearfix">
-                                                            <h6 class="product-title f-left">
-                                                                <a href="single-product.html">Dummy Product Name </a>
-                                                            </h6>
-                                                            <div class="pro-rating f-right">
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
-                                                            </div>
-                                                        </div>
-                                                        <h6 class="brand-name mb-30">Brand Name</h6>
-                                                        <h3 class="pro-price">$ 869.00</h3>
-                                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                                                        <ul class="action-button">
-                                                            <li>
-                                                                <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" data-toggle="modal"  data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- product-item end -->
-                                            <!-- product-item start -->
-                                            <div class="col-md-12">
-                                                <div class="shop-list product-item">
-                                                    <div class="product-img">
-                                                        <a href="single-product.html">
-                                                            <img src="/resources/img/product/8.jpg" alt=""/>
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-info">
-                                                        <div class="clearfix">
-                                                            <h6 class="product-title f-left">
-                                                                <a href="single-product.html">Dummy Product Name </a>
-                                                            </h6>
-                                                            <div class="pro-rating f-right">
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
-                                                            </div>
-                                                        </div>
-                                                        <h6 class="brand-name mb-30">Brand Name</h6>
-                                                        <h3 class="pro-price">$ 869.00</h3>
-                                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                                                        <ul class="action-button">
-                                                            <li>
-                                                                <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" data-toggle="modal"  data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- product-item end -->
-                                            <!-- product-item start -->
-                                            <div class="col-md-12">
-                                                <div class="shop-list product-item">
-                                                    <div class="product-img">
-                                                        <a href="single-product.html">
-                                                            <img src="/resources/img/product/2.jpg" alt=""/>
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-info">
-                                                        <div class="clearfix">
-                                                            <h6 class="product-title f-left">
-                                                                <a href="single-product.html">Dummy Product Name </a>
-                                                            </h6>
-                                                            <div class="pro-rating f-right">
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
-                                                            </div>
-                                                        </div>
-                                                        <h6 class="brand-name mb-30">Brand Name</h6>
-                                                        <h3 class="pro-price">$ 869.00</h3>
-                                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
-                                                        <ul class="action-button">
-                                                            <li>
-                                                                <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" data-toggle="modal"  data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- product-item end -->
-                                            
-                                            
-                                            
+	                                        </c:forEach>
                                         </div>                                        
                                     </div>
                                 </div>
+                                
                                 <!-- Tab Content end -->
                                 <!-- shop-pagination start -->
                                 <ul class="shop-pagination box-shadow text-center ptblr-10-30">
@@ -343,7 +177,12 @@
                                 	</c:if>
                                     
                                     <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-                                    	<li class="paginate_button"><a href="${num}">${num}</a></li>
+                                    	<c:if test="${num eq pageMaker.cri.pageNum}">
+                                    		<li class="paginate_button active"><a href="${num}">${num}</a></li>
+                                    	</c:if>
+                                    	<c:if test="${num ne pageMaker.cri.pageNum}">
+                                    		<li class="paginate_button"><a href="${num}">${num}</a></li>
+                                    	</c:if>
                                     </c:forEach>
                                     
                                     <c:if test = "${pageMaker.next}">
@@ -354,22 +193,15 @@
                                 	</c:if>
                                 </ul>
                                 <!-- shop-pagination end -->
-                                
-                                <!-- 페이지번호 클릭해서 이동할때 -->
-                                <form id='actionForm' action="/product/list" method='get'>
-                                	<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-                                	<input type='hidden' name='amount' value='${pageMaker.cri.amount }'>
-                                	<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>'>
-                                </form>
                             </div>
                         </div>
+                        
+                        <!-- 사이드바 -->
                         <div class="col-md-3 col-md-pull-9 col-xs-12">
                             <!-- widget-search -->
                             <aside class="widget-search mb-30">
                                 <form id='searchForm' action="/product/list" method='get'>
                                     <input type='hidden' name='pageNum' value='<c:out value ="${pageMaker.cri.pageNum}"/>'/>
-                                	<input type='hidden' name='amount' value='<c:out value ="${pageMaker.cri.amount}"/>'/>
-                                    
                                     <input type="text" name = "keyword" placeholder="Search here..." value='<c:out value = "${pageMaker.cri.keyword}"/>'/>
                                     <button type="submit"><i class="zmdi zmdi-search"></i></button>
                                 </form>
@@ -378,49 +210,66 @@
                             <aside class="widget widget-categories box-shadow mb-30">
                                 <h6 class="widget-title border-left mb-20">Categories</h6>
                                 <div id="cat-treeview" class="product-cat">
-                                    <ul>
-                                        <li class="closed"><a href="#">SAMSUNG</a>
-                                            <ul>
-                                                <li><a href="#">Mobile</a></li>
-                                                <li><a href="#">Tab</a></li>
-                                                <li><a href="#">Watch</a></li>
-                                            </ul>
-                                        </li>                                       
-                                        <li class="open"><a href="#">APPLE</a>
-                                            <ul>
-                                                <li><a href="#">Mobile</a></li>
-                                                <li><a href="#">Tab</a></li>
-                                                <li><a href="#">Watch</a></li>
-                                                <li><a href="#">Head Phone</a></li>
-                                                <li><a href="#">Memory</a></li>
+                                    <ul id ="category">
+                                    	<c:set var ="category_open" value="closed"/>
+                                    	<c:if test="${pageMaker.cri.brand eq 'SAMSUNG'}">
+                                    		<c:set var ="category_open" value="open"/>
+                                    	</c:if>
+                                        <li class='<c:out value="${category_open}" />'>
+                                        	<a href="SAMSUNG">SAMSUNG</a>
+                                            <ul id="SAMSUNG">
+                                                <li><a href="Phone">Phone</a></li>
+                                                <li><a href="Tab">Tab</a></li>
+                                                <li><a href="Watch">Watch</a></li>
                                             </ul>
                                         </li>
-                                        <li class="closed"><a href="#">LG</a>
-                                            <ul>
-                                                <li><a href="#">Footwear</a></li>
-                                                <li><a href="#">Sunglasses</a></li>
-                                                <li><a href="#">Watches</a></li>
-                                                <li><a href="#">Utilities</a></li>
+                                        <c:set var ="category_open" value="closed"/>
+                                        <c:if test="${pageMaker.cri.brand eq 'APPLE'}">
+                                    		<c:set var ="category_open" value="open"/>
+                                    	</c:if>                                       
+                                        <li class='<c:out value="${category_open}" />'>
+                                        	<a href="APPLE">APPLE</a>
+                                            <ul id="APPLE">
+                                                <li><a href="Phone">Phone</a></li>
+                                                <li><a href="Tab">Tab</a></li>
+                                                <li><a href="Watch">Watch</a></li>
                                             </ul>
                                         </li>
-                                        <li class="closed"><a href="#">Google</a>
-                                            <ul>
-                                                <li><a href="#">Mobile</a></li>
-                                                <li><a href="#">Tab</a></li>
-                                                <li><a href="#">Watch</a></li>
-                                                <li><a href="#">Head Phone</a></li>
-                                                <li><a href="#">Memory</a></li>
+                                        
+                                        <c:set var ="category_open" value="closed"/>
+                                        <c:if test="${pageMaker.cri.brand eq 'LG'}">
+                                    		<c:set var ="category_open" value="open"/>
+                                    	</c:if>
+                                        <li class='<c:out value="${category_open}" />'>
+                                        <a href="#">LG</a>
+                                            <ul id="LG">
+                                                <li><a href="Phone">Phone</a></li>
                                             </ul>
                                         </li>
-                                        <li class="closed"><a href="#">BlackBerry</a>
-                                            <ul>
-                                                <li><a href="#">Footwear</a></li>
-                                                <li><a href="#">Sunglasses</a></li>
-                                                <li><a href="#">Watches</a></li>
-                                                <li><a href="#">Utilities</a></li>
+                                        
+                                        <c:set var ="category_open" value="closed"/>
+                                        <c:if test="${pageMaker.cri.brand eq 'GOOGLE'}">
+                                    		<c:set var ="category_open" value="open"/>
+                                    	</c:if>
+                                        <li class='<c:out value="${category_open}" />'>
+                                        <a href="#">GOOGLE</a>
+                                            <ul id="GOOGLE">
+                                                <li><a href="Phone">Phone</a></li>
+                                            </ul>
+                                        </li>
+                                        
+                                        <c:set var ="category_open" value="closed"/>
+                                        <c:if test="${pageMaker.cri.brand eq 'BlackBerry'}">
+                                    		<c:set var ="category_open" value="open"/>
+                                    	</c:if>
+                                        <li class='<c:out value="${category_open}" />'>
+                                        <a href="#">BlackBerry</a>
+                                            <ul id="BlackBerry">
+                                                <li><a href="Phone">Phone</a></li>
                                             </ul>
                                         </li>
                                     </ul>
+                                    
                                 </div>
                             </aside>
                             <!-- shop-filter -->
@@ -428,9 +277,10 @@
                                 <h6 class="widget-title border-left mb-20">Price</h6>
                                 <div class="price_filter">
                                     <div class="price_slider_amount">
-                                        <input type="submit"  value="You range :"/> 
-                                        <input type="text" id="amount" name="price"  placeholder="Add Your Price" /> 
+                                        <input type="submit" value="Range :" style="width:30%">
+                                        <input type="text" id="amount" name="price"  placeholder="Add Your Price" style="width:70%;" /> 
                                     </div>
+                                    
                                     <div id="slider-range"></div>
                                 </div>
                             </aside>
@@ -438,11 +288,20 @@
                             <!-- operating-system -->
                             <aside class="widget operating-system box-shadow mb-30">
                                 <h6 class="widget-title border-left mb-20">통신사</h6>
-                                <form action="action_page.php">
-                                    <label><input type="checkbox" name="operating-1" value="phone-1">SKT</label><br>
-                                    <label><input type="checkbox" name="operating-1" value="phone-1">KT</label><br>
-                                    <label><input type="checkbox" name="operating-1" value="phone-1">LG U+</label><br>
-                                    <label class="mb-0"><input type="checkbox" name="operating-1" value="phone-1">알뜰폰</label><br>
+                                <form id='categoryForm' action="/product/list" method='get'>
+                                	<input type='hidden' name='pageNum' value='<c:out value ="${pageMaker.cri.pageNum}"/>'/>
+                                	<input type='hidden' name='keyword' value='<c:out value="${pageMaker.cri.keyword }"/>'>
+
+                                	<input type='hidden' name='type' value='<c:out value="${pageMaker.cri.type}"/>'>
+                                	<input type='hidden' name='brand' value='<c:out value="${pageMaker.cri.brand}"/>'>
+                                	
+                                	<input type='hidden' name='priceStart' value='<c:out value="${pageMaker.cri.priceStart}"/>'>
+                                	<input type='hidden' name='priceEnd' value='<c:out value="${pageMaker.cri.priceEnd}"/>'>
+                                	
+                                    <label><input type="radio" name="carrier" id = "SKT" value="SKT">&nbsp; SKT</label><br>
+                                    <label><input type="radio" name="carrier" id ="KT" value="KT">&nbsp; KT</label><br>
+                                    <label><input type="radio" name="carrier" id="LGU+" value="LGU+">&nbsp; LG U+</label><br>
+                                    <label class="mb-0"><input type="radio" name="carrier" id="알뜰폰" value="알뜰폰">&nbsp; 알뜰폰</label><br>
                                 </form>
                             </aside>
                             <!-- widget-product -->
@@ -521,6 +380,10 @@ aria-lablelledby="myModalLabel" aria-hidden="true">
 		</div>
 	</div>
 </div>
+<!-- 상품 클릭 후 이동 -->
+<form id='actionForm' action="/product/get" method='get'>
+ 	<input type='hidden' name='product_id' value=''>
+</form>
 <%@include file="/WEB-INF/views/layout/foot.jsp" %>
 
 <script type="text/javascript">
@@ -548,26 +411,11 @@ $(document).ready(function(){
 		self.location = "/product/register";
 	});
 	
-	// 페이징 처리
-	var actionForm = $("#actionForm");
-	$(".paginate_button a").on("click",function(e){
-		e.preventDefault();
-		
-		console.log('click');
-		
-		// 숫자 버튼눌렀을때 그 숫자값(href)을 pageNum값으로 바꾼다.
-		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-		actionForm.submit();
-		
-	});
-	
 	// 개별 상품 조회
+	var actionForm = $("#actionForm");
 	$(".move").on("click",function(e){
 		e.preventDefault();
-		
-		actionForm.append("<input type='hidden' name ='product_id' value='"+$(this).attr("href")+"'>");
-		actionForm.attr("action", "/product/get");
-		
+		actionForm.find("input[name='product_id']").val($(this).attr("href"));
 		actionForm.submit();
 	});
 	
@@ -575,16 +423,107 @@ $(document).ready(function(){
 	var searchForm = $("#searchForm");
 	
 	$("#searchForm button").on("click",function(e){
-		
-		if(!searchForm.find("input[name='keyword']").val()){
+		var word = $.trim(searchForm.find("input[name='keyword']").val());
+		if(!word || word==""){
 			alert("키워드를 입력하세요");
 			return false;
 		}
 		
 		searchForm.find("input[name='pageNum']").val("1");
+		searchForm.find("input[name='keyword']").val(word);
 		e.preventDefault();
 		
 		searchForm.submit();
 	})
+	
+	// 페이징 처리
+	var categoryForm = $("#categoryForm");
+	$(".paginate_button a").on("click",function(e){
+		e.preventDefault();
+		
+		console.log('click');
+		
+		// 숫자 버튼눌렀을때 그 숫자값(href)을 pageNum값으로 바꾼다.
+		categoryForm.find("input[name='pageNum']").val($(this).attr("href"));
+		categoryForm.submit();
+		
+	});
+	
+	// 카테고리 선택	
+	$("#category li ul li a").on("click",function(e){
+		e.preventDefault();
+
+		categoryForm.find("input[name='pageNum']").val("1");
+		categoryForm.find("input[name='type']").val($(this).attr("href"));
+		categoryForm.find("input[name='brand']").val($(this).closest('ul').attr("id"));
+		
+		categoryForm.submit();
+	});
+
+	// 통신사 선택
+	$("#categoryForm input[type='radio']").on("click", function(e){
+		e.preventDefault();
+		categoryForm.find("input[name='pageNum']").val("1");
+		
+		categoryForm.submit();
+	})
+	
+	// 통신사 선택 유지
+	var carrier = "${pageMaker.cri.carrier}";
+	switch(carrier){
+	case "SKT":
+		document.getElementById('SKT').checked = true;
+		break;
+	case "KT":
+		document.getElementById('KT').checked = true;
+		break;
+	case "LGU+":
+		document.getElementById('LGU+').checked = true;
+		break;
+	case "알뜰폰":
+		document.getElementById('알뜰폰').checked = true;
+		break;
+	
+	}
+	
+	// 숫자 세자리마다 콤마 찍기
+	function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
+	// 가격대 설정
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 3000000,
+      values: [ "${pageMaker.cri.priceStart}", "${pageMaker.cri.priceEnd}" ],
+      step:10000,
+      slide: function( event, ui ) {
+        $( "#amount" ).val( numberWithCommas(ui.values[ 0 ]) + "원 ~ " + numberWithCommas(ui.values[ 1 ]) +"원");
+      },
+      change: function( event, ui){
+    	  console.log("change");
+    	  categoryForm.find("input[name='pageNum']").val("1");
+    	  categoryForm.find("input[name='priceStart']").val(ui.values[0]);
+    	  categoryForm.find("input[name='priceEnd']").val(ui.values[1]);
+    	  categoryForm.submit();
+      }
+    });
+	
+	// 가격대 설정유지
+    $( "#amount" ).val( numberWithCommas($( "#slider-range" ).slider( "values", 0 )) +
+      "원 ~ " + numberWithCommas($( "#slider-range" ).slider( "values", 1 )) +"원" );
+	
+	// gridView ListView 탭 유지
+	$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+		// 클릭한 탭이 보이기전에 실행
+		// localStorage에 activeTab이라는 이름으로 저장
+		localStorage.setItem('activeTab', $(e.target).attr('href'));
+	});
+	
+	var activeTab = localStorage.getItem('activeTab');
+	if(activeTab){
+		$('a[data-toggle="tab"][href="' + activeTab + '"]').tab('show');
+	}
 });
 </script>

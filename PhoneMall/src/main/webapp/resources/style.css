@@ -178,6 +178,9 @@
   text-align: center;
   width: 30px;
 }
+.action-button > li > a i {
+  line-height: 28px;
+}
 .action-button > li:hover > a {
   background: #FF7F00;
   border-color: #FF7F00;
@@ -281,6 +284,11 @@
 ------------------------------------- */
 .pro-tab-menu {
   margin: 25px 0 30px;
+}
+.pro-tab-menu-2{
+  justify-content: center;
+  display: flex;
+  justify-content: flex-end;
 }
 .pro-tab-menu > ul {}
 .pro-tab-menu ul li {
@@ -786,11 +794,13 @@ transform: scale(1);
   display: block;
   font-size: 25px;
   height: 30px;
-  line-height: 30px;
   text-align: center;
   width: 30px;
 }
-.shop-tab li.active a {
+.shop-tab li a i {
+  line-height: 30px;
+}
+.shop-tab li a.active  {
   color: #ff7f00;
 }
 .shop-tab, .short-by, .showing {
@@ -857,6 +867,9 @@ transform: scale(1);
   text-align: center;
   width: 30px;
 }
+.shop-pagination > li > a i {
+  line-height: 28px;
+}
 .shop-pagination > li.active a,
 .shop-pagination > li:hover a {
   border-color: #ff7f00;
@@ -890,6 +903,7 @@ transform: scale(1);
   font-size: 20px;
   height: 100%;
   position: absolute;
+  top: 0;
   right: 0;
   transition: all 0.3s ease 0s;
   width: 50px;
@@ -1596,16 +1610,20 @@ table {width: 100%}
   margin-bottom: 10px;
   text-transform: capitalize;
 }
+.reviews-tab-desc .media .media-left{
+  padding-right: 15px;
+}
 .reply-delate {
   line-height: 1;
 }
 .reply-delate > li {
   display: inline-block;
-  font-size: 13px;
+  margin-right: 0;
 }
 .reply-delate li a {
   color: #666666;
   display: block;
+  font-size: 13px;
 }
 .reply-delate li:hover a {
   color: #ff7f00;

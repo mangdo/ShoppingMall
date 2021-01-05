@@ -200,6 +200,9 @@ label {
   color: #fff;
   text-shadow: none;
 }
+button:focus{
+  outline: none;
+}
 .mark, mark {
   background: #ff7f00 none repeat scroll 0 0;
   color: #fff;

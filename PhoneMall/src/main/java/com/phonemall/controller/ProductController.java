@@ -2,6 +2,7 @@ package com.phonemall.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,7 +43,6 @@ public class ProductController {
 		log.info("/list");
 		model.addAttribute("list",service.getList(cri));
 		int total = service.getTotal(cri);
-		log.info(total);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 
 		return "/product/list";
@@ -66,7 +65,7 @@ public class ProductController {
 	}
 	
 	@GetMapping({"/get"})
-	public String get(@RequestParam("product_id") Long product_id, @ModelAttribute("cri") Criteria cri, Model model) {
+	public String get(@RequestParam("product_id") Long product_id, Model model) {
 		
 		log.info("/get");
 		model.addAttribute("product",service.get(product_id));
@@ -75,7 +74,7 @@ public class ProductController {
 	}
 	
 	@GetMapping({"/modify"})
-	public String modify(@RequestParam("product_id") Long product_id, @ModelAttribute("cri") Criteria cri,Model model) {
+	public String modify(@RequestParam("product_id") Long product_id, Model model) {
 		
 		log.info("/modify");
 		model.addAttribute("product",service.get(product_id));
@@ -84,26 +83,24 @@ public class ProductController {
 	}
 	
 	@PostMapping("/modify")
-	public String modify(ProductVO product, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+	public String modify(ProductVO product, RedirectAttributes rttr) {
 		log.info("modify : "+product);
 		
 		if(service.modify(product)) {
 			rttr.addFlashAttribute("result","succes");
 		}
 		
-		return "redirect:/product/list"+cri.getListLink();
+		return "redirect:/product/list";
 
 	}
 	
 	@PostMapping("/remove")
-	public String remove(@RequestParam("product_id") Long product_id,@ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+	public String remove(@RequestParam("product_id") Long product_id, RedirectAttributes rttr) {
 		log.info("remove product "+product_id);
 		if(service.remove(product_id)) {
 			rttr.addFlashAttribute("result","success");
 		}
-		
-
-		return "redirect:/product/list"+cri.getListLink();
+		return "redirect:/product/list";
 	}
 	
 	@GetMapping("/register")
@@ -117,6 +114,6 @@ public class ProductController {
 		
 		log.info("getColorList " + product_id);
 		return new ResponseEntity<>(service.getColorList(product_id),HttpStatus.OK);
-		}
+	}
 	
 }

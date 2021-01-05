@@ -87,8 +87,13 @@ public class ProductMapperTests {
 		// 2page
 		// cri.setPageNum(2);
 		
-		//검색
-		cri.setKeyword("iphone");
+		// 검색
+		//cri.setKeyword("iphone");
+		
+		// 카테고리
+		cri.setType("Phone");
+		cri.setBrand("APPLE");
+		//cri.setCarrier("SKT");
 		
 		List<ProductVO> list = mapper.getListWithPaging(cri);
 		list.forEach(product->log.info(product));

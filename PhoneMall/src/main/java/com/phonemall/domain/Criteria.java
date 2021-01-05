@@ -17,13 +17,22 @@ public class Criteria {
 	
 	private String keyword;
 	
+	private String brand;
+	private String type;
+	private String carrier;
+	
+	private int priceStart;
+	private int priceEnd;
+		
 	public Criteria(){
-		this(1,6);
+		this(1,6,0,3000000);
 	}
 	
-	public Criteria(int pageNum, int amount) {
+	public Criteria(int pageNum, int amount, int priceStart, int priceEnd) {
 		this.pageNum = pageNum;
 		this.amount = amount;
+		this.priceStart = priceStart;
+		this.priceEnd = priceEnd;
 	}
 	
 	public int getPageStart() {

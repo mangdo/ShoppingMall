@@ -74,12 +74,43 @@
                                         	</div>
                                         </div>
                                         
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-6">
 											<p class="color-title f-left">Image</p>
 											<input type="file"  name='uploadFile' multiple>
-                                        
                                         </div>
-                                          
+                                        <div class="col-lg-6">
+											<p class="color-title f-left">통신사</p>
+											<select class="custom-select" name = product_carrier>
+												<option value="SKT">SKT</option>
+												<option value="KT">KT</option>
+												<option value="LGU+">LGU+</option>
+												<option value="알뜰폰">알뜰폰</option>
+											</select>
+                                        </div>
+                                        <div class="col-lg-6">
+											<p class="color-title f-left">Brand</p>
+											<select class="custom-select" name = product_brand>
+												<option value="SAMSUNG">SAMSUNG</option>
+												<option value="APPLE">APPLE</option>
+												<option value="LG">LG</option>
+												<option value="GOOGLE">GOOGLE</option>
+												<option value="BlackBerry">BlackBerry</option>
+											</select>
+                                        </div>
+                                        
+                                        <div class="col-lg-6">
+											<p class="color-title f-left">Type</p>
+											<select class="custom-select" name = product_type>
+												<option value="Phone">Phone</option>
+												<option value="tab">tab</option>
+												<option value="watch">watch</option>
+											</select>   
+                                        </div>
+                                        
+                                        <div class="col-lg-12">
+                                            <textarea class="custom-textarea mb-20" name="product_information" placeholder="제품 정보"></textarea>
+                                        </div>
+                                        
                                         <div class="col-lg-12">
                                             <textarea class="custom-textarea" name="product_description" placeholder="제품 설명"></textarea>
                                         </div>

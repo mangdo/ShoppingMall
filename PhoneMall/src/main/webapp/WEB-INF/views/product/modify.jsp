@@ -77,19 +77,49 @@
                                         	</div>
                                         </div>
                                         
+                                        <div class="col-lg-6">
+											<p class="color-title f-left">Image</p>
+											<input type="file"  name='uploadFile' multiple>
+                                        </div>
+                                        <div class="col-lg-6">
+											<p class="color-title f-left">통신사</p>
+											<select class="custom-select" name = product_carrier>
+												<option value="SKT">SKT</option>
+												<option value="KT">KT</option>
+												<option value="LGU+">LGU+</option>
+												<option value="알뜰폰">알뜰폰</option>
+											</select>
+                                        </div>
+                                        <div class="col-lg-6">
+											<p class="color-title f-left">Brand</p>
+											<select class="custom-select" name = product_brand>
+												<option value="SAMSUNG">SAMSUNG</option>
+												<option value="APPLE">APPLE</option>
+												<option value="LG">LG</option>
+												<option value="GOOGLE">GOOGLE</option>
+												<option value="BlackBerry">BlackBerry</option>
+											</select>
+                                        </div>
+                                        
+                                        <div class="col-lg-6">
+											<p class="color-title f-left">Type</p>
+											<select class="custom-select" name = product_type>
+												<option value="Phone">Phone</option>
+												<option value="tab">tab</option>
+												<option value="watch">watch</option>
+											</select>   
+                                        </div>
+                                        
                                         <div class="col-lg-12">
+                                        	<textarea class="custom-textarea mb-20" name="product_information" placeholder="제품 정보"></textarea>
                                             <textarea class="custom-textarea" name="product_description" placeholder="제품 설명"><c:out value='${product.product_description}'/></textarea>
+                                        	
                                         	<button class="submit-btn-1 mt-30 btn-hover-1" type="submit" data-oper='modify'>수정</button>
                                         	<button class="submit-btn-1 mt-30 btn-hover-1" type="submit" style="background-color : #575757;" data-oper='remove'>삭제</button>
                                         	<button class="submit-btn-1 mt-30 btn-hover-1" type="submit" style="background-color : #4FC1F0;" data-oper='list'>목록</button>
                                         </div>
 
-                                    </div>
-                                    
-                                    <!-- 목록페이지로 보내기위해서 -->
-                                    <input type="hidden" name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
-									<input type="hidden" name='amount' value='<c:out value="${cri.amount}"/>'>
-                                	<input type="hidden" name='keyword' value='<c:out value="${cri.keyword}"/>'>
+                                    </div>                                    
                                 </form>
                                 <p class="form-messege"></p>
                             </div>
@@ -111,9 +141,7 @@
 		 e.preventDefault();
 		 
 		 var operation = $(this).data("oper");
-		 
-		 console.log(operation);
-		 
+		 		 
 		 if(operation==='remove'){
 			 
 			 formObj.attr("action","/product/remove");
@@ -125,22 +153,14 @@
 		    	// 체크된 것만 값을 뽑아서 배열에 push
 		    	str += "<input type ='hidden' name='product_colorList["+i+"].product_color' value='"+$(this).val()+"'>";
 		    });
-
 		    formObj.append(str).submit();
 		 
 		 }else if(operation==='list'){
 			 
 			 //move to list
-			 // 아래 항목을 제외한 <form>의 내용은 지운다.
+			 //form내용은 다 삭제
 			 formObj.attr("action","/product/list").attr("method","get");
-			 var pageNumTag = $("input[name='pageNum']").clone();
-			 var amountTag = $("input[name='amount']").clone();
-			 var keywordTag = $("input[name='keyword']").clone();
-			 
 			 formObj.empty();
-			 formObj.append(pageNumTag);
-			 formObj.append(amountTag);
-			 formObj.append(keywordTag);
 		 }
 		 
 		 formObj.submit();

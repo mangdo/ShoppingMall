@@ -18,8 +18,8 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 </insert>
   
 <insert id = "insertSelectKey" useGeneratedKeys="true" keyProperty="product_id" parameterType="com.phonemall.domain.ProductVO">
-	INSERT INTO product (product_title, product_price, product_description)
-	VALUES(#{product_title}, #{product_price}, #{product_description})
+	INSERT INTO product (product_title, product_price, product_description, product_information, product_brand, product_type, product_carrier)
+	VALUES(#{product_title}, #{product_price}, #{product_description}, #{product_information}, #{product_brand}, #{product_type}, #{product_carrier})
 </insert>
 
 <select id="read" resultType="com.phonemall.domain.ProductVO">
@@ -34,7 +34,11 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	UPDATE product
 	SET product_title = #{product_title},
 	product_price = #{product_price},
-	product_description = #{product_description}
+	product_description = #{product_description},
+	product_information = #{product_information},
+	product_brand = #{product_brand}, 
+	product_type = #{product_type}, 
+	product_carrier= #{product_carrier}
 	WHERE product_id = #{product_id}
 </update>
 
@@ -42,6 +46,19 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	<if test= "keyword != null and keyword != ''">
 		AND product_title LIKE CONCAT('%', #{keyword}, '%')
 	</if>
+	
+	<if test= "type != null and type != ''">
+		AND product_brand = #{brand} AND product_type = #{type}
+	</if>
+	
+	<if test= "carrier != null and carrier != ''">
+		AND product_carrier = #{carrier}
+	</if>
+	
+	<if test= "#{priceStart} !=null and #{priceEnd} != null">
+		AND product_price BETWEEN #{priceStart} AND #{priceEnd}
+	</if>
+	
 </sql>
 
 <select id = "getListWithPaging" resultType = "com.phonemall.domain.ProductVO">

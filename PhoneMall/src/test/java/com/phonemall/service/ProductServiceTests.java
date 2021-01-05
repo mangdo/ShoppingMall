@@ -43,7 +43,7 @@ public class ProductServiceTests {
 	*/
 	@Test
 	public void testGetList() {
-		service.getList(new Criteria(2,6)).forEach(product->log.info(product));
+		service.getList(new Criteria(2,6,0,100000)).forEach(product->log.info(product));
 	}
 	
 	/*
