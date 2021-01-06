@@ -94,7 +94,10 @@
                                                                 <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
                                                             </li>
                                                             <li>
-                                                                <a href="#" data-toggle="modal"  data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
+                                                                <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"
+                                                                 data-id="${product.product_id}" data-title="${product.product_title }" data-price="${product.product_price}" data-information="${product.product_information}">
+                                                                	<i class="zmdi zmdi-zoom-in"></i>
+                                                                </a>
                                                             </li>
                                                             <li>
                                                                 <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
@@ -149,7 +152,10 @@
                                                                 <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
                                                             </li>
                                                             <li>
-                                                                <a href="#" data-toggle="modal"  data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
+                                                                <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"
+                                                                 data-id="${product.product_id}" data-title="${product.product_title }" data-price="${product.product_price}" data-information="${product.product_information}">
+                                                                	<i class="zmdi zmdi-zoom-in"></i>
+                                                                </a>
                                                             </li>
                                                             <li>
                                                                 <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
@@ -380,6 +386,84 @@ aria-lablelledby="myModalLabel" aria-hidden="true">
 		</div>
 	</div>
 </div>
+<!-- START QUICKVIEW PRODUCT -->
+<div id="quickview-wrapper">
+  <!-- Modal -->
+  <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                  <div class="modal-product clearfix">
+                      <div class="product-images">
+                          <div class="main-image images">
+                              <img alt="" src="/resources/img/product/quickview.jpg">
+                          </div>
+                      </div><!-- .product-images -->
+                      
+                      <div class="product-info">
+                          <h1 id ="quick-title"> </h1>
+                          <div class="price-box-3">
+                              <div class="s-price-box">
+                                  <span class="new-price" id ="quick-price"> </span>
+                                  <span class="old-price">£190.00</span>
+                              </div>
+                          </div>
+                          <a class ='move see-all' id="quick-id" href='<c:out value="${product.product_id}"/>'>See all features</a>
+                          <div class="quick-add-to-cart">
+                              <form method="post" class="cart">
+                                  <div class="numbers-row">
+                                      <input type="number" id="french-hens" value="1">
+                                  </div>
+                                  <button class="single_add_to_cart_button" type="submit">Add to cart</button>
+                              </form>
+                          </div>
+                          <div id="quick-information">
+                          </div>
+                          <div class="social-sharing">
+                              <div class="widget widget_socialsharing_widget">
+                                  <h3 class="widget-title-modal">Share this product</h3>
+                                  <ul class="social-icons clearfix">
+                                      <li>
+                                          <a class="facebook" href="#" target="_blank" title="Facebook" style="padding-top:25%;">
+                                              <i class="zmdi zmdi-facebook"></i>
+                                          </a>
+                                      </li>
+                                      <li>
+                                          <a class="google-plus" href="#" target="_blank" title="Google +" style="padding-top:25%;">
+                                              <i class="zmdi zmdi-google-plus"></i>
+                                          </a>
+                                      </li>
+                                      <li>
+                                          <a class="twitter" href="#" target="_blank" title="Twitter" style="padding-top:25%;">
+                                              <i class="zmdi zmdi-twitter"></i>
+                                          </a>
+                                      </li>
+                                      <li>
+                                          <a class="pinterest" href="#" target="_blank" title="Pinterest" style="padding-top:25%;">
+                                              <i class="zmdi zmdi-pinterest"></i>
+                                          </a>
+                                      </li>
+                                      <li>
+                                          <a class="rss" href="#" target="_blank" title="RSS" style="padding-top:25%;">
+                                              <i class="zmdi zmdi-rss"></i>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div><!-- .product-info -->
+                  </div><!-- .modal-product -->
+              </div><!-- .modal-body -->
+          </div><!-- .modal-content -->
+      </div><!-- .modal-dialog -->
+  </div>
+  <!-- END Modal -->
+</div>
+<!-- END QUICKVIEW PRODUCT -->
+
 <!-- 상품 클릭 후 이동 -->
 <form id='actionForm' action="/product/get" method='get'>
  	<input type='hidden' name='product_id' value=''>
@@ -495,7 +579,7 @@ $(document).ready(function(){
     $( "#slider-range" ).slider({
       range: true,
       min: 0,
-      max: 3000000,
+      max: 4000000,
       values: [ "${pageMaker.cri.priceStart}", "${pageMaker.cri.priceEnd}" ],
       step:10000,
       slide: function( event, ui ) {
@@ -525,5 +609,19 @@ $(document).ready(function(){
 	if(activeTab){
 		$('a[data-toggle="tab"][href="' + activeTab + '"]').tab('show');
 	}
+	
+	// quickView modal
+	$('#productModal').on('show.bs.modal', function(event) {          
+        var product_id = $(event.relatedTarget).data('id');
+        var product_title = $(event.relatedTarget).data('title');
+        var product_price = $(event.relatedTarget).data('price');
+        var product_information = $(event.relatedTarget).data('information');
+        
+        $("#quick-id").attr( "href", product_id );
+        $("#quick-title").html( product_title );
+        $("#quick-price").html( product_price +" 원");
+        $("#quick-information").html( product_information );
+
+    });	
 });
 </script>

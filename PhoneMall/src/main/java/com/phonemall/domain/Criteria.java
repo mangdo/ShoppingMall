@@ -25,7 +25,7 @@ public class Criteria {
 	private int priceEnd;
 		
 	public Criteria(){
-		this(1,6,0,3000000);
+		this(1,6,0,4000000);
 	}
 	
 	public Criteria(int pageNum, int amount, int priceStart, int priceEnd) {

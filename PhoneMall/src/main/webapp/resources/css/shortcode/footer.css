@@ -40,6 +40,9 @@
   text-align: center;
   width: 30px;
 }
+.footer-social li a i {
+  line-height: 28px;
+}
 .footer-social li a:hover {
   border-color: transparent;
   color: #fff; 
