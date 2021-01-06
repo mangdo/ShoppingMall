@@ -103,12 +103,11 @@
                                                 <div class="sin-pro-color f-left">
                                                     <p class="color-title f-left">Color</p>
                                                     <div class="widget-color f-left">
-                                                        <ul>                                                        
-                                                            <!-- <li class="color-1"><a href="#"></a></li>
+                                                        <ul>
+                                                            <li class="color-1"><a href="#"></a></li>
                                                             <li class="color-2"><a href="#"></a></li>
                                                             <li class="color-3"><a href="#"></a></li>
                                                             <li class="color-4"><a href="#"></a></li>
-                                                        	-->
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -185,7 +184,6 @@
                                                 <div role="tabpanel" class="tab-pane active show" id="description">
                                                     <p> 상품 설명입니다. </p>
                                                     <p>  <c:out value="${product.product_description}"/>  </p>
-                                                    
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="information">
                                                     <p> information </p>
@@ -439,42 +437,11 @@
  
  <script type="text/javascript">
  $(document).ready(function(){
-	 
-	 // colorList를 가져오는 즉시실행함수
-	 (function(){
-		 var id = '<c:out value = "${product.product_id}"/>';
-		 
-		 $.getJSON("/product/getColorList",{product_id : id}, function(arr){
-			 console.log(arr);
-			 str="";
-			 
-			 $(arr).each(function(i, color){
-				
-				if(color.product_color=="pink")
-					str+="<li class='color-1'><a href='#'></a></li>";
-				else if (color.product_color=="brown")
-					str+="<li class='color-2'><a href='#'></a></li>";
-				else if (color.product_color=="red")
-					str+="<li class='color-3'><a href='#'></a></li>";
-				else if (color.product_color=="blue")
-					str+="<li class='color-4'><a href='#'></a></li>";
-				else if (color.product_color=="lightGreen")
-					str+="<li class='color-5'><a href='#'></a></li>";
-				else if (color.product_color=="green")
-					str+="<li class='color-6'><a href='#'></a></li>";
-				
-			 });
-			 
-			 $(".widget-color ul").html(str);
-		 }); 
-	 })();
-	 
-	 
-	 // 수정 버튼
 	 var operForm = $("#operForm");
 	 
 	 $("a[data-oper='modify']").on("click",function(e){
 		operForm.attr("action","/product/modify").submit();
+		
 	 });
 	 
  });

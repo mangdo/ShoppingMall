@@ -1,7 +1,7 @@
 package com.phonemall.domain;
 
 import java.util.Date;
-import java.util.List;
+
 
 import lombok.Data;
 
@@ -12,6 +12,4 @@ public class ProductVO {
 	private int product_price;
 	private Date product_regDate;
 	private String product_description;
-	
-	private List<ProductColorListVO> product_colorList;
 }

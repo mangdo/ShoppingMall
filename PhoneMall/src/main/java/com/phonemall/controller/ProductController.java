@@ -1,23 +1,16 @@
 package com.phonemall.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.phonemall.domain.ProductVO;
-import com.phonemall.domain.ProductColorListVO;
-
 import com.phonemall.service.ProductService;
 
 import lombok.AllArgsConstructor;
@@ -37,7 +30,7 @@ public class ProductController {
 	@GetMapping("/list")
 	public String list(Model model) {
 		
-		log.info("/list");
+		log.info("list...");
 		model.addAttribute("list",service.getList());
 		return "/product/list";
 	}
@@ -49,10 +42,6 @@ public class ProductController {
 		service.register(product);
 		rttr.addFlashAttribute("result", product.getProduct_id());
 		//새롭게 등록된 게시물의 번호를 같이 전달하기위해 RedirectAttributes사용
-		
-		if(product.getProduct_colorList() != null) {
-			product.getProduct_colorList().forEach(colorList->log.info(colorList));
-		}
 		
 		return "redirect:/product/list";
 		//등록작업이 끝난후 다시 목록화면으로 이동
@@ -90,7 +79,7 @@ public class ProductController {
 	
 	@PostMapping("/remove")
 	public String remove(@RequestParam("product_id") Long product_id, RedirectAttributes rttr) {
-		log.info("remove product "+product_id);
+		log.info("remove.."+product_id);
 		if(service.remove(product_id)) {
 			rttr.addFlashAttribute("result","success");
 		}
@@ -102,13 +91,4 @@ public class ProductController {
 	public String register() {
 		return "/product/register";
 	}
-	
-	@GetMapping(value="/getColorList", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<ProductColorListVO>> getAttachList(Long product_id){
-		
-		log.info("getColorList " + product_id);
-		return new ResponseEntity<>(service.getColorList(product_id),HttpStatus.OK);
-		}
-	
 }
