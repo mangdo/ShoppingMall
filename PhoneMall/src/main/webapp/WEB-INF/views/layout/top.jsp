@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html class="no-js" lang="en">
 
 <head>
@@ -9,7 +9,6 @@
     <title>Subash || Home</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="/resources/img/icon/favicon.png">
 
@@ -70,10 +69,18 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/customlogin">
-                                            <i class="zmdi zmdi-lock"></i>
-                                            Login
-                                        </a>
+                                    	<sec:authorize access="isAnonymous()">
+                                        	<a href="/mypage/customlogin">
+                                            	<i class="zmdi zmdi-lock"></i>
+                                            	Login
+                                        	</a>
+                                        </sec:authorize>
+                                        <sec:authorize access="isAuthenticated()">
+                                        	<a onClick="alert('Logout Success!')" href="/mypage/logout" >
+                                            	<i class="zmdi zmdi-lock"></i>
+                                            	Logout
+                                        	</a>                                       
+                                        </sec:authorize>
                                     </li>
                                 </ul>
                             </div>
@@ -266,4 +273,5 @@
                 </div>
             </div>
         </div>
+
         <!-- END MOBILE MENU AREA -->

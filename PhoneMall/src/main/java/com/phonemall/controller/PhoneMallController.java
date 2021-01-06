@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.log4j.Log4j;
 
-//import org.springframework.security.core.Authentication;
 
 @Log4j
 @Controller
@@ -46,35 +45,9 @@ public class PhoneMallController {
 		return "/mypage/wishList";
 	}
 	
-	@RequestMapping("/customlogin")
-	public String loginInput(String error,String logout, Model model) {
-		
-		log.info("error: " + error);
-		log.info("logout: " + logout);
-		
-		
-		if(error!= null) {
-			model.addAttribute("error","Login Error Check Your Account");
-			
-		}
-		
-		if(logout != null) {
-			
-			model.addAttribute("logout","Logout!!");
-		}
-		
-		return "/mypage/login";
-		
-	}
+
 	
-	@RequestMapping("/accessError")	
-	public String accessDenied(Authentication auth, Model model) {
-		log.info("access Denied: " + auth);
-		
-		model.addAttribute("msg","Access Denied");
-		
-		return "/access/accessError";
-	}
+
 
 	
 	@RequestMapping("/viewCart")
