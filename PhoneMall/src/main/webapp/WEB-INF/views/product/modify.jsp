@@ -53,22 +53,22 @@
                                                     <div class="widget-color f-left">
                                                         <ul>
                                                             <li class="color-1">
-                                                            	<input type="checkbox" id="color" name="color"> &nbsp;
+                                                            	<input type="checkbox" id="pink" name="colorList" value = "pink"> &nbsp;
                                                             </li>
                                                             <li class="color-2">
-                                                                <input type="checkbox" id="color" name="color"> &nbsp;                                              
+                                                                <input type="checkbox" id="brown" name= "colorList" value = "brown"> &nbsp;                                              
                                                             </li>
                                                             <li class="color-3">
-                                                            	<input type="checkbox" id="color" name="color"> &nbsp;
+                                                            	<input type="checkbox" id="red" name="colorList" value = "red"> &nbsp;
                                                             </li>
                                                             <li class="color-4">
-                                                            	<input type="checkbox" id="color" name="color"> &nbsp;
+                                                            	<input type="checkbox" id="blue" name="colorList" value = "blue"> &nbsp;
                                                             </li>
                                                             <li class="color-5">
-                                                            	<input type="checkbox" id="color" name="color"> &nbsp;
+                                                            	<input type="checkbox" id="lightGreen" name="colorList" value = "lightGreen"> &nbsp;
                                                             </li>
                                                             <li class="color-6">
-                                                            	<input type="checkbox" id="color" name="color"> &nbsp;
+                                                            	<input type="checkbox" id="green" name="colorList" value = "green"> &nbsp;
                                                             </li>
                                                         </ul>
                                                         <br/>
@@ -78,8 +78,7 @@
                                         </div>
                                         
                                         <div class="col-lg-12">
-                                            <textarea class="custom-textarea" name="product_description" placeholder="제품 설명"><c:out value='${product.product_description}'/>
-                                            </textarea>
+                                            <textarea class="custom-textarea" name="product_description" placeholder="제품 설명"><c:out value='${product.product_description}'/></textarea>
                                         	<button class="submit-btn-1 mt-30 btn-hover-1" type="submit" data-oper='modify'>수정</button>
                                         	<button class="submit-btn-1 mt-30 btn-hover-1" type="submit" style="background-color : #575757;" data-oper='remove'>삭제</button>
                                         	<button class="submit-btn-1 mt-30 btn-hover-1" type="submit" style="background-color : #4FC1F0;" data-oper='list'>목록</button>
@@ -115,6 +114,16 @@
 			 
 			 formObj.attr("action","/product/remove");
 			 
+		 }else if(operation==='modify'){
+			 var str ="";
+			 
+		    $("input[name='colorList']:checked").each(function(i) {
+		    	// 체크된 것만 값을 뽑아서 배열에 push
+		    	str += "<input type ='hidden' name='product_colorList["+i+"].product_color' value='"+$(this).val()+"'>";
+		    });
+
+		    formObj.append(str).submit();
+		 
 		 }else if(operation==='list'){
 			 
 			 //move to list
@@ -124,6 +133,34 @@
 		 
 		 formObj.submit();
 	 });
+	
+	// colorList를 가져오는 즉시실행함수
+	 (function(){
+		 var id = '<c:out value = "${product.product_id}"/>';
+		 
+		 $.getJSON("/product/getColorList",{product_id : id}, function(arr){
+			 console.log(arr);
+			 str="";
+			 
+			 $(arr).each(function(i, color){
+				
+				if(color.product_color=="pink")
+					$("input:checkbox[id='pink']").prop("checked", true);
+				else if (color.product_color=="brown")
+					$("input:checkbox[id='brown']").prop("checked", true);
+				else if (color.product_color=="red")
+					$("input:checkbox[id='red']").prop("checked", true);
+				else if (color.product_color=="blue")
+					$("input:checkbox[id='blue']").prop("checked", true);
+				else if (color.product_color=="lightGreen")
+					$("input:checkbox[id='lightGreen']").prop("checked", true);
+				else if (color.product_color=="green")
+					$("input:checkbox[id='green']").prop("checked", true);
+				
+			 });			 
+		 }); 
+	 })();
+	
 	
  });
  

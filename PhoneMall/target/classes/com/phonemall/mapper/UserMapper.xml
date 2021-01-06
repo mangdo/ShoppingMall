@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.phonemall.mapper.UserMapper"> 
+	<resultMap id="UserMap" type="com.phonemall.domain.UserVO">
+		<id column="email" property="email"></id>
+		<result column="userpw" property="userpw"></result>
+		<result column="lastname" property="lastname"></result>
+		<result column="firstname" property="firstname"></result>
+		<result column="postalcode" property="postalcode"></result>
+		<result column="phonenum" property="phonenum"></result>
+		<result column="address" property="address"></result>
+	</resultMap>
+	
+	<resultMap id="AuthMap" type="com.phonemall.domain.AuthVO">
+		<id column="email" property="email"></id>
+		<result column="auth" property="auth"></result>		
+	</resultMap>
+	
+	
+	<insert id = "insert" parameterType="com.phonemall.domain.UserVO">
+		INSERT INTO memberinfo (email, userpw, lastname, firstname, postalcode, phonenum, address) 
+		VALUES ( #{email}, #{userpw},#{lastname}, #{firstname}, #{postalcode}, #{phonenum}, #{address} )	
+	</insert>
+	
+	<insert id="insertAuth" parameterType="com.phonemall.domain.AuthVO">
+		INSERT INTO memberauth (email, auth)
+		VALUES ( #{email}, "ROLE_MEMBER")
+	</insert>
+</mapper>
