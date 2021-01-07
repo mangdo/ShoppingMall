@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="message-box box-shadow white-bg">
-                                <form role="form" action="/product/register" method="post">
+                                <form role="form" action="/product/register" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h4 class="blog-section-title border-left mb-30">제품 등록</h4>
@@ -76,7 +76,7 @@
                                         
                                         <div class="col-lg-6">
 											<p class="color-title f-left">Image</p>
-											<input type="file"  name='uploadFile' multiple>
+											<input type="file" id='main_image' name='uploadImage' accept = "image/jpg, image/jpeg, image/png, image/gif" multiple>
                                         </div>
                                         <div class="col-lg-6">
 											<p class="color-title f-left">통신사</p>
@@ -134,16 +134,47 @@
  <%@include file="/WEB-INF/views/layout/foot.jsp" %>
  
 <script>
+// 업로드 가능한 파일인지 확인
+var fileForm = new RegExp("(.*?)\.(jpg|jpeg|png|gif)$","i");
+var maxSize = 5 * 1024 * 1024; //5MB
+
+function imageCheck(fileName, fileSize){
+	var imgFile = $('#main_image').val();
+
+	if(imgFile != "" && imgFile != null) {	    
+	    if(!imgFile.match(fileForm)) {
+	    	alert("이미지 파일(jpg|jpeg|png|gif)만 업로드 가능");
+	        return false;
+	    } else if(fileSize >= maxSize) {
+	    	alert("파일 사이즈는 5MB까지 가능");
+	        return false;
+	    }
+	}
+	return true;
+}
 $(document).ready(function(e){
 	var formObj = $("form[role='form']");
 	$("button[type='submit']").on("click",function(e){
 		e.preventDefault();
 		console.log("submit clicked");
 	    
-	    var str ="";
+		// 이미지 파일 체크
+		var inputImage = $("input[name='uploadImage']");
+		var images = inputImage[0].files;
+		for(var i = 0; i < images.length; i++){
+			if(!imageCheck(images[i].name, images[i].size)){
+				return false;
+			}
+		}
+		if(!inputImage.val()) {
+			alert("첨부파일은 필수!");
+		    $("#main_image").focus();
+		    return false;
+		}
 		
+	    var str ="";
 	    $("input[id='product_colorList']:checked").each(function(i) {
-	    	// 체크된 것만 값을 뽑아서 배열에 push
+	    	// 색깔이 체크된 것만 값을 뽑아서 배열에 push
 	    	str += "<input type ='hidden' name='product_colorList["+i+"].product_color' value='"+$(this).val()+"'>";
 	    });
 

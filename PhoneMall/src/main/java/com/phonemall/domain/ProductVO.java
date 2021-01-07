@@ -19,4 +19,6 @@ public class ProductVO {
 	private String product_brand;
 	private String product_type;
 	private String product_carrier;
+	
+	private List<ProductImageVO> product_imageList;
 }

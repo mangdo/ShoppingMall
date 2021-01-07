@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.phonemall.mapper.ProductImageMapper">
+
+	<insert id="insert">
+		INSERT INTO product_image (image_uuid, image_uploadPath, image_name, image_type, product_id)
+		VALUES (#{image_uuid}, #{image_uploadPath}, #{image_name}, #{image_type}, #{product_id} )
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM product_image WHERE uuid = #{image_uuid}
+	</delete>
+	
+	<select id="findById" resultType = "com.phonemall.domain.ProductImageVO">
+		SELECT * FROM product_image WHERE product_id = #{product_id}
+	</select>
+</mapper>

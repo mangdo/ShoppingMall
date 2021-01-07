@@ -9,6 +9,7 @@ import com.phonemall.domain.Criteria;
 import com.phonemall.domain.ProductColorListVO;
 import com.phonemall.domain.ProductVO;
 import com.phonemall.mapper.ProductColorListMapper;
+import com.phonemall.mapper.ProductImageMapper;
 import com.phonemall.mapper.ProductMapper;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
 
 	private ProductMapper mapper;
 	private ProductColorListMapper colorListMapper;
+	private ProductImageMapper imageListMapper;
 	
 	@Override
 	public List<ProductVO> getList(Criteria cri) {
@@ -32,17 +34,25 @@ public class ProductServiceImpl implements ProductService {
 		log.info("register product");
 		mapper.insertSelectKey(product);
 		
-		if(product.getProduct_colorList() == null || product.getProduct_colorList().size() <= 0) {
-			return;
+		// product_colorList에 등록
+		if(product.getProduct_colorList() != null && product.getProduct_colorList().size() > 0) {
+			product.getProduct_colorList().forEach(colorList->{
+				colorList.setProduct_id(product.getProduct_id());
+				
+				colorListMapper.insert(colorList);
+				log.info("register colorList "+ colorList);
+			});
 		}
 		
-		product.getProduct_colorList().forEach(colorList->{
-			colorList.setProduct_id(product.getProduct_id());
-			
-			colorListMapper.insert(colorList);
-			log.info("register colorList "+ colorList);
-		});
-		
+		// product_image에 등록
+		if(product.getProduct_imageList() != null || product.getProduct_imageList().size() > 0) {
+			product.getProduct_imageList().forEach(imageList->{
+				imageList.setProduct_id(product.getProduct_id());
+				
+				imageListMapper.insert(imageList);
+				log.info("register imageList "+imageList);
+			});
+		}
 	}
 
 	@Override

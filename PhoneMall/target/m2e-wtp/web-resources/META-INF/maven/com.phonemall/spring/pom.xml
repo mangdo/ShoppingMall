@@ -208,7 +208,14 @@
 			<groupId>org.codehaus.jackson</groupId>			
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>	
-		</dependency>	
+		</dependency>
+		
+		<!-- 섬네일 이미지 -->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.8</version>
+		</dependency>
 		
 	</dependencies>
     <build>
