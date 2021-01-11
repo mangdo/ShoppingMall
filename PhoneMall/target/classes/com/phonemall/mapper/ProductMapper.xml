@@ -22,8 +22,34 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	VALUES(#{product_title}, #{product_price}, #{product_description}, #{product_information}, #{product_brand}, #{product_type}, #{product_carrier})
 </insert>
 
-<select id="read" resultType="com.phonemall.domain.ProductVO">
-	SELECT * FROM product WHERE product_id = #{product_id}
+<resultMap type="com.phonemall.domain.ProductVO" id ="productMap">
+	<id property = "product_id" column="product_id"/>
+	<result property = "product_title" column = "product_title"/>
+	<result property = "product_price" column = "product_price"/>
+	<result property = "product_regDate" column = "product_regDate"/>
+	<result property = "product_description" column = "product_description"/>
+	<result property = "product_information" column = "product_information"/>
+	<result property = "product_brand" column = "product_brand"/>
+	<result property = "product_type" column = "product_type"/>
+	<result property = "product_carrier" column = "product_carrier"/>
+	<collection property="product_imageList" resultMap = "imageMap">
+	</collection>
+</resultMap>
+
+<resultMap type = "com.phonemall.domain.ProductImageVO" id = "imageMap">
+	<result property = "image_uuid" column = "image_uuid"/>
+	<result property="image_uploadPath" column = "image_uploadPath"/>
+	<result property="image_name" column="image_name"/>
+	<result property = "image_type" column="image_type"/>
+	<result property = "product_id" column="product_id"/>
+</resultMap>
+
+<select id="read" resultMap = "productMap">
+	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type
+	FROM product AS p
+	LEFT OUTER JOIN product_image AS i
+	ON p.product_id = i.product_id
+	WHERE p.product_id = #{product_id}
 </select>
 
 <delete id="delete">
@@ -61,15 +87,18 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	
 </sql>
 
-<select id = "getListWithPaging" resultType = "com.phonemall.domain.ProductVO">
+<select id = "getListWithPaging" resultMap = "productMap">
 	<![CDATA[
-	SELECT * FROM product
-	WHERE product_id > 0
+	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type
+	FROM product AS p
+	LEFT OUTER JOIN product_image AS i
+	ON p.product_id = i.product_id AND image_type = 'mainImage'
+	WHERE p.product_id > 0
 	]]>
 	
 	<include refid="criteria"></include>
 	
-	ORDER BY product_id DESC
+	ORDER BY p.product_id DESC
 	LIMIT #{pageStart}, #{amount}
 	
 </select>

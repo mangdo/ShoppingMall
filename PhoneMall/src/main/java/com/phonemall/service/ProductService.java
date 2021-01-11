@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.phonemall.domain.Criteria;
 import com.phonemall.domain.ProductColorListVO;
+import com.phonemall.domain.ProductImageVO;
 import com.phonemall.domain.ProductVO;
 
 public interface ProductService {
@@ -20,4 +21,6 @@ public interface ProductService {
 	public List<ProductColorListVO> getColorList(Long product_id);
 	
 	public int getTotal(Criteria cri);
+	
+	public List<ProductImageVO> getImageList(Long product_id);
 }

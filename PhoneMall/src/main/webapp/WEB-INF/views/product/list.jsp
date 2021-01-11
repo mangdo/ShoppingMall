@@ -66,14 +66,22 @@
                                     <div role="tabpanel" class="tab-pane active" id="grid-view">	
                                         <div class="row">
                                         
-                                            <c:forEach items="${list}" var="product">
+                                            <c:forEach items="${list}" var="product" varStatus="varstatus">
                                             
 				                            <!-- product-item start -->
                                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                                <div class="product-item">
-                                                    <div class="product-img">
+                                                <div class="product-item" >
+                                                
+                                                    <div class="product-img" style="position:relative; padding-top:111%; display:block;" >
                                                         <a class ='move' href='<c:out value="${product.product_id}"/>'>
-                                                            <img src="/resources/img/product/9.jpg" alt=""/>
+                                                        <img id = 'main-img${varstatus.index}' alt="image error" onError ="this.src='/resources/img/product/9.jpg'"
+                                                        	style="position:absolute; top:0; width:100%;height:100%">
+			                                            <script>
+			                                            	var imageName = encodeURIComponent('${product.product_imageList[0].image_uploadPath}'+'/s_'+'${product.product_imageList[0].image_uuid}'+'_'+'${product.product_imageList[0].image_name}');
+			                                            	var realSrc = '/product/display?fileName='+imageName;
+			                                            	
+			                                        		document.getElementById('main-img${varstatus.index}').src= realSrc;
+														</script>
                                                         </a>
                                                     </div>
                                                     <div class="product-info">
@@ -119,13 +127,20 @@
                                     <!-- list-view -->
                                     <div role="tabpanel" class="tab-pane" id="list-view">
                                         <div class="row">
-	                                        <c:forEach items="${list}" var="product">
+	                                        <c:forEach items="${list}" var="product" varStatus="varstatus">
 			                                <!-- product-item start -->
                                             <div class="col-md-12">
                                                 <div class="shop-list product-item">
-                                                    <div class="product-img">
+                                                    <div class="product-img" style="position:relative; padding-top:35%; display:block;" >
                                                         <a class ='move' href='<c:out value="${product.product_id}"/>'>
-                                                            <img src="/resources/img/product/7.jpg" alt=""/>
+                                                            <img id = 'main-img-listview${varstatus.index}' alt="image error" onError ="this.src='/resources/img/product/9.jpg'"
+                                                            style="position:absolute; top:0; width:100%;height:100%">
+                                                        <script>
+			                                            	var imageName = encodeURIComponent('${product.product_imageList[0].image_uploadPath}'+'/s_'+'${product.product_imageList[0].image_uuid}'+'_'+'${product.product_imageList[0].image_name}');
+			                                            	var realSrc = '/product/display?fileName='+imageName;
+			                                            	
+			                                        		document.getElementById('main-img-listview${varstatus.index}').src= realSrc;
+														</script>
                                                         </a>
                                                     </div>
                                                     <div class="product-info">

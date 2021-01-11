@@ -37,47 +37,36 @@
                                     <!-- imgs-zoom-area start -->
                                     <div class="col-lg-5">
                                         <div class="imgs-zoom-area">
-                                            <img id="zoom_03" src="/resources/img/product/6.jpg" data-zoom-image="/resources/img/product/6.jpg"
-                                                alt="">
+                                        	<c:forEach items="${product.product_imageList}" var="image" begin='0' end='0'>            	
+	                                        	<img id="zoom_03" alt="image error" onError ="this.src='/resources/img/product/2.jpg'">
+	                                            <script>
+	                                            	var imageName = encodeURIComponent('${image.image_uploadPath}'+'/'+'${image.image_uuid}'+'_'+'${image.image_name}');
+	                                            	var realSrc = '/product/display?fileName='+imageName;
+	                                            	
+	                                        		document.getElementById('zoom_03').setAttribute("data-zoom-image",realSrc);
+	                                        		document.getElementById('zoom_03').src= realSrc;
+												</script>
+                                            </c:forEach>
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div id="gallery_01" class="carousel-btn slick-arrow-3 mt-30">
-                                                        <div class="p-c">
-                                                            <a href="#" data-image="/resources/img/product/2.jpg"
-                                                                data-zoom-image="/resources/img/product/2.jpg">
-                                                                <img class="zoom_03" src="/resources/img/product/2.jpg" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="p-c">
-                                                            <a href="#" data-image="/resources/img/product/3.jpg"
-                                                                data-zoom-image="/resources/img/product/3.jpg">
-                                                                <img class="zoom_03" src="/resources/img/product/3.jpg" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="p-c">
-                                                            <a href="#" data-image="/resources/img/product/4.jpg"
-                                                                data-zoom-image="/resources/img/product/4.jpg">
-                                                                <img class="zoom_03" src="/resources/img/product/4.jpg" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="p-c">
-                                                            <a href="#" data-image="/resources/img/product/5.jpg"
-                                                                data-zoom-image="/resources/img/product/5.jpg">
-                                                                <img class="zoom_03" src="/resources/img/product/5.jpg" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="p-c">
-                                                            <a href="#" data-image="/resources/img/product/6.jpg"
-                                                                data-zoom-image="/resources/img/product/6.jpg">
-                                                                <img class="zoom_03" src="/resources/img/product/6.jpg" alt="">
-                                                            </a>
-                                                        </div>
-                                                        <div class="p-c">
-                                                            <a href="#" data-image="/resources/img/product/7.jpg"
-                                                                data-zoom-image="/resources/img/product/7.jpg">
-                                                                <img class="zoom_03" src="/resources/img/product/7.jpg" alt="">
-                                                            </a>
-                                                        </div>
+                                                        
+                                                        <c:forEach items="${product.product_imageList}" var="image" varStatus="varstatus">
+	                                                        <div class="p-c">
+	                                                            <a href="#" id="subImage${varstatus.index}" >
+	                                                                <img id="subImg${varstatus.index}" class="zoom_03" src="/resources/img/product/2.jpg" alt="image error" onError ="this.src='/resources/img/product/2.jpg'">
+	                                                            </a>
+	                                                            <script>
+					                                            	var imageName = encodeURIComponent('${image.image_uploadPath}'+'/'+'${image.image_uuid}'+'_'+'${image.image_name}');
+					                                            	var realSrc = '/product/display?fileName='+imageName;
+					                                            	
+					                                        		document.getElementById('subImage${varstatus.index}').setAttribute("data-zoom-image",realSrc);
+					                                        		document.getElementById('subImage${varstatus.index}').setAttribute("data-image",realSrc);
+					                                        		document.getElementById('subImg${varstatus.index}').src= realSrc;
+																</script>
+	                                                        </div>
+                                                        </c:forEach>
+                                                    
                                                     </div>
                                                 </div>
                                             </div>
@@ -441,7 +430,7 @@
  <script type="text/javascript">
  $(document).ready(function(){
 	 
-	 // colorList를 가져오는 즉시실행함수
+	 // Immediately-invoked function to get colorList 
 	 (function(){
 		 var id = '<c:out value = "${product.product_id}"/>';
 		 
@@ -471,7 +460,7 @@
 	 })();
 	 
 	 
-	 // 수정 버튼
+	 // modify button
 	 var operForm = $("#operForm");
 	 
 	 $("a[data-oper='modify']").on("click",function(e){

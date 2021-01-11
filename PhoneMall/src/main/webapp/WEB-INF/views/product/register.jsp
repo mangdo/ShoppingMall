@@ -75,8 +75,12 @@
                                         </div>
                                         
                                         <div class="col-lg-6">
-											<p class="color-title f-left">Image</p>
-											<input type="file" id='main_image' name='uploadImage' accept = "image/jpg, image/jpeg, image/png, image/gif" multiple>
+											<p class="color-title f-left">메인 사진</p>
+											<input type="file" id='main_image' name='mainImage' accept = "image/jpg, image/jpeg, image/png, image/gif">
+										</div>
+										<div class="col-lg-6">
+											<p class="color-title f-left">추가 사진</p>
+											<input type="file" id='subImage' name='subImage' accept = "image/jpg, image/jpeg, image/png, image/gif" multiple>
                                         </div>
                                         <div class="col-lg-6">
 											<p class="color-title f-left">통신사</p>
@@ -134,7 +138,7 @@
  <%@include file="/WEB-INF/views/layout/foot.jsp" %>
  
 <script>
-// 업로드 가능한 파일인지 확인
+// check possible image file to upload
 var fileForm = new RegExp("(.*?)\.(jpg|jpeg|png|gif)$","i");
 var maxSize = 5 * 1024 * 1024; //5MB
 
@@ -158,17 +162,22 @@ $(document).ready(function(e){
 		e.preventDefault();
 		console.log("submit clicked");
 	    
-		// 이미지 파일 체크
-		var inputImage = $("input[name='uploadImage']");
-		var images = inputImage[0].files;
+		// sub image file check
+		var subImage = $("input[name='subImage']");
+		var images = subImage[0].files;
 		for(var i = 0; i < images.length; i++){
 			if(!imageCheck(images[i].name, images[i].size)){
 				return false;
 			}
 		}
-		if(!inputImage.val()) {
-			alert("첨부파일은 필수!");
-		    $("#main_image").focus();
+		// main image file check
+		var mainImage = $("input[name='mainImage']");
+		if(!imageCheck(mainImage[0].files.name, mainImage[0].files.size)){
+			return false;
+		}
+		
+		if(!mainImage.val()) {
+			alert("메인 사진은 필수!");
 		    return false;
 		}
 		

@@ -16,4 +16,8 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findById" resultType = "com.phonemall.domain.ProductImageVO">
 		SELECT * FROM product_image WHERE product_id = #{product_id}
 	</select>
+	
+	<delete id="deleteAll">
+		DELETE FROM product_image WHERE product_id = #{product_id}
+	</delete>
 </mapper>
