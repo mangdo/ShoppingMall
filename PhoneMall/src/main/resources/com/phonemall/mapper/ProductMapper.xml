@@ -18,12 +18,38 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 </insert>
   
 <insert id = "insertSelectKey" useGeneratedKeys="true" keyProperty="product_id" parameterType="com.phonemall.domain.ProductVO">
-	INSERT INTO product (product_title, product_price, product_description)
-	VALUES(#{product_title}, #{product_price}, #{product_description})
+	INSERT INTO product (product_title, product_price, product_description, product_information, product_brand, product_type, product_carrier)
+	VALUES(#{product_title}, #{product_price}, #{product_description}, #{product_information}, #{product_brand}, #{product_type}, #{product_carrier})
 </insert>
 
-<select id="read" resultType="com.phonemall.domain.ProductVO">
-	SELECT * FROM product WHERE product_id = #{product_id}
+<resultMap type="com.phonemall.domain.ProductVO" id ="productMap">
+	<id property = "product_id" column="product_id"/>
+	<result property = "product_title" column = "product_title"/>
+	<result property = "product_price" column = "product_price"/>
+	<result property = "product_regDate" column = "product_regDate"/>
+	<result property = "product_description" column = "product_description"/>
+	<result property = "product_information" column = "product_information"/>
+	<result property = "product_brand" column = "product_brand"/>
+	<result property = "product_type" column = "product_type"/>
+	<result property = "product_carrier" column = "product_carrier"/>
+	<collection property="product_imageList" resultMap = "imageMap">
+	</collection>
+</resultMap>
+
+<resultMap type = "com.phonemall.domain.ProductImageVO" id = "imageMap">
+	<result property = "image_uuid" column = "image_uuid"/>
+	<result property="image_uploadPath" column = "image_uploadPath"/>
+	<result property="image_name" column="image_name"/>
+	<result property = "image_type" column="image_type"/>
+	<result property = "product_id" column="product_id"/>
+</resultMap>
+
+<select id="read" resultMap = "productMap">
+	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type
+	FROM product AS p
+	LEFT OUTER JOIN product_image AS i
+	ON p.product_id = i.product_id
+	WHERE p.product_id = #{product_id}
 </select>
 
 <delete id="delete">
@@ -34,8 +60,53 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	UPDATE product
 	SET product_title = #{product_title},
 	product_price = #{product_price},
-	product_description = #{product_description}
+	product_description = #{product_description},
+	product_information = #{product_information},
+	product_brand = #{product_brand}, 
+	product_type = #{product_type}, 
+	product_carrier= #{product_carrier}
 	WHERE product_id = #{product_id}
 </update>
+
+<sql id="criteria">
+	<if test= "keyword != null and keyword != ''">
+		AND product_title LIKE CONCAT('%', #{keyword}, '%')
+	</if>
+	
+	<if test= "type != null and type != ''">
+		AND product_brand = #{brand} AND product_type = #{type}
+	</if>
+	
+	<if test= "carrier != null and carrier != ''">
+		AND product_carrier = #{carrier}
+	</if>
+	
+	<if test= "#{priceStart} !=null and #{priceEnd} != null">
+		AND product_price BETWEEN #{priceStart} AND #{priceEnd}
+	</if>
+	
+</sql>
+
+<select id = "getListWithPaging" resultMap = "productMap">
+	<![CDATA[
+	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type
+	FROM product AS p
+	LEFT OUTER JOIN product_image AS i
+	ON p.product_id = i.product_id AND image_type = 'mainImage'
+	WHERE p.product_id > 0
+	]]>
+	
+	<include refid="criteria"></include>
+	
+	ORDER BY p.product_id DESC
+	LIMIT #{pageStart}, #{amount}
+	
+</select>
+
+<select id="getTotalCount" resultType="int">
+	SELECT count(*) FROM product WHERE product_id>0
+	<include refid="criteria"></include>
+	
+</select>
 
 </mapper>

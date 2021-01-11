@@ -200,6 +200,9 @@ label {
   color: #fff;
   text-shadow: none;
 }
+button:focus{
+  outline: none;
+}
 .mark, mark {
   background: #ff7f00 none repeat scroll 0 0;
   color: #fff;
@@ -249,6 +252,28 @@ span.tooltip-content {
 .panel {
   border-radius: 0;
 }
+.section {
+  float: left;
+  width: 100%;
+}
+/* Breadcrumb */
+.breadcrumb>li+li:before {
+  padding: 0 5px;
+  color: #ccc;
+  content: "/\00a0";
+}
+/* Progress Bar */
+.progress {
+  height: 20px;
+  line-height: 20px;
+  font-size: 14px;
+}
+/* Checkbox */
+input[type="checkbox"] {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
 /***************************
   2. transtion
 ****************************/
@@ -748,6 +773,7 @@ textarea:focus {
 /* 9.3 slick-arrow-3 */
 .slick-arrow-3 .slick-arrow {
   color: #999999;
+  outline: none;
   font-size: 20px;
   height: 35px;
   left: 0;
@@ -1193,11 +1219,13 @@ textarea:focus {
   color: #ffffff;
   font-size: 20px;
   height: 40px;
-  line-height: 40px;
   right: 10px;
   text-align: center;
   transition: all 0.3s ease 0s;
   width: 40px;
+}
+#scrollUp i {
+  line-height: 40px;
 }
 #scrollUp:hover {
   background: #FF7F00 none repeat scroll 0 0;

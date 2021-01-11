@@ -25,4 +25,9 @@
 	
 	<context:component-scan base-package="com.phonemall.controller" />
 	
+	<!-- 스프링내에서 파일 업로드를 처리하기위해서 파일을 처리하는 빈을 설정 -->
+	<beans:bean id ="multipartResolver"
+	class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+	</beans:bean>
+	
 </beans:beans>

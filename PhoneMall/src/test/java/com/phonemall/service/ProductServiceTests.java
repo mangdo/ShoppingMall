@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.phonemall.domain.ProductVO;
+import com.phonemall.domain.Criteria;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,7 +28,7 @@ public class ProductServiceTests {
 		log.info(service);
 		assertNotNull(service);
 	}
-
+	/*
 	@Test
 	public void testRegister() {
 		ProductVO product = new ProductVO();
@@ -40,12 +40,13 @@ public class ProductServiceTests {
 		log.info("생성된 게시물의 번호 : "+ product.getProduct_id());
 		
 	}
-	
+	*/
 	@Test
 	public void testGetList() {
-		service.getList().forEach(product->log.info(product));
+		service.getList(new Criteria(2,6,0,100000)).forEach(product->log.info(product));
 	}
 	
+	/*
 	@Test
 	public void testGet() {
 		log.info(service.get(7L));
@@ -66,5 +67,5 @@ public class ProductServiceTests {
 		log.info("modify result : "+service.modify(product));
 		
 	}
-
+	*/
 }

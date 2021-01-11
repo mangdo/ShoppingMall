@@ -15,12 +15,6 @@
 		<level value="info" />
 	</logger>
 	
-<<<<<<< HEAD
-	<logger name="com.phonemall">
-		<level value="info" />
-	</logger>
-	
-=======
 	<logger name="com.phonemall.service">
 		<level value="info" />
 	</logger>

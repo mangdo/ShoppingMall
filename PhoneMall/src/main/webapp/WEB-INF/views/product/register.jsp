@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="message-box box-shadow white-bg">
-                                <form role="form" action="/product/register" method="post">
+                                <form role="form" action="/product/register" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h4 class="blog-section-title border-left mb-30">제품 등록</h4>
@@ -74,12 +74,47 @@
                                         	</div>
                                         </div>
                                         
-                                        <div class="col-lg-12">
-											<p class="color-title f-left">Image</p>
-											<input type="file"  name='uploadFile' multiple>
-                                        
+                                        <div class="col-lg-6">
+											<p class="color-title f-left">메인 사진</p>
+											<input type="file" id='main_image' name='mainImage' accept = "image/jpg, image/jpeg, image/png, image/gif">
+										</div>
+										<div class="col-lg-6">
+											<p class="color-title f-left">추가 사진</p>
+											<input type="file" id='subImage' name='subImage' accept = "image/jpg, image/jpeg, image/png, image/gif" multiple>
                                         </div>
-                                          
+                                        <div class="col-lg-6">
+											<p class="color-title f-left">통신사</p>
+											<select class="custom-select" name = product_carrier>
+												<option value="SKT">SKT</option>
+												<option value="KT">KT</option>
+												<option value="LGU+">LGU+</option>
+												<option value="알뜰폰">알뜰폰</option>
+											</select>
+                                        </div>
+                                        <div class="col-lg-6">
+											<p class="color-title f-left">Brand</p>
+											<select class="custom-select" name = product_brand>
+												<option value="SAMSUNG">SAMSUNG</option>
+												<option value="APPLE">APPLE</option>
+												<option value="LG">LG</option>
+												<option value="GOOGLE">GOOGLE</option>
+												<option value="BlackBerry">BlackBerry</option>
+											</select>
+                                        </div>
+                                        
+                                        <div class="col-lg-6">
+											<p class="color-title f-left">Type</p>
+											<select class="custom-select" name = product_type>
+												<option value="Phone">Phone</option>
+												<option value="tab">tab</option>
+												<option value="watch">watch</option>
+											</select>   
+                                        </div>
+                                        
+                                        <div class="col-lg-12">
+                                            <textarea class="custom-textarea mb-20" name="product_information" placeholder="제품 정보"></textarea>
+                                        </div>
+                                        
                                         <div class="col-lg-12">
                                             <textarea class="custom-textarea" name="product_description" placeholder="제품 설명"></textarea>
                                         </div>
@@ -103,16 +138,52 @@
  <%@include file="/WEB-INF/views/layout/foot.jsp" %>
  
 <script>
+// check possible image file to upload
+var fileForm = new RegExp("(.*?)\.(jpg|jpeg|png|gif)$","i");
+var maxSize = 5 * 1024 * 1024; //5MB
+
+function imageCheck(fileName, fileSize){
+	var imgFile = $('#main_image').val();
+
+	if(imgFile != "" && imgFile != null) {	    
+	    if(!imgFile.match(fileForm)) {
+	    	alert("이미지 파일(jpg|jpeg|png|gif)만 업로드 가능");
+	        return false;
+	    } else if(fileSize >= maxSize) {
+	    	alert("파일 사이즈는 5MB까지 가능");
+	        return false;
+	    }
+	}
+	return true;
+}
 $(document).ready(function(e){
 	var formObj = $("form[role='form']");
 	$("button[type='submit']").on("click",function(e){
 		e.preventDefault();
 		console.log("submit clicked");
 	    
-	    var str ="";
+		// sub image file check
+		var subImage = $("input[name='subImage']");
+		var images = subImage[0].files;
+		for(var i = 0; i < images.length; i++){
+			if(!imageCheck(images[i].name, images[i].size)){
+				return false;
+			}
+		}
+		// main image file check
+		var mainImage = $("input[name='mainImage']");
+		if(!imageCheck(mainImage[0].files.name, mainImage[0].files.size)){
+			return false;
+		}
 		
+		if(!mainImage.val()) {
+			alert("메인 사진은 필수!");
+		    return false;
+		}
+		
+	    var str ="";
 	    $("input[id='product_colorList']:checked").each(function(i) {
-	    	// 체크된 것만 값을 뽑아서 배열에 push
+	    	// 색깔이 체크된 것만 값을 뽑아서 배열에 push
 	    	str += "<input type ='hidden' name='product_colorList["+i+"].product_color' value='"+$(this).val()+"'>";
 	    });
 

@@ -996,10 +996,10 @@ hr {
   float: left;
   margin-top: 10px;
 }
-.plus-minus-pro-action .sin-pro-action {
+/* .plus-minus-pro-action .sin-pro-action {
   float: left;
   margin-top: 20px;
-}
+}*/
 .cart-tab {
   margin-bottom: 50px;
 }
@@ -1169,6 +1169,15 @@ hr {
  
 }
  
+ 
+ /* Additional Media Quirry */
+@media only screen and (max-width: 479px){
+  .plus-minus-pro-action .sin-pro-action {
+    float: left;
+    margin-top: 20px;
+  }
+}
+
 /* Large Mobile :480px. */
 @media only screen and (min-width: 480px) and (max-width: 767px) {
 .container {width:450px}
