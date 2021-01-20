@@ -35,6 +35,11 @@ public class Criteria {
 		this.priceEnd = priceEnd;
 	}
 	
+	public Criteria(int pageNum, int amount) {
+		this.pageNum = pageNum;
+		this.amount = amount;
+	}
+	
 	public int getPageStart() {
 		return (this.pageNum -1) * amount;
 	}

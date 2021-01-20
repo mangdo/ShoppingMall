@@ -2,7 +2,6 @@ package com.phonemall.security;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import jdk.internal.org.jline.utils.Log;
 import lombok.extern.log4j.Log4j;
 
 @Log4j

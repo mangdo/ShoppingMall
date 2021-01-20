@@ -21,4 +21,7 @@ public class ProductVO {
 	private String product_carrier;
 	
 	private List<ProductImageVO> product_imageList;
+	
+	private int review_count;
+	private float product_rating;
 }

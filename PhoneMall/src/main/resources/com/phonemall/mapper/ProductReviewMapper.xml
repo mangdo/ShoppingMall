@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.phonemall.mapper.ProductReviewMapper">
+
+<insert id="insert">
+	INSERT INTO product_reviews(product_id, review_content, review_reviewer, review_rating)
+	VALUES (#{product_id}, #{review_content}, #{review_reviewer}, #{review_rating})
+</insert>
+
+<select id="read" resultType="com.phonemall.domain.ProductReviewVO">
+	SELECT * FROM product_reviews WHERE review_id = #{review_id}
+</select>
+
+<delete id="delete">
+	DELETE FROM product_reviews WHERE review_id = #{review_id}
+</delete>
+
+<select id="getListWithPaging" resultType="com.phonemall.domain.ProductReviewVO" >
+	SELECT * FROM product_reviews USE INDEX (idx_reviews)
+	WHERE product_id=#{product_id}
+	LIMIT #{cri.pageStart}, #{cri.amount}
+</select>
+
+<select id="getCountByProductId" resultType="int">
+	SELECT count(review_id) FROM product_reviews WHERE product_id = #{product_id}
+</select>
+</mapper>

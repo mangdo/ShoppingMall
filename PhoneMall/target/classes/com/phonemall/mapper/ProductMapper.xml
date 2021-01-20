@@ -32,6 +32,8 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	<result property = "product_brand" column = "product_brand"/>
 	<result property = "product_type" column = "product_type"/>
 	<result property = "product_carrier" column = "product_carrier"/>
+	<result property = "review_count" column="review_count"/>
+	<result property = "product_rating" column="product_rating"/>
 	<collection property="product_imageList" resultMap = "imageMap">
 	</collection>
 </resultMap>
@@ -108,5 +110,16 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	<include refid="criteria"></include>
 	
 </select>
+
+<update id="updateReview">
+	UPDATE product 
+	SET review_count = review_count + #{amount},
+		product_rating = (
+			SELECT ROUND(AVG(review_rating),2)
+			FROM product_reviews
+			WHERE product_reviews.product_id = #{product_id}
+		)
+	WHERE product_id = #{product_id}
+</update>
 
 </mapper>

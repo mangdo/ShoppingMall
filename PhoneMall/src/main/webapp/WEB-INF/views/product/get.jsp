@@ -99,7 +99,7 @@
                                                     <a href="#" tabindex="0"><i class="zmdi zmdi-star"></i></a>
                                                     <a href="#" tabindex="0"><i class="zmdi zmdi-star-half"></i></a>
                                                     <a href="#" tabindex="0"><i class="zmdi zmdi-star-outline"></i></a>
-                                                    <span class="text-black-5">( 27 Rating )</span>
+                                                    <span class="text-black-5">( <c:out value="${product.product_rating}"/>점 )</span>
                                                 </div>
                                             </div>
                                             <!-- hr -->
@@ -164,7 +164,7 @@
                                             <ul class="nav mb-20">
                                                 <li><a class="active" href="#description" data-toggle="tab">description</a></li>
                                                 <li><a href="#information" data-toggle="tab">information</a></li>
-                                                <li><a href="#reviews" data-toggle="tab">reviews</a></li>
+                                                <li><a href="#reviews" data-toggle="tab" id="reviews-tab">reviews</a></li>
                                             </ul>
                                             <div class="tab-content">
                                                 <div role="tabpanel" class="tab-pane active" id="description">
@@ -177,59 +177,15 @@
                                                     <p> <c:out value="${product.product_information}"/> </p>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="reviews">
+                                                	<a class="button extra-small button-black mb-20" data-toggle="modal" data-target="#reviewModal">
+	                            					<span>리뷰 등록</span>
+	                                            	</a>
                                                     <!-- reviews-tab-desc -->
-                                                    <div class="reviews-tab-desc">
-                                                        <!-- single comments -->
-                                                        <div class="media mt-30">
-                                                            <div class="media-left">
-                                                                <a href="#"><img class="media-object" src="/resources/img/author/1.jpg"
-                                                                        alt="#"></a>
-                                                            </div>
-                                                            <div class="media-body">
-                                                                <div class="clearfix">
-                                                                    <div class="name-commenter pull-left">
-                                                                        <h6 class="media-heading"><a href="#">Gerald Barnes</a>
-                                                                        </h6>
-                                                                        <p class="mb-10">27 Jun, 2019 at 2:30pm</p>
-                                                                    </div>
-                                                                    <div class="pull-right">
-                                                                        <ul class="reply-delate">
-                                                                            <li><a href="#">Reply</a></li>
-                                                                            <li>/</li>
-                                                                            <li><a href="#">Delate</a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur
-                                                                    adipiscing elit. Integer accumsan egestas .</p>
-                                                            </div>
-                                                        </div>
-                                                        <!-- single comments -->
-                                                        <div class="media mt-30">
-                                                            <div class="media-left">
-                                                                <a href="#"><img class="media-object" src="/resources/img/author/2.jpg"
-                                                                        alt="#"></a>
-                                                            </div>
-                                                            <div class="media-body">
-                                                                <div class="clearfix">
-                                                                    <div class="name-commenter pull-left">
-                                                                        <h6 class="media-heading"><a href="#">Gerald Barnes</a>
-                                                                        </h6>
-                                                                        <p class="mb-10">27 Jun, 2019 at 2:30pm</p>
-                                                                    </div>
-                                                                    <div class="pull-right">
-                                                                        <ul class="reply-delate">
-                                                                            <li><a href="#">Reply</a></li>
-                                                                            <li>/</li>
-                                                                            <li><a href="#">Delate</a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur
-                                                                    adipiscing elit. Integer accumsan egestas .</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <div class="reviews-tab-desc"> </div>
+                                                    <br>
+                                                    <!-- review pagination -->
+                                                    <ul class="shop-pagination box-shadow text-center ptblr-10-30"> </ul>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -425,9 +381,54 @@
 	<input type="hidden" id='product_id' name='product_id' value='<c:out value="${product.product_id}"/>'>
 </form>
 
- <%@include file="/WEB-INF/views/layout/foot.jsp" %>
- 
- <script type="text/javascript">
+<%@include file="/WEB-INF/views/layout/foot.jsp" %>
+
+<!-- Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            	<h4 class="modal-title">리뷰 작성</h4>
+            </div>
+            <div class="modal-body">
+
+            	<div class="form-group">
+	            	<label>리뷰 평점</label><br>
+	            	<c:forEach var="i" begin="0" end="4">
+	            		<input type="radio" name="review_rating" value="${5-i}">
+	            		<div class="pro-rating sin-pro-rating" style="display:inline-block">
+	            			<c:forEach var="j" begin="1" end="${5-i}">
+	            				<a><i class="zmdi zmdi-star"></i></a>
+	            			</c:forEach>
+	            			<c:forEach var="j" begin="1" end="${i}">
+	            				<a><i class="zmdi zmdi-star-outline"></i></a>
+	            			</c:forEach>
+	            		</div> &nbsp;
+	            	</c:forEach>
+            	</div>
+            	<div class="form-group">
+            		<label>리뷰 내용</label>
+            		<textarea class="form-control" name="review_content" placeholder="리뷰를 작성해주세요"></textarea>
+            	</div>
+            	<div class="form-group">
+            		<label>리뷰 작성자</label>
+            		<input class="form-control" name="review_reviewer">
+            	</div>
+            	
+            </div><!-- .modal-body -->
+            
+            <div class="modal-footer">
+            	<button id="modalRegisterBtn" class="submit-btn-1 btn-hover-1" type="button">등록</button>
+            	<button id="modalCloseBtn" class="submit-btn-1 btn-hover-1" type="button" style="background-color : #575757;">취소</button>
+            </div>
+        </div><!-- .modal-content -->
+    </div><!-- .modal-dialog -->
+</div>
+<!-- END Modal -->
+
+<script type="text/javascript" src="/resources/js/review.js"></script>
+<script type="text/javascript">
  $(document).ready(function(){
 	 
 	 // Immediately-invoked function to get colorList 
@@ -466,6 +467,116 @@
 	 $("a[data-oper='modify']").on("click",function(e){
 		operForm.attr("action","/product/modify").submit();
 	 });
+	
+	 // ----- review------
+	 var productID = '<c:out value="${product.product_id}"/>';
+	 var reviewsTabDiv =$(".reviews-tab-desc");
 	 
+	// show review list function
+	 function showList(page){
+		 reviewService.getList({product_id : productID, page:page||1}, function(reviewTotal, list){
+			 
+			 var str="";
+			 if(list == null || list.length == 0){
+				 reviewsTabDiv.html("");
+				 return;
+			 }
+			for(var i=0, len = list.length||0; i<len; i++){
+				str += '<div class="media mt-30"> <div class="media-left"><a><img class="media-object" src="/resources/img/author/1.jpg"></a>';
+                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
+                str += '<h6 class="media-heading">'+list[i].review_reviewer.substring(0,3)+"****"+'</h6>';
+                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate)+'</p></div><div class="pull-right">';
+                str += '<ul class="reply-delate"> <li><a href="#">Reply</a></li> <li>/</li> <li><a href="'+list[i].review_id+'">Delete</a></li> </ul> </div> </div>';
+                str += '<div class="pro-rating sin-pro-rating" style="display:inline-block">';
+                
+				for(var j=0; j < list[i].review_rating; j++){
+					str += '<a><i class="zmdi zmdi-star"></i></a>';
+				}
+				for(var j=0; j < 5-list[i].review_rating; j++){
+					str += '<a><i class="zmdi zmdi-star-outline"></i></a>';
+				}
+				str += '<p class="mb-0">'+ list[i].review_content+'</p> </div> </div>';
+			}
+			reviewsTabDiv.html(str);
+			showReviewPage(reviewTotal);
+		});
+	 }// end showList function
+	 
+	 var pageNum = 1;
+	 // Review pagination function
+	 function showReviewPage(reviewTotal){
+		 var endNum = Math.ceil(pageNum/5.0)*5;
+		 var startNum = endNum - 4;
+		 
+		 var prev = startNum!=1;
+		 var next = false;
+		 if(endNum*5 >= reviewTotal){
+			 endNum = Math.ceil(reviewTotal/5.0);
+		 }
+		 if(endNum*5 < reviewTotal){
+			 next = true;
+		 }
+		 var str = "";
+		 if(prev){
+			 str += '<li class="paginate_button"><a href="'+(startNum-1)+'"><i class="zmdi zmdi-chevron-left"></i></a></li>';
+		 }
+		 for(var i=startNum; i<= endNum; i++){
+			 var active = pageNum == i? "active":"";
+			 str += '<li class="paginate_button '+active+'" style="margin-right: 3px;"><a href="'+i+'">'+i+'</a></li>';
+		 }
+		 if(next){
+			 str += '<li class="paginate_button active"> <a href="'+(endNum+1)+'"><i class="zmdi zmdi-chevron-right"></i></a></li>';
+		 }
+		 $(".shop-pagination").html(str);
+	 }                 	
+                                	
+     // review tab click
+	 $("#reviews-tab").on("click", function(e){
+		 showList(1);
+	 });
+	 
+    // review Modal 
+	var reviewModal = $("#reviewModal");
+	$('#reviewModal').on('show.bs.modal', function(event) {          
+		reviewModal.find("textarea[name='review_content']").val("");
+		review_reviewer : reviewModal.find("input[name='review_reviewer']").val("");
+
+    });	
+	
+	// review register
+	$("#modalRegisterBtn").on("click",function(e){
+		var review = {
+				review_content : reviewModal.find("textarea[name='review_content']").val(),
+				review_reviewer : reviewModal.find("input[name='review_reviewer']").val(),
+				review_rating : reviewModal.find("input[name='review_rating']:checked").val(),
+				product_id : productID
+		};
+		reviewService.add(review, function(result){
+			alert("result: "+result);
+			reviewModal.modal("hide");
+			showList(1);
+		});
+	});
+
+	// review delete
+	$(".reviews-tab-desc").on("click", "ul li a", function(e){
+		e.preventDefault();
+		
+		var review_id = $(this).attr("href");
+		reviewService.remove(review_id, function(result){
+				alert("remove result:"+result);
+				reviewModal.modal("hide");
+				showList(1);
+		});
+	});
+	
+	// review pagination
+	$(".shop-pagination").on("click","li a", function(e){
+		e.preventDefault();
+		var targetReviewPage = $(this).attr("href");
+		pageNum = targetReviewPage;
+		showList(pageNum);
+	});
+	
  });
 </script>

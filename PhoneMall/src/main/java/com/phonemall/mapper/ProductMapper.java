@@ -2,6 +2,8 @@ package com.phonemall.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.phonemall.domain.Criteria;
 import com.phonemall.domain.ProductVO;
 
@@ -18,4 +20,6 @@ public interface ProductMapper {
 	public ProductVO read(Long product_id);
 	public int delete(Long product_id);
 	public int update(ProductVO product);
+	
+	public void updateReview(@Param("product_id") Long product_id, @Param("amount") int amount);
 }
