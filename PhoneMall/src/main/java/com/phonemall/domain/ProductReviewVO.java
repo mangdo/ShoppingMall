@@ -13,4 +13,7 @@ public class ProductReviewVO {
 	private String review_reviewer;
 	private Date review_regDate;
 	private int review_rating;
+	
+	private Long reply_id;
+
 }

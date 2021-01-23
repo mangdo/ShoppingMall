@@ -7,7 +7,6 @@ console.log("javaScript Module pattern");
 var reviewService = (function(){
 	
 	function add(review, callback){
-		console.log("add reivew...");
 		
 		$.ajax({
 			type : 'post',

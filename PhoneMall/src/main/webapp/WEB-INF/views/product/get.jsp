@@ -419,15 +419,48 @@
             </div><!-- .modal-body -->
             
             <div class="modal-footer">
-            	<button id="modalRegisterBtn" class="submit-btn-1 btn-hover-1" type="button">등록</button>
-            	<button id="modalCloseBtn" class="submit-btn-1 btn-hover-1" type="button" style="background-color : #575757;">취소</button>
+            	<button id="reviewRegisterBtn" class="submit-btn-1 btn-hover-1" type="button">등록</button>
+            	<button class="submit-btn-1 btn-hover-1" data-dismiss="modal" aria-label="Close" style="background-color : #575757;">취소</button>
             </div>
         </div><!-- .modal-content -->
     </div><!-- .modal-dialog -->
 </div>
-<!-- END Modal -->
+<!-- END review Modal -->
+
+<!-- reply Modal -->
+<div class="modal fade" id="replyModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            	<h4 class="modal-title">판매자 답글 작성</h4>
+            </div>
+            <div class="modal-body">
+            	<div class="form-group">
+            		<label>답글 내용</label>
+            		<textarea class="form-control" name="reply_content" placeholder="답글을 작성해주세요"></textarea>
+            	</div>
+            	<div class="form-group">
+            		<label>답글 작성자</label>
+            		<input class="form-control" name="reply_replier">
+            	</div>
+
+            	<input type="hidden" class="form-control" name="review_id">
+            	
+            </div><!-- .modal-body -->
+            
+            <div class="modal-footer">
+            	<button id="replyRegisterBtn" class="submit-btn-1 btn-hover-1" type="button">등록</button>
+            	<button class="submit-btn-1 btn-hover-1" data-dismiss="modal" aria-label="Close" style="background-color : #575757;">취소</button>
+            </div>
+        </div><!-- .modal-content -->
+    </div><!-- .modal-dialog -->
+</div>
+<!-- END reply Modal -->
+
 
 <script type="text/javascript" src="/resources/js/review.js"></script>
+<script type="text/javascript" src="/resources/js/reply.js"></script>
 <script type="text/javascript">
  $(document).ready(function(){
 	 
@@ -482,20 +515,36 @@
 				 return;
 			 }
 			for(var i=0, len = list.length||0; i<len; i++){
-				str += '<div class="media mt-30"> <div class="media-left"><a><img class="media-object" src="/resources/img/author/1.jpg"></a>';
-                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
-                str += '<h6 class="media-heading">'+list[i].review_reviewer.substring(0,3)+"****"+'</h6>';
-                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate)+'</p></div><div class="pull-right">';
-                str += '<ul class="reply-delate"> <li><a href="#">Reply</a></li> <li>/</li> <li><a href="'+list[i].review_id+'">Delete</a></li> </ul> </div> </div>';
-                str += '<div class="pro-rating sin-pro-rating" style="display:inline-block">';
-                
-				for(var j=0; j < list[i].review_rating; j++){
-					str += '<a><i class="zmdi zmdi-star"></i></a>';
+				if(list[i].reply_id==null){ //review
+					str += '<div class="media mt-30">';
+					str += '<div class="media-left"><a><img class="media-object" src="/resources/img/author/5.jpg"></a>';
+	                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
+	                str += '<h6 class="media-heading">'+list[i].review_reviewer.substring(0,3)+"****"+'</h6>';
+	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate)+'</p></div><div class="pull-right">';
+	                str += '<ul class="reply-delate"> <li><a data-toggle="modal" data-target="#replyModal" data-id='+list[i].review_id+'>Reply</a></li> <li>/</li> <li><a class= "review-delete" href="'+list[i].review_id+'">Delete</a></li> </ul> </div> </div>';
+	                str += '<div class="pro-rating sin-pro-rating" style="display:inline-block">';
+	                
+					for(var j=0; j < list[i].review_rating; j++){
+						str += '<a><i class="zmdi zmdi-star"></i></a>';
+					}
+					for(var j=0; j < 5-list[i].review_rating; j++){
+						str += '<a><i class="zmdi zmdi-star-outline"></i></a>';
+					}
+					str += '<p class="mb-0">'+ list[i].review_content+'</p> </div> </div> </div>';
 				}
-				for(var j=0; j < 5-list[i].review_rating; j++){
-					str += '<a><i class="zmdi zmdi-star-outline"></i></a>';
+				else{ // reply
+					str += '<div class="media" style="background-color:#f6f6f6; margin-left:40px;margin-top:0px; padding:15px">';
+					
+					str += '<div class="media-left"><a><img class="media-object" src="/resources/img/author/4.jpg"></a>';
+	                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
+	                str += '<h6 class="media-heading">'+"판매자"+'</h6>';
+	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate)+'</p></div><div class="pull-right">';
+	                str += '<ul class="reply-delate"> <li><a class= "reply-delete" href="'+list[i].reply_id+'">Delete</a></li> </ul> </div> </div>';
+	                str += '<div class="pro-rating sin-pro-rating" style="display:inline-block">';
+	                str += '<p class="mb-0">'+ list[i].review_content+'</p> </div> </div> </div>';
+				
 				}
-				str += '<p class="mb-0">'+ list[i].review_content+'</p> </div> </div>';
+				
 			}
 			reviewsTabDiv.html(str);
 			showReviewPage(reviewTotal);
@@ -535,16 +584,16 @@
 		 showList(1);
 	 });
 	 
-    // review Modal 
+    // review Modal show
 	var reviewModal = $("#reviewModal");
 	$('#reviewModal').on('show.bs.modal', function(event) {          
 		reviewModal.find("textarea[name='review_content']").val("");
-		review_reviewer : reviewModal.find("input[name='review_reviewer']").val("");
+		reviewModal.find("input[name='review_reviewer']").val("");
 
     });	
 	
 	// review register
-	$("#modalRegisterBtn").on("click",function(e){
+	$("#reviewRegisterBtn").on("click",function(e){
 		var review = {
 				review_content : reviewModal.find("textarea[name='review_content']").val(),
 				review_reviewer : reviewModal.find("input[name='review_reviewer']").val(),
@@ -559,7 +608,7 @@
 	});
 
 	// review delete
-	$(".reviews-tab-desc").on("click", "ul li a", function(e){
+	$(".reviews-tab-desc").on("click", "ul li .review-delete", function(e){
 		e.preventDefault();
 		
 		var review_id = $(this).attr("href");
@@ -577,6 +626,44 @@
 		pageNum = targetReviewPage;
 		showList(pageNum);
 	});
+	
+	// reply Modal show
+	var replyModal = $("#replyModal");
+	$('#replyModal').on('show.bs.modal', function(event) {          
+		replyModal.find("textarea[name='reply_content']").val("");
+		replyModal.find("input[name='reply_replier']").val("");
+		replyModal.find("input[name='review_id']").val($(event.relatedTarget).data('id'));
+    });	
+	
+	// reply register
+	$("#replyRegisterBtn").on("click",function(e){
+		var reply = {
+				review_content : replyModal.find("textarea[name='reply_content']").val(),
+				review_reviewer : replyModal.find("input[name='reply_replier']").val(),
+				review_id : replyModal.find("input[name='review_id']").val()
+		};
+		replyService.add(reply, function(result){
+			alert("register reply result: " + result);
+			replyModal.modal("hide");
+			showList(1);
+		});
+	});
+	
+	// reply delete
+	$(".reviews-tab-desc").on("click", "ul li .reply-delete", function(e){
+		e.preventDefault();
+		
+		var reply_id = $(this).attr("href");
+		alert(reply_id);
+		replyService.remove(reply_id, function(result){
+				alert("remove result: "+result);
+				replyModal.modal("hide");
+				showList(1);
+		});
+	});
+	
+
+	
 	
  });
 </script>

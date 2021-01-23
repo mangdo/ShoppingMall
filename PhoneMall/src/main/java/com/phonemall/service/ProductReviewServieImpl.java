@@ -44,11 +44,13 @@ public class ProductReviewServieImpl implements ProductReviewService{
 	public int remove(Long review_id) {
 		log.info("remove, "+review_id);
 		
-		int result = mapper.delete(review_id);
 		ProductReviewVO vo = mapper.read(review_id);
+		log.info("remove product_id: "+vo.getProduct_id());
 		productMapper.updateReview(vo.getProduct_id(), -1);
 		
-		return result;
+		
+		
+		return mapper.delete(review_id);
 	}
 
 	@Override
@@ -57,6 +59,20 @@ public class ProductReviewServieImpl implements ProductReviewService{
 		
 		return new ReviewPageDTO(mapper.getCountByProductId(product_id),
 				mapper.getListWithPaging(cri, product_id));
+	}
+	
+
+	@Override
+	public int registerReply(ProductReviewVO vo) {
+		log.info("reply regitser, " + vo);
+		
+		return mapper.insertReply(vo);
+	}
+
+	@Override
+	public int removeReply(Long reply_id) {
+
+		return mapper.deleteReply(reply_id);
 	}
 
 }

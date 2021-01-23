@@ -18,12 +18,39 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 </delete>
 
 <select id="getListWithPaging" resultType="com.phonemall.domain.ProductReviewVO" >
-	SELECT * FROM product_reviews USE INDEX (idx_reviews)
-	WHERE product_id=#{product_id}
-	LIMIT #{cri.pageStart}, #{cri.amount}
+	
+(SELECT review_id, null AS reply_id, review_content, review_reviewer, review_regDate, review_rating
+FROM product_reviews USE INDEX (idx_reviews)
+WHERE product_id=#{product_id}
+LIMIT #{cri.pageStart}, #{cri.amount})
+UNION ALL(
+SELECT * FROM (
+	SELECT r.review_id, r.reply_id, r.reply_content, r.reply_replier, r.reply_regDate, null
+	FROM review_replies r USE INDEX (idx_replies)
+	where r.review_id>0 and r.review_id in (
+		SELECT review_id from(
+		SELECT  review_id 
+		FROM product_reviews USE INDEX (idx_reviews)
+		WHERE product_id = #{product_id}
+		LIMIT #{cri.pageStart}, #{cri.amount}
+			)a
+		)
+) tmp
+)ORDER BY review_id DESC
+	
 </select>
 
 <select id="getCountByProductId" resultType="int">
 	SELECT count(review_id) FROM product_reviews WHERE product_id = #{product_id}
 </select>
+
+<insert id="insertReply">
+	INSERT INTO review_replies(review_id, reply_content, reply_replier)
+	VALUES ( #{review_id}, #{review_content}, #{review_reviewer})
+</insert>
+
+<delete id="deleteReply">
+	DELETE FROM review_replies WHERE reply_id = #{reply_id}
+</delete>
+
 </mapper>

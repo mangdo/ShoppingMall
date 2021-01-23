@@ -14,4 +14,8 @@ public interface ProductReviewService {
 	public int remove(Long review_id);
 	
 	public ReviewPageDTO getListPage(Criteria cri, Long product_id);
+	
+	public int registerReply(ProductReviewVO vo);
+	
+	public int removeReply(Long review_id);
 }

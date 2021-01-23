@@ -30,10 +30,8 @@ public class ProductReviewController {
 	@PostMapping(value="/new", consumes="application/json", produces= {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> create(@RequestBody ProductReviewVO vo){
 		log.info("ReviewVO : " + vo);
-		int insertCount = service.register(vo);
-		
-		log.info("review INSERT COUNT: "+insertCount);
-		return insertCount==1?
+
+		return service.register(vo)==1?
 				new ResponseEntity<>("success",HttpStatus.OK) :
 				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		
@@ -63,6 +61,24 @@ public class ProductReviewController {
 		log.info("delete : "+review_id);
 		
 		return service.remove(review_id)==1?
+				new ResponseEntity<>("success", HttpStatus.OK):
+				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PostMapping(value="/replies/new", consumes="application/json", produces= {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> createReply(@RequestBody ProductReviewVO vo){
+		log.info("ReplyVO : " + vo);
+
+		return service.registerReply(vo)==1?
+				new ResponseEntity<>("success",HttpStatus.OK) :
+				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@DeleteMapping(value="/replies/{reply_id}", produces= {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> removeReply(@PathVariable("reply_id")Long reply_id){
+		log.info("delete : "+reply_id);
+		
+		return service.removeReply(reply_id)==1?
 				new ResponseEntity<>("success", HttpStatus.OK):
 				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}

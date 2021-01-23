@@ -19,4 +19,8 @@ public interface ProductReviewMapper {
 			@Param("cri") Criteria cri, @Param("product_id") Long product_id);
 	
 	public int getCountByProductId(Long product_id);
+	
+	public int insertReply(ProductReviewVO vo);
+	
+	public int deleteReply(Long reply_id);
 }
