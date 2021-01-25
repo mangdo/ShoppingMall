@@ -3,6 +3,7 @@ package com.phonemall.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,8 @@ public class ProductReviewController {
 
 	private ProductReviewService service;
 	
+	// register review
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value="/new", consumes="application/json", produces= {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> create(@RequestBody ProductReviewVO vo){
 		log.info("ReviewVO : " + vo);
@@ -37,6 +40,7 @@ public class ProductReviewController {
 		
 	}
 	
+	// show review list
 	@GetMapping(value="/pages/{product_id}/{page}",
 			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<ReviewPageDTO> getList(
@@ -48,6 +52,7 @@ public class ProductReviewController {
 		return new ResponseEntity<>(service.getListPage(cri, product_id), HttpStatus.OK);
 	}
 	
+	// show 1 review
 	@GetMapping(value="/{review_id}",
 			produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<ProductReviewVO> get(@PathVariable("review_id") Long review_id){
@@ -56,8 +61,10 @@ public class ProductReviewController {
 		return new ResponseEntity<>(service.get(review_id), HttpStatus.OK);
 	}
 	
+	// remove review
+	@PreAuthorize("principal.username == #reviewer")
 	@DeleteMapping(value="/{review_id}", produces= {MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity<String> remove(@PathVariable("review_id")Long review_id){
+	public ResponseEntity<String> remove(@PathVariable("review_id")Long review_id, @PathVariable("reviewer")Long reviewer){
 		log.info("delete : "+review_id);
 		
 		return service.remove(review_id)==1?
@@ -65,6 +72,8 @@ public class ProductReviewController {
 				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	// register reply of review
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(value="/replies/new", consumes="application/json", produces= {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> createReply(@RequestBody ProductReviewVO vo){
 		log.info("ReplyVO : " + vo);
@@ -74,6 +83,8 @@ public class ProductReviewController {
 				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	// remove reply
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping(value="/replies/{reply_id}", produces= {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> removeReply(@PathVariable("reply_id")Long reply_id){
 		log.info("delete : "+reply_id);

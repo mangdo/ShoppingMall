@@ -39,10 +39,12 @@ var reviewService = (function(){
 			});
 	}
 	
-	function remove(review_id, callback, error){
+	function remove(review_id, reviewer, callback, error){
 		$.ajax({
 			type : 'delete',
-			url : '/reviews/'+review_id,
+			url : '/reviews/'+ review_id,
+			data : JSON.stringify({review_id:review_id, reviewer:reviewer}),
+			contentType : "application/json; charset=utf-8",
 			success : function(deleteResult, stauts, xhr){
 				if(callback){
 					callback(deleteResult);

@@ -69,4 +69,10 @@ public class PhoneMallController {
 	public String toMyInquiry() {
 		return "/mypage/myInquiry";
 	}
+	
+	@RequestMapping("/myReviews")
+	public String toMyReviews() {
+		
+		return "/mypage/myReviews";
+	}
 }

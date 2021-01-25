@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@include file="/WEB-INF/views/layout/top.jsp" %>
      <!-- BREADCRUMBS SETCTION START -->
         <div class="breadcrumbs-section plr-200 mb-80 section">
@@ -146,9 +147,11 @@
                                                 <a href="#" class="button extra-small button-black" tabindex="-1">
                                                     <span class="text-uppercase">Buy now</span>
                                                 </a>
+                                                <sec:authorize access="hasRole('ROLE_ADMIN')">
                                                 <a class="button extra-small button-black" tabindex="-1" data-oper='modify'>
 	                            					<span>수정</span>
 	                                            </a>
+	                                            </sec:authorize>
                                             </div>
                                             
                                         </div>
@@ -168,7 +171,7 @@
                                             </ul>
                                             <div class="tab-content">
                                                 <div role="tabpanel" class="tab-pane active" id="description">
-                                                    <p> 상품 설명입니다. </p>
+                                                    <p> 상품 설명입니다.'${_csrf.token}' </p>
                                                     <p>  <c:out value="${product.product_description}"/>  </p>
                                                     
                                                 </div>
@@ -413,7 +416,7 @@
             	</div>
             	<div class="form-group">
             		<label>리뷰 작성자</label>
-            		<input class="form-control" name="review_reviewer">
+            		<input class="form-control" name="review_reviewer" readonly="readonly">
             	</div>
             	
             </div><!-- .modal-body -->
@@ -442,10 +445,10 @@
             	</div>
             	<div class="form-group">
             		<label>답글 작성자</label>
-            		<input class="form-control" name="reply_replier">
+            		<input class="form-control" name="reply_replier" readonly= readonly>
             	</div>
 
-            	<input type="hidden" class="form-control" name="review_id">
+            	<input  type="hidden" class="form-control" name="review_id">
             	
             </div><!-- .modal-body -->
             
@@ -517,12 +520,12 @@
 			for(var i=0, len = list.length||0; i<len; i++){
 				if(list[i].reply_id==null){ //review
 					str += '<div class="media mt-30">';
-					str += '<div class="media-left"><a><img class="media-object" src="/resources/img/author/5.jpg"></a>';
+					str += '<div class="media-left"><img class="media-object" src="/resources/img/author/5.jpg">';
 	                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
 	                str += '<h6 class="media-heading">'+list[i].review_reviewer.substring(0,3)+"****"+'</h6>';
 	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate)+'</p></div><div class="pull-right">';
-	                str += '<ul class="reply-delate"> <li><a data-toggle="modal" data-target="#replyModal" data-id='+list[i].review_id+'>Reply</a></li> <li>/</li> <li><a class= "review-delete" href="'+list[i].review_id+'">Delete</a></li> </ul> </div> </div>';
-	                str += '<div class="pro-rating sin-pro-rating" style="display:inline-block">';
+	                str += '<ul class="reply-delate"> <li><a class="replyModalBtn" data-id='+list[i].review_id+'>Reply</a></li> <li>/</li> <li><a class= "review-delete" href='+list[i].review_id+' data-reviewer='+list[i].review_reviewer+'>Delete</a></li> ';
+	                str += '</ul> </div> </div> <div class="pro-rating sin-pro-rating" style="display:inline-block">';
 	                
 					for(var j=0; j < list[i].review_rating; j++){
 						str += '<a><i class="zmdi zmdi-star"></i></a>';
@@ -535,12 +538,12 @@
 				else{ // reply
 					str += '<div class="media" style="background-color:#f6f6f6; margin-left:40px;margin-top:0px; padding:15px">';
 					
-					str += '<div class="media-left"><a><img class="media-object" src="/resources/img/author/4.jpg"></a>';
+					str += '<div class="media-left"><img class="media-object" src="/resources/img/author/4.jpg">';
 	                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
 	                str += '<h6 class="media-heading">'+"판매자"+'</h6>';
 	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate)+'</p></div><div class="pull-right">';
 	                str += '<ul class="reply-delate"> <li><a class= "reply-delete" href="'+list[i].reply_id+'">Delete</a></li> </ul> </div> </div>';
-	                str += '<div class="pro-rating sin-pro-rating" style="display:inline-block">';
+	                str += '<div class="pro-rating sin-pro-rating">';
 	                str += '<p class="mb-0">'+ list[i].review_content+'</p> </div> </div> </div>';
 				
 				}
@@ -584,14 +587,21 @@
 		 showList(1);
 	 });
 	 
+	 var user = "";
+	<sec:authorize access="isAuthenticated()">
+		user ='<sec:authentication property="principal.username"/>';
+	</sec:authorize>
+	
     // review Modal show
 	var reviewModal = $("#reviewModal");
 	$('#reviewModal').on('show.bs.modal', function(event) {          
 		reviewModal.find("textarea[name='review_content']").val("");
-		reviewModal.find("input[name='review_reviewer']").val("");
+		
+		reviewModal.find("input[name='review_reviewer']").val(user);
 
+		
     });	
-	
+
 	// review register
 	$("#reviewRegisterBtn").on("click",function(e){
 		var review = {
@@ -612,7 +622,18 @@
 		e.preventDefault();
 		
 		var review_id = $(this).attr("href");
-		reviewService.remove(review_id, function(result){
+		
+		if(!user){
+			alert("로그인 후 삭제가 가능합니다.");
+			return;
+		}
+		var originalReviewer = $(this).data('reviewer');
+		
+		if( user != originalReviewer){
+			alert("자신이 작성한 리뷰만 삭제가 가능합니다.");
+			return;
+		}
+		reviewService.remove(review_id, originalReviewer, function(result){
 				alert("remove result:"+result);
 				reviewModal.modal("hide");
 				showList(1);
@@ -629,11 +650,13 @@
 	
 	// reply Modal show
 	var replyModal = $("#replyModal");
-	$('#replyModal').on('show.bs.modal', function(event) {          
+	$('#replyModal').on('show.bs.modal', function(event) {
+	
 		replyModal.find("textarea[name='reply_content']").val("");
-		replyModal.find("input[name='reply_replier']").val("");
-		replyModal.find("input[name='review_id']").val($(event.relatedTarget).data('id'));
+		replyModal.find("input[name='reply_replier']").val(user);
+		//replyModal.find("input[name='review_id']").val($(".replyModalBtn").data('id'));
     });	
+
 	
 	// reply register
 	$("#replyRegisterBtn").on("click",function(e){
@@ -654,16 +677,40 @@
 		e.preventDefault();
 		
 		var reply_id = $(this).attr("href");
-		alert(reply_id);
+		if(!user){
+			alert("로그인 후 삭제가 가능합니다.");
+			return;
+		}
+		
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
 		replyService.remove(reply_id, function(result){
-				alert("remove result: "+result);
-				replyModal.modal("hide");
-				showList(1);
+			alert("remove result: "+result);
+			replyModal.modal("hide");
+			showList(1);
 		});
+		</sec:authorize>
+		
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			alert("관리자만 삭제가 가능합니다.");
+		</sec:authorize>
+		
+		
 	});
 	
-
-	
+	// reply delete
+	$(".reviews-tab-desc").on("click", "ul li .replyModalBtn", function(e){
+		e.preventDefault();
+		
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			alert("관리자만 답글을 쓸 수 있습니다.");
+		</sec:authorize>
+		
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+			replyModal.modal("show");
+			replyModal.find("input[name='review_id']").val($(this).data('id'));
+		</sec:authorize>
+		
+	});
 	
  });
 </script>
