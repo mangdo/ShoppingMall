@@ -17,24 +17,28 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	DELETE FROM product_reviews WHERE review_id = #{review_id}
 </delete>
 
+<update id="update">
+	UPDATE product_reviews SET review_content = #{review_content}, review_rating = #{review_rating}, review_updateDate=SYSDATE() 
+	WHERE review_id = #{review_id}
+</update>
+
 <select id="getListWithPaging" resultType="com.phonemall.domain.ProductReviewVO" >
 	
-(SELECT review_id, null AS reply_id, review_content, review_reviewer, review_regDate, review_rating
+(SELECT review_id, null AS reply_id, review_content, review_reviewer, review_regDate, review_updateDate, review_rating
 FROM product_reviews USE INDEX (idx_reviews)
-WHERE product_id=#{product_id}
+WHERE product_id = #{product_id}
 LIMIT #{cri.pageStart}, #{cri.amount})
 UNION ALL(
 SELECT * FROM (
-	SELECT r.review_id, r.reply_id, r.reply_content, r.reply_replier, r.reply_regDate, null
+	SELECT r.review_id, r.reply_id, r.reply_content, r.reply_replier, r.reply_regDate, r.reply_updateDate, null
 	FROM review_replies r USE INDEX (idx_replies)
-	where r.review_id>0 and r.review_id in (
-		SELECT review_id from(
-		SELECT  review_id 
+	JOIN (
+		SELECT review_id 
 		FROM product_reviews USE INDEX (idx_reviews)
 		WHERE product_id = #{product_id}
 		LIMIT #{cri.pageStart}, #{cri.amount}
-			)a
-		)
+            )rr
+	ON r.review_id = rr.review_id
 ) tmp
 )ORDER BY review_id DESC
 	
@@ -49,8 +53,43 @@ SELECT * FROM (
 	VALUES ( #{review_id}, #{review_content}, #{review_reviewer})
 </insert>
 
+<select id="readReply" resultType="com.phonemall.domain.ProductReviewVO">
+	SELECT reply_id, reply_content AS review_content, reply_regDate AS review_regDate, reply_updateDate AS review_updateDate FROM review_replies 
+	WHERE reply_id = #{reply_id}
+</select>
+
 <delete id="deleteReply">
 	DELETE FROM review_replies WHERE reply_id = #{reply_id}
 </delete>
+
+<update id="updateReply">
+	UPDATE review_replies SET reply_content = #{review_content}, reply_replier = #{review_reviewer}, reply_updateDate=SYSDATE() 
+	WHERE reply_id = #{reply_id}
+</update>
+
+<select id="getMyReviewListWithPaging" resultType="com.phonemall.domain.ProductReviewVO">
+(SELECT review_id, review_reviewer, review_content, review_regDate, review_updateDate, review_rating
+FROM product_reviews
+WHERE review_reviewer = #{review_reviewer}
+LIMIT #{cri.pageStart}, #{cri.amount})
+UNION ALL(
+SELECT * FROM (
+	SELECT r.review_id, r.reply_replier, r.reply_content, r.reply_regDate, r.reply_updateDate, null
+	FROM review_replies r USE INDEX (idx_replies)
+	JOIN (
+		SELECT  review_id 
+		FROM product_reviews
+		WHERE review_reviewer = #{review_reviewer}
+		LIMIT #{cri.pageStart}, #{cri.amount}
+            )rr
+	ON r.review_id = rr.review_id 
+) tmp
+)ORDER BY review_id DESC
+
+</select>
+
+<select id="getCountByReviewer" resultType="int">
+	SELECT count(review_id) FROM product_reviews WHERE review_reviewer = #{review_reviewer}
+</select>
 
 </mapper>

@@ -15,12 +15,28 @@ public interface ProductReviewMapper {
 	
 	public int delete(Long review_id);
 	
+	public int update(ProductReviewVO vo);
+	
 	public List<ProductReviewVO> getListWithPaging(
 			@Param("cri") Criteria cri, @Param("product_id") Long product_id);
 	
 	public int getCountByProductId(Long product_id);
 	
+	// Reply of review
 	public int insertReply(ProductReviewVO vo);
 	
+	public ProductReviewVO readReply(Long reply_id);
+	
 	public int deleteReply(Long reply_id);
+	
+	public int updateReply(ProductReviewVO vo);
+	
+	
+	// my review list
+	public List<ProductReviewVO> getMyReviewListWithPaging(
+			@Param("cri") Criteria cri, @Param("review_reviewer") String review_reviewer);
+	
+	public int getCountByReviewer(String review_reviewer);
+	
+	
 }

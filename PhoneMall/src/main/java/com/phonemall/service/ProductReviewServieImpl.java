@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.phonemall.domain.Criteria;
 import com.phonemall.domain.ProductReviewVO;
-import com.phonemall.domain.ReviewPageDTO;
+import com.phonemall.domain.ProductReviewPageDTO;
 import com.phonemall.mapper.ProductMapper;
 import com.phonemall.mapper.ProductReviewMapper;
 
@@ -24,17 +24,17 @@ public class ProductReviewServieImpl implements ProductReviewService{
 	@Transactional
 	@Override
 	public int register(ProductReviewVO vo) {
-		log.info("regitser, " + vo);
+		log.info("Regitser Review, " + vo);
 
 		int result = mapper.insert(vo);
 		productMapper.updateReview(vo.getProduct_id(), 1);
+		
 		return result;
 	}
 
 	@Override
 	public ProductReviewVO get(Long review_id) {
-		
-		log.info("get, "+review_id);
+		log.info("Get Review, "+review_id);
 		
 		return mapper.read(review_id);
 	}
@@ -42,37 +42,69 @@ public class ProductReviewServieImpl implements ProductReviewService{
 	@Transactional
 	@Override
 	public int remove(Long review_id) {
-		log.info("remove, "+review_id);
+		log.info("Remove Review, "+review_id);
 		
 		ProductReviewVO vo = mapper.read(review_id);
-		log.info("remove product_id: "+vo.getProduct_id());
+		int result=mapper.delete(review_id);
 		productMapper.updateReview(vo.getProduct_id(), -1);
 		
+		return result;
+	}
+	
+	@Transactional
+	@Override
+	public int modify(ProductReviewVO vo) {
+		log.info("Modify Reivew"+vo);
 		
+		int result = mapper.update(vo);
+		productMapper.updateReview(vo.getProduct_id(), 0);
 		
-		return mapper.delete(review_id);
+		return result;
 	}
 
 	@Override
-	public ReviewPageDTO getListPage(Criteria cri, Long product_id) {
-		log.info("get review list of a product, "+product_id);
+	public ProductReviewPageDTO getListPage(Criteria cri, Long product_id) {
+		log.info("Get review list of a product, "+product_id);
 		
-		return new ReviewPageDTO(mapper.getCountByProductId(product_id),
+		return new ProductReviewPageDTO(mapper.getCountByProductId(product_id),
 				mapper.getListWithPaging(cri, product_id));
 	}
 	
 
 	@Override
 	public int registerReply(ProductReviewVO vo) {
-		log.info("reply regitser, " + vo);
+		log.info("Regitser Reply , " + vo);
 		
 		return mapper.insertReply(vo);
 	}
+	
+	@Override
+	public ProductReviewVO getReply(Long reply_id) {
+		log.info("Get Reply , "+reply_id);
+		
+		return mapper.readReply(reply_id);
+	}
 
 	@Override
+	public int modifyReply(ProductReviewVO vo) {
+		log.info("Modify Reply , "+ vo);
+		
+		return mapper.updateReply(vo);
+	}
+	
+	@Override
 	public int removeReply(Long reply_id) {
-
+		log.info("Delete Reply , "+ reply_id);
+		
 		return mapper.deleteReply(reply_id);
+	}
+
+	@Override
+	public ProductReviewPageDTO getMyReviewListPage(Criteria cri, String review_reviewer) {
+		log.info("Get my review list , "+review_reviewer);
+		
+		return new ProductReviewPageDTO(mapper.getCountByReviewer(review_reviewer),
+				mapper.getMyReviewListWithPaging(cri, review_reviewer), productMapper.myReviewProductList(cri, review_reviewer));
 	}
 
 }

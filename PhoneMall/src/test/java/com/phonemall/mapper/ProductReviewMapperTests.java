@@ -42,6 +42,24 @@ public class ProductReviewMapperTests {
 		reviews.forEach(review->log.info(review));
 	}
 	
-	
+	@Test
+	public void testgetMyReviewListWithPaging() {
+		Criteria cri = new Criteria(1,5);
+		log.info(cri);
+		List<ProductReviewVO> reviews = mapper.getMyReviewListWithPaging(cri, "admin");
+		reviews.forEach(review->log.info(review));
+	}
 
+	@Test
+	public void testUpdate() {
+		ProductReviewVO vo= mapper.read(1L);
+		log.info("update : "+mapper.update(vo));
+	}
+	
+	@Test
+	public void testUpdateReply() {
+		ProductReviewVO vo= mapper.readReply(1L);
+		log.info("update : "+mapper.updateReply(vo));
+		log.info(vo);
+	}
 }

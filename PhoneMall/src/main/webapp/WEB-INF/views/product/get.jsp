@@ -95,11 +95,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="pro-rating sin-pro-rating f-right">
-                                                    <a href="#" tabindex="0"><i class="zmdi zmdi-star"></i></a>
-                                                    <a href="#" tabindex="0"><i class="zmdi zmdi-star"></i></a>
-                                                    <a href="#" tabindex="0"><i class="zmdi zmdi-star"></i></a>
-                                                    <a href="#" tabindex="0"><i class="zmdi zmdi-star-half"></i></a>
-                                                    <a href="#" tabindex="0"><i class="zmdi zmdi-star-outline"></i></a>
+                                                    <c:forEach var="i" begin="1" end="${product.product_rating }" >
+					                              		<a><i class="zmdi zmdi-star"></i></a>
+					                              		<c:set var="rating">${i}</c:set>
+					                              	</c:forEach>
+					                              	<c:forEach var="i" begin="${product.product_rating}" end="4">
+				                                    	<a><i class="zmdi zmdi-star-outline"></i></a>
+				                                    </c:forEach>
                                                     <span class="text-black-5">( <c:out value="${product.product_rating}"/>점 )</span>
                                                 </div>
                                             </div>
@@ -180,9 +182,11 @@
                                                     <p> <c:out value="${product.product_information}"/> </p>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="reviews">
-                                                	<a class="button extra-small button-black mb-20" data-toggle="modal" data-target="#reviewModal">
-	                            					<span>리뷰 등록</span>
-	                                            	</a>
+                                                	<sec:authorize access="hasRole('ROLE_MEMBER')">
+	                                                	<a class="button extra-small button-black mb-20" id="reviewRegisterModalBtn">
+		                            					<span>리뷰 등록</span>
+		                                            	</a>
+	                                            	</sec:authorize>
                                                     <!-- reviews-tab-desc -->
                                                     <div class="reviews-tab-desc"> </div>
                                                     <br>
@@ -423,6 +427,7 @@
             
             <div class="modal-footer">
             	<button id="reviewRegisterBtn" class="submit-btn-1 btn-hover-1" type="button">등록</button>
+            	<button id="reviewUpdateBtn" class="submit-btn-1 btn-hover-1" type="button">수정</button>
             	<button class="submit-btn-1 btn-hover-1" data-dismiss="modal" aria-label="Close" style="background-color : #575757;">취소</button>
             </div>
         </div><!-- .modal-content -->
@@ -448,12 +453,11 @@
             		<input class="form-control" name="reply_replier" readonly= readonly>
             	</div>
 
-            	<input  type="hidden" class="form-control" name="review_id">
-            	
             </div><!-- .modal-body -->
             
             <div class="modal-footer">
             	<button id="replyRegisterBtn" class="submit-btn-1 btn-hover-1" type="button">등록</button>
+            	<button id="replyUpdateBtn" class="submit-btn-1 btn-hover-1" type="button">수정</button>
             	<button class="submit-btn-1 btn-hover-1" data-dismiss="modal" aria-label="Close" style="background-color : #575757;">취소</button>
             </div>
         </div><!-- .modal-content -->
@@ -504,7 +508,7 @@
 		operForm.attr("action","/product/modify").submit();
 	 });
 	
-	 // ----- review------
+	 // ============ review ===============
 	 var productID = '<c:out value="${product.product_id}"/>';
 	 var reviewsTabDiv =$(".reviews-tab-desc");
 	 
@@ -514,7 +518,7 @@
 			 
 			 var str="";
 			 if(list == null || list.length == 0){
-				 reviewsTabDiv.html("");
+				 reviewsTabDiv.html("<p>아직 작성된 리뷰가 없습니다.</p>");
 				 return;
 			 }
 			for(var i=0, len = list.length||0; i<len; i++){
@@ -523,9 +527,13 @@
 					str += '<div class="media-left"><img class="media-object" src="/resources/img/author/5.jpg">';
 	                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
 	                str += '<h6 class="media-heading">'+list[i].review_reviewer.substring(0,3)+"****"+'</h6>';
-	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate)+'</p></div><div class="pull-right">';
-	                str += '<ul class="reply-delate"> <li><a class="replyModalBtn" data-id='+list[i].review_id+'>Reply</a></li> <li>/</li> <li><a class= "review-delete" href='+list[i].review_id+' data-reviewer='+list[i].review_reviewer+'>Delete</a></li> ';
-	                str += '</ul> </div> </div> <div class="pro-rating sin-pro-rating" style="display:inline-block">';
+	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate);
+	                if(list[i].review_updateDate){
+	                	str += '<br>'+reviewService.displayTime(list[i].review_updateDate)+'(수정됨)';
+	                }
+	                str += '</p></div> <ul class="reply-delate pull-right"> <li><a class="reply-register" data-id='+list[i].review_id+'>답글</a></li> <li>/</li> ';
+	                str += '<li><a class= "review-update" href='+list[i].review_id+' data-reviewer='+list[i].review_reviewer+'>수정</a></li> <li>/</li> <li><a class= "review-delete" href='+list[i].review_id+' data-reviewer='+list[i].review_reviewer+'>삭제</a></li> ';
+	                str += '</ul> </div> <div class="pro-rating sin-pro-rating" style="display:inline-block">';
 	                
 					for(var j=0; j < list[i].review_rating; j++){
 						str += '<a><i class="zmdi zmdi-star"></i></a>';
@@ -541,8 +549,12 @@
 					str += '<div class="media-left"><img class="media-object" src="/resources/img/author/4.jpg">';
 	                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
 	                str += '<h6 class="media-heading">'+"판매자"+'</h6>';
-	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate)+'</p></div><div class="pull-right">';
-	                str += '<ul class="reply-delate"> <li><a class= "reply-delete" href="'+list[i].reply_id+'">Delete</a></li> </ul> </div> </div>';
+	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate);
+	                if(list[i].review_updateDate){
+	                	str += '<br>'+reviewService.displayTime(list[i].review_updateDate)+'(수정됨)';
+	                }
+	                str += '</p></div> <ul class="reply-delate pull-right"> <li><a class= "reply-update" href='+list[i].reply_id+' data-reviewer='+list[i].review_reviewer+'>수정</a></li>';
+	                str += ' <li>/</li><li><a class= "reply-delete" href="'+list[i].reply_id+'">Delete</a></li> </ul> </div>';
 	                str += '<div class="pro-rating sin-pro-rating">';
 	                str += '<p class="mb-0">'+ list[i].review_content+'</p> </div> </div> </div>';
 				
@@ -594,14 +606,14 @@
 	
     // review Modal show
 	var reviewModal = $("#reviewModal");
-	$('#reviewModal').on('show.bs.modal', function(event) {          
-		reviewModal.find("textarea[name='review_content']").val("");
-		
+	$('#reviewRegisterModalBtn').on("click", function(e){
+		reviewModal.modal("show");
 		reviewModal.find("input[name='review_reviewer']").val(user);
-
-		
-    });	
-
+		reviewModal.find("textarea[name='review_content']").val("");
+		reviewModal.find("button[id='reviewUpdateBtn']").hide();
+		reviewModal.find("button[id='reviewRegisterBtn']").show();
+	})
+	
 	// review register
 	$("#reviewRegisterBtn").on("click",function(e){
 		var review = {
@@ -616,26 +628,65 @@
 			showList(1);
 		});
 	});
+	
+	// show review update modal 
+	$(".reviews-tab-desc").on("click", "ul li .review-update", function(e){
+		e.preventDefault();
+		
+		if(!user){
+			alert("로그인 후 수정이 가능합니다.");
+			return;
+		}
+		
+		var review_id = $(this).attr("href");
+		
+		reviewService.get(review_id,function(review){
+			if(user !=review.review_reviewer){
+				alert("자신이 작성한 리뷰만 수정할 수 있습니다.");
+				return;
+			}
+			reviewModal.find("textarea[name='review_content']").val(review.review_content);
+			reviewModal.find("input[name='review_reviewer']").val(user);
+			reviewModal.find("button[id='reviewRegisterBtn']").hide();
+			reviewModal.find("button[id='reviewUpdateBtn']").show();
+			reviewModal.data("review_id", review.review_id);
+			reviewModal.modal("show");
+		});
+	});
+	
+	// review update
+	$("#reviewUpdateBtn").on("click", function(e){
+		var review = {
+				review_id : reviewModal.data("review_id"),
+				review_content : reviewModal.find("textarea[name='review_content']").val(),
+				review_reviewer : reviewModal.find("input[name='review_reviewer']").val(),
+				review_rating : reviewModal.find("input[name='review_rating']:checked").val(),
+				product_id : productID
+		};
+		reviewService.update(review, function(result){
+			alert("result: "+result);
+			reviewModal.modal("hide");
+			showList(1);
+		});
+	});
 
 	// review delete
 	$(".reviews-tab-desc").on("click", "ul li .review-delete", function(e){
 		e.preventDefault();
 		
 		var review_id = $(this).attr("href");
+		var originalReviewer = $(this).data('reviewer');
 		
 		if(!user){
 			alert("로그인 후 삭제가 가능합니다.");
 			return;
 		}
-		var originalReviewer = $(this).data('reviewer');
-		
 		if( user != originalReviewer){
 			alert("자신이 작성한 리뷰만 삭제가 가능합니다.");
 			return;
 		}
 		reviewService.remove(review_id, originalReviewer, function(result){
 				alert("remove result:"+result);
-				reviewModal.modal("hide");
 				showList(1);
 		});
 	});
@@ -648,25 +699,69 @@
 		showList(pageNum);
 	});
 	
-	// reply Modal show
+	// ========= reply =============
+	// show reply register modal
 	var replyModal = $("#replyModal");
-	$('#replyModal').on('show.bs.modal', function(event) {
-	
+	$(".reviews-tab-desc").on("click", "ul li .reply-register", function(e){
+		e.preventDefault();
+		
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			alert("관리자만 답글을 쓸 수 있습니다.");
+			return;
+		</sec:authorize>
 		replyModal.find("textarea[name='reply_content']").val("");
 		replyModal.find("input[name='reply_replier']").val(user);
-		//replyModal.find("input[name='review_id']").val($(".replyModalBtn").data('id'));
-    });	
-
+		replyModal.data("review_id", $(this).data('id'));
+		replyModal.find("button[id='replyRegisterBtn']").show();
+		replyModal.find("button[id='replyUpdateBtn']").hide();
+		replyModal.modal("show");
+	});
 	
 	// reply register
 	$("#replyRegisterBtn").on("click",function(e){
 		var reply = {
 				review_content : replyModal.find("textarea[name='reply_content']").val(),
 				review_reviewer : replyModal.find("input[name='reply_replier']").val(),
-				review_id : replyModal.find("input[name='review_id']").val()
+				review_id : replyModal.data("review_id")
 		};
 		replyService.add(reply, function(result){
 			alert("register reply result: " + result);
+			replyModal.modal("hide");
+			showList(1);
+		});
+	});
+	
+	// reply update modal show
+	$(".reviews-tab-desc").on("click", "ul li .reply-update", function(e){
+		e.preventDefault();
+		
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			alert("관리자만 답글을 수정할 수 있습니다.");
+			return;
+		</sec:authorize>
+		
+		var reply_id = $(this).attr("href");
+		
+		replyService.get(reply_id, function(reply){
+			console.log(reply);
+			replyModal.find("textarea[name='reply_content']").val(reply.review_content);
+			replyModal.find("input[name='reply_replier']").val(user);
+			replyModal.find("button[id='replyRegisterBtn']").hide();
+			replyModal.find("button[id='replyUpdateBtn']").show();
+			replyModal.data("reply_id", reply.reply_id);
+			replyModal.modal("show");
+		});
+	});
+	
+	// reply update
+	$("#replyUpdateBtn").on("click", function(e){
+		var reply = {
+				reply_id : replyModal.data("reply_id"),
+				review_content : replyModal.find("textarea[name='reply_content']").val(),
+				review_reviewer : replyModal.find("input[name='reply_replier']").val()
+		};
+		replyService.update(reply, function(result){
+			alert("result: "+result);
 			replyModal.modal("hide");
 			showList(1);
 		});
@@ -676,11 +771,12 @@
 	$(".reviews-tab-desc").on("click", "ul li .reply-delete", function(e){
 		e.preventDefault();
 		
-		var reply_id = $(this).attr("href");
 		if(!user){
 			alert("로그인 후 삭제가 가능합니다.");
 			return;
 		}
+		
+		var reply_id = $(this).attr("href");
 		
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
 		replyService.remove(reply_id, function(result){
@@ -692,24 +788,7 @@
 		
 		<sec:authorize access="!hasRole('ROLE_ADMIN')">
 			alert("관리자만 삭제가 가능합니다.");
-		</sec:authorize>
-		
-		
-	});
-	
-	// reply delete
-	$(".reviews-tab-desc").on("click", "ul li .replyModalBtn", function(e){
-		e.preventDefault();
-		
-		<sec:authorize access="!hasRole('ROLE_ADMIN')">
-			alert("관리자만 답글을 쓸 수 있습니다.");
-		</sec:authorize>
-		
-		<sec:authorize access="hasRole('ROLE_ADMIN')">
-			replyModal.modal("show");
-			replyModal.find("input[name='review_id']").val($(this).data('id'));
-		</sec:authorize>
-		
+		</sec:authorize>		
 	});
 	
  });

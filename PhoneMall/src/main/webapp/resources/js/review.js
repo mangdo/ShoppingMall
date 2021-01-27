@@ -43,7 +43,7 @@ var reviewService = (function(){
 		$.ajax({
 			type : 'delete',
 			url : '/reviews/'+ review_id,
-			data : JSON.stringify({review_id:review_id, reviewer:reviewer}),
+			data : JSON.stringify({review_id:review_id, review_reviewer:reviewer}),
 			contentType : "application/json; charset=utf-8",
 			success : function(deleteResult, stauts, xhr){
 				if(callback){
@@ -56,6 +56,27 @@ var reviewService = (function(){
 			}
 		});
 	}
+	
+	function update(review, callback, error){
+		
+		$.ajax({
+			type : 'put',
+			url : '/reviews/'+review.review_id,
+			data : JSON.stringify(review),
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr){
+				if(callback){
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er){
+				if(error){
+					error(er);
+				}
+			}
+		})
+	}
+	
 	function get(review_id, callback, error){
 		$.get("/reviews/"+review_id+".json", function(result){
 			if(callback){
@@ -86,6 +107,7 @@ var reviewService = (function(){
 		add:add,
 		getList : getList,
 		remove: remove,
+		update :update,
 		get : get,
 		displayTime : displayTime
 	

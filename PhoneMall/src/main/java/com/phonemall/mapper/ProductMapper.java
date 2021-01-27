@@ -22,4 +22,6 @@ public interface ProductMapper {
 	public int update(ProductVO product);
 	
 	public void updateReview(@Param("product_id") Long product_id, @Param("amount") int amount);
+
+	public List<ProductVO> myReviewProductList(@Param("cri") Criteria cri, @Param("reviewer") String reviewer);
 }

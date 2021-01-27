@@ -128,11 +128,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
                                             </c:forEach>
                                             <!-- product-item end -->
-
-
                                         </div>
                                     </div>
                                     <!-- list-view -->
@@ -161,11 +158,23 @@
                                                             	<c:out value="${product.product_title }"/></a>
                                                             </h6>
                                                             <div class="pro-rating f-right">
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
+                                                                
+                                                        	<c:forEach var="i" begin="1" end="${product.product_rating }" >
+                                                        		<a><i class="zmdi zmdi-star"></i></a>
+                                                        		<c:set var="rating">${i}</c:set>
+                                                        	</c:forEach>
+                                                        	
+                                                        	<c:if test="${ product.product_rating - rating >= 0.5 }">
+                                                        		<a><i class="zmdi zmdi-star-half"></i></a>
+                                                        	</c:if>
+                                                        	<c:if test="${ product.product_rating - rating < 0.5 }">
+                                                        		<a><i class="zmdi zmdi-star-outline"></i></a>
+                                                        	</c:if>
+                                                        	<c:forEach var="i" begin="${product.product_rating+2}" end="5">
+                                                        		<a><i class="zmdi zmdi-star-outline"></i></a>
+                                                        	</c:forEach>
+                                       						<b><c:out value="${product.product_rating }"/></b>&nbsp;(<c:out value="${product.review_count }"/>)               
+                                                        
                                                             </div>
                                                         </div>
                                                         <h6 class="brand-name mb-30">
