@@ -63,12 +63,13 @@
                                 <div class="tab-content">
                                 	
                                     <!-- grid-view -->
-                                    <div role="tabpanel" class="tab-pane active" id="grid-view">	
+                                    <div role="tabpanel" class="tab-pane active" id="grid-view">                                    	
                                         <div class="row">
-                                        
+                                        	
                                             <c:forEach items="${list}" var="product" varStatus="varstatus">
                                             
 				                            <!-- product-item start -->
+				                            
                                             <div class="col-md-4 col-sm-4 col-xs-12">
                                                 <div class="product-item" >
                                                 
@@ -84,6 +85,7 @@
 														</script>
                                                         </a>
                                                     </div>
+                                                  
                                                     <div class="product-info">
                                                         <h6 class="product-title">
                                                         	<a class ='move' href='<c:out value="${product.product_id}"/>'>
@@ -95,15 +97,18 @@
                                                             <a href="#"><i class="zmdi zmdi-star"></i></a>
                                                             <a href="#"><i class="zmdi zmdi-star-half"></i></a>
                                                             <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
-                                                        </div>
+                                                        </div>                                                        
                                                         <h3 class="pro-price"><c:out value="${product.product_price }"/> 원</h3>
-                                                        <ul class="action-button">
-                                                            <li>
-                                                                <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
+                                                        <form name="wishListform" method="post" action="/product/insertWishList">
+                                                        <ul class="action-button">                                                        
+                                                            <li>       
+                                                            	<input type="hidden" name="product_id" value="${product.product_id}"/>                                             
+                                                                <a title="wishlist"><button onclick="alert('성공적으로 추가되었습니다!')" type="submit" title="Wishlist"><i class="zmdi zmdi-favorite"></i></button></a>                                                                
                                                             </li>
+                                                        
                                                             <li>
                                                                 <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"
-                                                                 data-id="${product.product_id}" data-title="${product.product_title }" data-price="${product.product_price}" data-information="${product.product_information}">
+                                                                 data-id="${product.product_id}" data-title="${product.product_title }" data-price="${product.product_price}" data-information="${product.product_information}">                                                                
                                                                 	<i class="zmdi zmdi-zoom-in"></i>
                                                                 </a>
                                                             </li>
@@ -114,17 +119,19 @@
                                                                 <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                             </li>
                                                         </ul>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             </c:forEach>
+                                            
                                             <!-- product-item end -->
 
 
-                                        </div>
+                                        </div>                                                                            
                                     </div>
-                                    <!-- list-view -->
+                                                                        <!-- list-view -->                             
                                     <div role="tabpanel" class="tab-pane" id="list-view">
                                         <div class="row">
 	                                        <c:forEach items="${list}" var="product" varStatus="varstatus">
@@ -187,7 +194,6 @@
                                         </div>                                        
                                     </div>
                                 </div>
-                                
                                 <!-- Tab Content end -->
                                 <!-- shop-pagination start -->
                                 <ul class="shop-pagination box-shadow text-center ptblr-10-30">

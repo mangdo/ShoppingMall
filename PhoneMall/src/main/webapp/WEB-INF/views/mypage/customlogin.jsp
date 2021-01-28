@@ -36,7 +36,7 @@
                         <div class="col-md-6">
                             <div class="registered-customers">
                                 <h6 class="widget-title border-left mb-50">REGISTERED CUSTOMERS</h6>
-                                <form action='<c:url value="/mypage/login"/>' method="post">
+                                <form id="my-form" action='<c:url value="/mypage/login"/>' method="post">
                                     <div class="login-account p-30 box-shadow">
                                         <p>If you have an account with us, Please log in.</p>
                                         <h3><c:out value = "${error}"/></h3>
@@ -45,7 +45,7 @@
                                         	<input type="text" name="email" placeholder="Email">                                    
                                         	<input type="password" name="userpw" placeholder="Password">
                                      
-                                        <p><small><a href="/mypage/newCustomers">If you don't have account, please join us!</a></small></p>
+                                        <p><a href="/mypage/newCustomers">If you don't have account, please join us!</a></p>
                                         <button class="submit-btn-1 btn-hover-1" type="submit">login</button>
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_crsf.token}"  />
                                     	</div>
@@ -62,7 +62,6 @@
 
         </div>
         
-
         <!-- End page content -->
 <%@include file="/WEB-INF/views/layout/foot.jsp" %>
 

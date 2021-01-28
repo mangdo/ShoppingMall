@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 @Service
 public class UserServiceImpl implements UserService{
 	
+
 	private UserMapper mapper;
 	
 	@Override
@@ -21,5 +22,9 @@ public class UserServiceImpl implements UserService{
 	
 	public void registerAuth(AuthVO authVO) {
 		mapper.insertAuth(authVO);
+	}
+	
+	public void updateMember(UserVO userVO) {
+		mapper.update(userVO);
 	}
 }

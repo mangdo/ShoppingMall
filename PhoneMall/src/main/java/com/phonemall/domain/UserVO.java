@@ -1,9 +1,14 @@
 package com.phonemall.domain;
 
+
+
+import java.util.List;
+
 import lombok.Data;
 
 @Data
-public class UserVO {	
+public class UserVO{	
+
 	private String email;
 	private String userpw;
 	private String lastname;
@@ -12,5 +17,5 @@ public class UserVO {
 	private String phonenum;
 	private String address;
 	private int enabled;
-
+	private List<AuthVO> authList;
 }

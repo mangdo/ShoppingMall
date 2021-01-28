@@ -1,9 +1,12 @@
 package com.phonemall.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,11 +28,12 @@ public class UserRegisterController {
 	@Setter(onMethod_=@Autowired)
 	private UserService userService;
 	
-	//회원가입 페이지
-	@GetMapping	
+	//member register page
+	@GetMapping("/newCustomers")
 	public String newCustomerPage() {		
 		return "/mypage/newCustomers";
 	}
+	
 	
 	@PostMapping
 	public String register(UserVO userVO, AuthVO authVO, RedirectAttributes redirectAttributes){
@@ -41,7 +45,30 @@ public class UserRegisterController {
 		userService.registerAuth(authVO);
 		redirectAttributes.addFlashAttribute("msg","REGISTERED");
 		
-		return "redirect:/mypage/customlogin";
+		return "redirect:/";
 		
 	}
+	
+	//member update page
+	@RequestMapping("/infoModify")
+	public String toInfoModify() {
+		return "/mypage/infoModify";
+	}
+	
+	@PostMapping("/update")
+	public String update(@ModelAttribute UserVO vo, HttpSession session) {
+		userService.updateMember(vo);
+		log.info(vo);
+		session.invalidate();
+		return "redirect:/";
+		
+	}
+	
+	//member info page
+	@GetMapping("/myInfo")
+	public String toMyInfo() {
+		return "/mypage/myInfo";
+	}
+
+	
 }

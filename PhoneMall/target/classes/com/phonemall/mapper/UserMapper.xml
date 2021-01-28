@@ -29,4 +29,17 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO memberauth (email, auth)
 		VALUES ( #{email}, "ROLE_MEMBER")
 	</insert>
+	
+	<update id="update">
+		UPDATE memberinfo
+		SET 
+			lastname = #{lastname},
+			firstname = #{firstname},
+			postalcode = #{postalcode},
+			phonenum = #{phonenum},
+			address = #{address} 
+		WHERE
+			email = #{email}
+	</update>
+	
 </mapper>

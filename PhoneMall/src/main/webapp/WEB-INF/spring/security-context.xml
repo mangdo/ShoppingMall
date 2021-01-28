@@ -5,30 +5,24 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<bean id = "customUserDetailsService" class="com.phonemall.security.CustomUserDetailsService"></bean>
 <bean id = "customAccessDenied" class="com.phonemall.security.CustomAccessDeniedHandler"></bean>
 <bean id = "customLoginSuccess" class="com.phonemall.security.CustomLoginSuccessHandler"></bean>
-<!--  <bean id = "customPasswordEncoder" class="com.phonemall.security.CustomNoOpPasswordEncoder"></bean>-->
 <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 <security:http auto-config="true" use-expressions="true">
 	
-	<security:intercept-url pattern="/**" access="permitAll" />
-	<security:intercept-url pattern="/mypage/customlogin" access="permitAll" />	
+	<!--  <security:intercept-url pattern="/**" access="permitAll" /> -->
+	<security:intercept-url pattern="/mypage/customlogin" access="permitAll" />
+	<security:intercept-url pattern="/myPurchase" access="hasRole('ROLE_MEMBER')" />	
 	<security:form-login login-page="/mypage/customlogin" login-processing-url="/mypage/login" username-parameter="email" password-parameter="userpw" default-target-url="/"/>
 	<security:csrf disabled="true" />
 </security:http>
 
-<security:authentication-manager>
+<security:authentication-manager>	
 
-	<security:authentication-provider>
-		
-		<security:jdbc-user-service data-source-ref = "dataSource" 
-		users-by-username-query="SELECT EMAIL, USERPW, ENABLED FROM MEMBERINFO WHERE EMAIL=?"
-		authorities-by-username-query="SELECT EMAIL, AUTH FROM MEMBERAUTH WHERE EMAIL=?" 
-		/>
-
+	<security:authentication-provider user-service-ref="customUserDetailsService">	
+				 
 		<security:password-encoder ref="bcryptPasswordEncoder" />
-		
-		
 		
 	</security:authentication-provider>
 	
