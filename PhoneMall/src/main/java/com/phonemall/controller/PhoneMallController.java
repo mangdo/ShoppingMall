@@ -40,11 +40,6 @@ public class PhoneMallController {
 		return "/mypage/myPurchase";
 	}
 	
-	@RequestMapping("/wishList")
-	public String toWishList() {
-		return "/mypage/wishList";
-	}
-	
 
 	
 	@RequestMapping("/viewCart")

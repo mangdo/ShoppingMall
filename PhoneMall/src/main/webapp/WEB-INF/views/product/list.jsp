@@ -23,7 +23,7 @@
             </div>
         </div>
         <!-- BREADCRUMBS SETCTION END -->
-
+		
         <!-- Start page content -->
         <div id="page-content" class="page-wrapper">
         	
@@ -97,13 +97,14 @@
                                                             <a href="#"><i class="zmdi zmdi-star"></i></a>
                                                             <a href="#"><i class="zmdi zmdi-star-half"></i></a>
                                                             <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
-                                                        </div>                                                        
+                                                        </div>
+                                                                                                              
                                                         <h3 class="pro-price"><c:out value="${product.product_price }"/> 원</h3>
                                                         <form name="wishListform" method="post" action="/product/insertWishList">
                                                         <ul class="action-button">                                                        
                                                             <li>       
                                                             	<input type="hidden" name="product_id" value="${product.product_id}"/>                                             
-                                                                <a title="wishlist"><button onclick="alert('성공적으로 추가되었습니다!')" type="submit" title="Wishlist"><i class="zmdi zmdi-favorite"></i></button></a>                                                                
+                                                                <a title="wishlist"><button onclick="alert('wishlist에 추가되었습니다!')" type="submit" title="Wishlist"><i class="zmdi zmdi-favorite"></i></button></a>                                                                
                                                             </li>
                                                         
                                                             <li>

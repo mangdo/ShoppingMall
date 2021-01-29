@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html class="no-js" lang="en">
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <head>
     <meta charset="utf-8">
@@ -63,10 +64,11 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="/wishList">
+                                 		<a href="/mypage/wishList">
                                             <i class="zmdi zmdi-favorite"></i>
-                                            Wish List (0)
-                                        </a>
+                                            Wish List
+                                         </a>                                       
+                                   
                                     </li>
                                     <li>
                                     	<sec:authorize access="isAnonymous()">
