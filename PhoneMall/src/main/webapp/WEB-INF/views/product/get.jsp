@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@include file="/WEB-INF/views/layout/top.jsp" %>
      <!-- BREADCRUMBS SETCTION START -->
         <div class="breadcrumbs-section plr-200 mb-80 section">
@@ -94,12 +95,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="pro-rating sin-pro-rating f-right">
-                                                    <a href="#" tabindex="0"><i class="zmdi zmdi-star"></i></a>
-                                                    <a href="#" tabindex="0"><i class="zmdi zmdi-star"></i></a>
-                                                    <a href="#" tabindex="0"><i class="zmdi zmdi-star"></i></a>
-                                                    <a href="#" tabindex="0"><i class="zmdi zmdi-star-half"></i></a>
-                                                    <a href="#" tabindex="0"><i class="zmdi zmdi-star-outline"></i></a>
-                                                    <span class="text-black-5">( 27 Rating )</span>
+                                                    <c:forEach var="i" begin="1" end="${product.product_rating }" >
+					                              		<a><i class="zmdi zmdi-star"></i></a>
+					                              		<c:set var="rating">${i}</c:set>
+					                              	</c:forEach>
+					                              	<c:forEach var="i" begin="${product.product_rating}" end="4">
+				                                    	<a><i class="zmdi zmdi-star-outline"></i></a>
+				                                    </c:forEach>
+                                                    <span class="text-black-5">( <c:out value="${product.product_rating}"/>점 )</span>
                                                 </div>
                                             </div>
                                             <!-- hr -->
@@ -146,9 +149,11 @@
                                                 <a href="#" class="button extra-small button-black" tabindex="-1">
                                                     <span class="text-uppercase">Buy now</span>
                                                 </a>
+                                                <sec:authorize access="hasRole('ROLE_ADMIN')">
                                                 <a class="button extra-small button-black" tabindex="-1" data-oper='modify'>
 	                            					<span>수정</span>
 	                                            </a>
+	                                            </sec:authorize>
                                             </div>
                                             
                                         </div>
@@ -164,11 +169,11 @@
                                             <ul class="nav mb-20">
                                                 <li><a class="active" href="#description" data-toggle="tab">description</a></li>
                                                 <li><a href="#information" data-toggle="tab">information</a></li>
-                                                <li><a href="#reviews" data-toggle="tab">reviews</a></li>
+                                                <li><a href="#reviews" data-toggle="tab" id="reviews-tab">reviews</a></li>
                                             </ul>
                                             <div class="tab-content">
                                                 <div role="tabpanel" class="tab-pane active" id="description">
-                                                    <p> 상품 설명입니다. </p>
+                                                    <p> 상품 설명입니다.'${_csrf.token}' </p>
                                                     <p>  <c:out value="${product.product_description}"/>  </p>
                                                     
                                                 </div>
@@ -177,59 +182,17 @@
                                                     <p> <c:out value="${product.product_information}"/> </p>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="reviews">
+                                                	<sec:authorize access="hasRole('ROLE_MEMBER')">
+	                                                	<a class="button extra-small button-black mb-20" id="reviewRegisterModalBtn">
+		                            					<span>리뷰 등록</span>
+		                                            	</a>
+	                                            	</sec:authorize>
                                                     <!-- reviews-tab-desc -->
-                                                    <div class="reviews-tab-desc">
-                                                        <!-- single comments -->
-                                                        <div class="media mt-30">
-                                                            <div class="media-left">
-                                                                <a href="#"><img class="media-object" src="/resources/img/author/1.jpg"
-                                                                        alt="#"></a>
-                                                            </div>
-                                                            <div class="media-body">
-                                                                <div class="clearfix">
-                                                                    <div class="name-commenter pull-left">
-                                                                        <h6 class="media-heading"><a href="#">Gerald Barnes</a>
-                                                                        </h6>
-                                                                        <p class="mb-10">27 Jun, 2019 at 2:30pm</p>
-                                                                    </div>
-                                                                    <div class="pull-right">
-                                                                        <ul class="reply-delate">
-                                                                            <li><a href="#">Reply</a></li>
-                                                                            <li>/</li>
-                                                                            <li><a href="#">Delate</a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur
-                                                                    adipiscing elit. Integer accumsan egestas .</p>
-                                                            </div>
-                                                        </div>
-                                                        <!-- single comments -->
-                                                        <div class="media mt-30">
-                                                            <div class="media-left">
-                                                                <a href="#"><img class="media-object" src="/resources/img/author/2.jpg"
-                                                                        alt="#"></a>
-                                                            </div>
-                                                            <div class="media-body">
-                                                                <div class="clearfix">
-                                                                    <div class="name-commenter pull-left">
-                                                                        <h6 class="media-heading"><a href="#">Gerald Barnes</a>
-                                                                        </h6>
-                                                                        <p class="mb-10">27 Jun, 2019 at 2:30pm</p>
-                                                                    </div>
-                                                                    <div class="pull-right">
-                                                                        <ul class="reply-delate">
-                                                                            <li><a href="#">Reply</a></li>
-                                                                            <li>/</li>
-                                                                            <li><a href="#">Delate</a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur
-                                                                    adipiscing elit. Integer accumsan egestas .</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <div class="reviews-tab-desc"> </div>
+                                                    <br>
+                                                    <!-- review pagination -->
+                                                    <ul class="shop-pagination box-shadow text-center ptblr-10-30"> </ul>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -425,9 +388,87 @@
 	<input type="hidden" id='product_id' name='product_id' value='<c:out value="${product.product_id}"/>'>
 </form>
 
- <%@include file="/WEB-INF/views/layout/foot.jsp" %>
- 
- <script type="text/javascript">
+<%@include file="/WEB-INF/views/layout/foot.jsp" %>
+
+<!-- Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            	<h4 class="modal-title">리뷰 작성</h4>
+            </div>
+            <div class="modal-body">
+
+            	<div class="form-group">
+	            	<label>리뷰 평점</label><br>
+	            	<c:forEach var="i" begin="0" end="4">
+	            		<input type="radio" name="review_rating" value="${5-i}">
+	            		<div class="pro-rating sin-pro-rating" style="display:inline-block">
+	            			<c:forEach var="j" begin="1" end="${5-i}">
+	            				<a><i class="zmdi zmdi-star"></i></a>
+	            			</c:forEach>
+	            			<c:forEach var="j" begin="1" end="${i}">
+	            				<a><i class="zmdi zmdi-star-outline"></i></a>
+	            			</c:forEach>
+	            		</div> &nbsp;
+	            	</c:forEach>
+            	</div>
+            	<div class="form-group">
+            		<label>리뷰 내용</label>
+            		<textarea class="form-control" name="review_content" placeholder="리뷰를 작성해주세요"></textarea>
+            	</div>
+            	<div class="form-group">
+            		<label>리뷰 작성자</label>
+            		<input class="form-control" name="review_reviewer" readonly="readonly">
+            	</div>
+            	
+            </div><!-- .modal-body -->
+            
+            <div class="modal-footer">
+            	<button id="reviewRegisterBtn" class="submit-btn-1 btn-hover-1" type="button">등록</button>
+            	<button id="reviewUpdateBtn" class="submit-btn-1 btn-hover-1" type="button">수정</button>
+            	<button class="submit-btn-1 btn-hover-1" data-dismiss="modal" aria-label="Close" style="background-color : #575757;">취소</button>
+            </div>
+        </div><!-- .modal-content -->
+    </div><!-- .modal-dialog -->
+</div>
+<!-- END review Modal -->
+
+<!-- reply Modal -->
+<div class="modal fade" id="replyModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            	<h4 class="modal-title">판매자 답글 작성</h4>
+            </div>
+            <div class="modal-body">
+            	<div class="form-group">
+            		<label>답글 내용</label>
+            		<textarea class="form-control" name="reply_content" placeholder="답글을 작성해주세요"></textarea>
+            	</div>
+            	<div class="form-group">
+            		<label>답글 작성자</label>
+            		<input class="form-control" name="reply_replier" readonly= readonly>
+            	</div>
+
+            </div><!-- .modal-body -->
+            
+            <div class="modal-footer">
+            	<button id="replyRegisterBtn" class="submit-btn-1 btn-hover-1" type="button">등록</button>
+            	<button id="replyUpdateBtn" class="submit-btn-1 btn-hover-1" type="button">수정</button>
+            	<button class="submit-btn-1 btn-hover-1" data-dismiss="modal" aria-label="Close" style="background-color : #575757;">취소</button>
+            </div>
+        </div><!-- .modal-content -->
+    </div><!-- .modal-dialog -->
+</div>
+<!-- END reply Modal -->
+
+
+<script type="text/javascript" src="/resources/js/review.js"></script>
+<script type="text/javascript" src="/resources/js/reply.js"></script>
+<script type="text/javascript">
  $(document).ready(function(){
 	 
 	 // Immediately-invoked function to get colorList 
@@ -466,6 +507,289 @@
 	 $("a[data-oper='modify']").on("click",function(e){
 		operForm.attr("action","/product/modify").submit();
 	 });
+	
+	 // ============ review ===============
+	 var productID = '<c:out value="${product.product_id}"/>';
+	 var reviewsTabDiv =$(".reviews-tab-desc");
 	 
+	// show review list function
+	 function showList(page){
+		 reviewService.getList({product_id : productID, page:page||1}, function(reviewTotal, list){
+			 
+			 var str="";
+			 if(list == null || list.length == 0){
+				 reviewsTabDiv.html("<p>아직 작성된 리뷰가 없습니다.</p>");
+				 return;
+			 }
+			for(var i=0, len = list.length||0; i<len; i++){
+				if(list[i].reply_id==null){ //review
+					str += '<div class="media mt-30">';
+					str += '<div class="media-left"><img class="media-object" src="/resources/img/author/5.jpg">';
+	                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
+	                str += '<h6 class="media-heading">'+list[i].review_reviewer.substring(0,3)+"****"+'</h6>';
+	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate);
+	                if(list[i].review_updateDate){
+	                	str += '<br>'+reviewService.displayTime(list[i].review_updateDate)+'(수정됨)';
+	                }
+	                str += '</p></div> <ul class="reply-delate pull-right"> <li><a class="reply-register" data-id='+list[i].review_id+'>답글</a></li> <li>/</li> ';
+	                str += '<li><a class= "review-update" href='+list[i].review_id+' data-reviewer='+list[i].review_reviewer+'>수정</a></li> <li>/</li> <li><a class= "review-delete" href='+list[i].review_id+' data-reviewer='+list[i].review_reviewer+'>삭제</a></li> ';
+	                str += '</ul> </div> <div class="pro-rating sin-pro-rating" style="display:inline-block">';
+	                
+					for(var j=0; j < list[i].review_rating; j++){
+						str += '<a><i class="zmdi zmdi-star"></i></a>';
+					}
+					for(var j=0; j < 5-list[i].review_rating; j++){
+						str += '<a><i class="zmdi zmdi-star-outline"></i></a>';
+					}
+					str += '<p class="mb-0">'+ list[i].review_content+'</p> </div> </div> </div>';
+				}
+				else{ // reply
+					str += '<div class="media" style="background-color:#f6f6f6; margin-left:40px;margin-top:0px; padding:15px">';
+					
+					str += '<div class="media-left"><img class="media-object" src="/resources/img/author/4.jpg">';
+	                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
+	                str += '<h6 class="media-heading">'+"판매자"+'</h6>';
+	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate);
+	                if(list[i].review_updateDate){
+	                	str += '<br>'+reviewService.displayTime(list[i].review_updateDate)+'(수정됨)';
+	                }
+	                str += '</p></div> <ul class="reply-delate pull-right"> <li><a class= "reply-update" href='+list[i].reply_id+' data-reviewer='+list[i].review_reviewer+'>수정</a></li>';
+	                str += ' <li>/</li><li><a class= "reply-delete" href="'+list[i].reply_id+'">Delete</a></li> </ul> </div>';
+	                str += '<div class="pro-rating sin-pro-rating">';
+	                str += '<p class="mb-0">'+ list[i].review_content+'</p> </div> </div> </div>';
+				
+				}
+				
+			}
+			reviewsTabDiv.html(str);
+			showReviewPage(reviewTotal);
+		});
+	 }// end showList function
+	 
+	 var pageNum = 1;
+	 // Review pagination function
+	 function showReviewPage(reviewTotal){
+		 var endNum = Math.ceil(pageNum/5.0)*5;
+		 var startNum = endNum - 4;
+		 
+		 var prev = startNum!=1;
+		 var next = false;
+		 if(endNum*5 >= reviewTotal){
+			 endNum = Math.ceil(reviewTotal/5.0);
+		 }
+		 if(endNum*5 < reviewTotal){
+			 next = true;
+		 }
+		 var str = "";
+		 if(prev){
+			 str += '<li class="paginate_button"><a href="'+(startNum-1)+'"><i class="zmdi zmdi-chevron-left"></i></a></li>';
+		 }
+		 for(var i=startNum; i<= endNum; i++){
+			 var active = pageNum == i? "active":"";
+			 str += '<li class="paginate_button '+active+'" style="margin-right: 3px;"><a href="'+i+'">'+i+'</a></li>';
+		 }
+		 if(next){
+			 str += '<li class="paginate_button active"> <a href="'+(endNum+1)+'"><i class="zmdi zmdi-chevron-right"></i></a></li>';
+		 }
+		 $(".shop-pagination").html(str);
+	 }                 	
+                                	
+     // review tab click
+	 $("#reviews-tab").on("click", function(e){
+		 showList(1);
+	 });
+	 
+	 var user = "";
+	<sec:authorize access="isAuthenticated()">
+		user ='<sec:authentication property="principal.username"/>';
+	</sec:authorize>
+	
+    // review Modal show
+	var reviewModal = $("#reviewModal");
+	$('#reviewRegisterModalBtn').on("click", function(e){
+		reviewModal.modal("show");
+		reviewModal.find("input[name='review_reviewer']").val(user);
+		reviewModal.find("textarea[name='review_content']").val("");
+		reviewModal.find("button[id='reviewUpdateBtn']").hide();
+		reviewModal.find("button[id='reviewRegisterBtn']").show();
+	})
+	
+	// review register
+	$("#reviewRegisterBtn").on("click",function(e){
+		var review = {
+				review_content : reviewModal.find("textarea[name='review_content']").val(),
+				review_reviewer : reviewModal.find("input[name='review_reviewer']").val(),
+				review_rating : reviewModal.find("input[name='review_rating']:checked").val(),
+				product_id : productID
+		};
+		reviewService.add(review, function(result){
+			alert("result: "+result);
+			reviewModal.modal("hide");
+			showList(1);
+		});
+	});
+	
+	// show review update modal 
+	$(".reviews-tab-desc").on("click", "ul li .review-update", function(e){
+		e.preventDefault();
+		
+		if(!user){
+			alert("로그인 후 수정이 가능합니다.");
+			return;
+		}
+		
+		var review_id = $(this).attr("href");
+		
+		reviewService.get(review_id,function(review){
+			if(user !=review.review_reviewer){
+				alert("자신이 작성한 리뷰만 수정할 수 있습니다.");
+				return;
+			}
+			reviewModal.find("textarea[name='review_content']").val(review.review_content);
+			reviewModal.find("input[name='review_reviewer']").val(user);
+			reviewModal.find("button[id='reviewRegisterBtn']").hide();
+			reviewModal.find("button[id='reviewUpdateBtn']").show();
+			reviewModal.data("review_id", review.review_id);
+			reviewModal.modal("show");
+		});
+	});
+	
+	// review update
+	$("#reviewUpdateBtn").on("click", function(e){
+		var review = {
+				review_id : reviewModal.data("review_id"),
+				review_content : reviewModal.find("textarea[name='review_content']").val(),
+				review_reviewer : reviewModal.find("input[name='review_reviewer']").val(),
+				review_rating : reviewModal.find("input[name='review_rating']:checked").val(),
+				product_id : productID
+		};
+		reviewService.update(review, function(result){
+			alert("result: "+result);
+			reviewModal.modal("hide");
+			showList(1);
+		});
+	});
+
+	// review delete
+	$(".reviews-tab-desc").on("click", "ul li .review-delete", function(e){
+		e.preventDefault();
+		
+		var review_id = $(this).attr("href");
+		var originalReviewer = $(this).data('reviewer');
+		
+		if(!user){
+			alert("로그인 후 삭제가 가능합니다.");
+			return;
+		}
+		if( user != originalReviewer){
+			alert("자신이 작성한 리뷰만 삭제가 가능합니다.");
+			return;
+		}
+		reviewService.remove(review_id, originalReviewer, function(result){
+				alert("remove result:"+result);
+				showList(1);
+		});
+	});
+	
+	// review pagination
+	$(".shop-pagination").on("click","li a", function(e){
+		e.preventDefault();
+		var targetReviewPage = $(this).attr("href");
+		pageNum = targetReviewPage;
+		showList(pageNum);
+	});
+	
+	// ========= reply =============
+	// show reply register modal
+	var replyModal = $("#replyModal");
+	$(".reviews-tab-desc").on("click", "ul li .reply-register", function(e){
+		e.preventDefault();
+		
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			alert("관리자만 답글을 쓸 수 있습니다.");
+			return;
+		</sec:authorize>
+		replyModal.find("textarea[name='reply_content']").val("");
+		replyModal.find("input[name='reply_replier']").val(user);
+		replyModal.data("review_id", $(this).data('id'));
+		replyModal.find("button[id='replyRegisterBtn']").show();
+		replyModal.find("button[id='replyUpdateBtn']").hide();
+		replyModal.modal("show");
+	});
+	
+	// reply register
+	$("#replyRegisterBtn").on("click",function(e){
+		var reply = {
+				review_content : replyModal.find("textarea[name='reply_content']").val(),
+				review_reviewer : replyModal.find("input[name='reply_replier']").val(),
+				review_id : replyModal.data("review_id")
+		};
+		replyService.add(reply, function(result){
+			alert("register reply result: " + result);
+			replyModal.modal("hide");
+			showList(1);
+		});
+	});
+	
+	// reply update modal show
+	$(".reviews-tab-desc").on("click", "ul li .reply-update", function(e){
+		e.preventDefault();
+		
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			alert("관리자만 답글을 수정할 수 있습니다.");
+			return;
+		</sec:authorize>
+		
+		var reply_id = $(this).attr("href");
+		
+		replyService.get(reply_id, function(reply){
+			console.log(reply);
+			replyModal.find("textarea[name='reply_content']").val(reply.review_content);
+			replyModal.find("input[name='reply_replier']").val(user);
+			replyModal.find("button[id='replyRegisterBtn']").hide();
+			replyModal.find("button[id='replyUpdateBtn']").show();
+			replyModal.data("reply_id", reply.reply_id);
+			replyModal.modal("show");
+		});
+	});
+	
+	// reply update
+	$("#replyUpdateBtn").on("click", function(e){
+		var reply = {
+				reply_id : replyModal.data("reply_id"),
+				review_content : replyModal.find("textarea[name='reply_content']").val(),
+				review_reviewer : replyModal.find("input[name='reply_replier']").val()
+		};
+		replyService.update(reply, function(result){
+			alert("result: "+result);
+			replyModal.modal("hide");
+			showList(1);
+		});
+	});
+	
+	// reply delete
+	$(".reviews-tab-desc").on("click", "ul li .reply-delete", function(e){
+		e.preventDefault();
+		
+		if(!user){
+			alert("로그인 후 삭제가 가능합니다.");
+			return;
+		}
+		
+		var reply_id = $(this).attr("href");
+		
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+		replyService.remove(reply_id, function(result){
+			alert("remove result: "+result);
+			replyModal.modal("hide");
+			showList(1);
+		});
+		</sec:authorize>
+		
+		<sec:authorize access="!hasRole('ROLE_ADMIN')">
+			alert("관리자만 삭제가 가능합니다.");
+		</sec:authorize>		
+	});
+	
  });
 </script>

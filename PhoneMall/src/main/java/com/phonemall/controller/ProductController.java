@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -57,7 +58,7 @@ public class ProductController {
 		model.addAttribute("list",service.getList(cri));
 		int total = service.getTotal(cri);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
-
+		
 		return "/product/list";
 	}
 	
@@ -141,6 +142,7 @@ public class ProductController {
 		
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping({"/modify"})
 	public String modify(@RequestParam("product_id") Long product_id, Model model) {
 		
@@ -150,6 +152,7 @@ public class ProductController {
 		
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/modify")
 	public String modify(ProductVO product, RedirectAttributes rttr, MultipartFile newMainImage, MultipartFile[] newSubImage) {
 		log.info("modify : "+product);
@@ -188,6 +191,7 @@ public class ProductController {
 		return "redirect:/product/list";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/remove")
 	public String remove(@RequestParam("product_id") Long product_id, RedirectAttributes rttr) {
 		log.info("remove product "+product_id);

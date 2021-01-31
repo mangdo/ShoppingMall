@@ -3,7 +3,7 @@
     
     
         <!-- START FOOTER AREA -->
-        <footer id="footer" class="footer-area">
+        <footer id="footer" class="footer-area section">
             <div class="footer-top">
                 <div class="container-fluid">
                     <div class="plr-185">

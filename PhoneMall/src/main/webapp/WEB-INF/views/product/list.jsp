@@ -90,16 +90,30 @@
                                                             <c:out value="${product.product_title }"/></a>
                                                         </h6>
                                                         <div class="pro-rating">
-                                                            <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                            <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                            <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                            <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                            <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
+                                                        	<c:forEach var="i" begin="1" end="${product.product_rating }" >
+                                                        		<a><i class="zmdi zmdi-star"></i></a>
+                                                        		<c:set var="rating">${i}</c:set>
+                                                        	</c:forEach>
+                                                        	
+                                                        	<c:if test="${ product.product_rating - rating >= 0.5 }">
+                                                        		<a><i class="zmdi zmdi-star-half"></i></a>
+                                                        	</c:if>
+                                                        	<c:if test="${ product.product_rating - rating < 0.5 }">
+                                                        		<a><i class="zmdi zmdi-star-outline"></i></a>
+                                                        	</c:if>
+                                                        	<c:forEach var="i" begin="${product.product_rating+2}" end="5">
+                                                        		<a><i class="zmdi zmdi-star-outline"></i></a>
+                                                        	</c:forEach>
+                                       						<b><c:out value="${product.product_rating }"/></b>&nbsp;(<c:out value="${product.review_count }"/>)               
                                                         </div>
+                                                        
+                                                                                                              
                                                         <h3 class="pro-price"><c:out value="${product.product_price }"/> 원</h3>
-                                                        <ul class="action-button">
-                                                            <li>
-                                                                <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
+                                                        <form name="wishListform" method="post" action="/product/insertWishList">
+                                                        <ul class="action-button">                                                        
+                                                            <li>       
+                                                            	<input type="hidden" name="product_id" value="${product.product_id}"/>                                             
+                                                                <a title="wishlist"><button onclick="alert('wishlist에 추가되었습니다!')" type="submit" title="Wishlist"><i class="zmdi zmdi-favorite"></i></button></a>                                                                
                                                             </li>
                                                             <li>
                                                                 <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"
@@ -114,14 +128,12 @@
                                                                 <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                             </li>
                                                         </ul>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                            
                                             </c:forEach>
                                             <!-- product-item end -->
-
-
                                         </div>
                                     </div>
                                     <!-- list-view -->
@@ -150,11 +162,23 @@
                                                             	<c:out value="${product.product_title }"/></a>
                                                             </h6>
                                                             <div class="pro-rating f-right">
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                                <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
+                                                                
+                                                        	<c:forEach var="i" begin="1" end="${product.product_rating }" >
+                                                        		<a><i class="zmdi zmdi-star"></i></a>
+                                                        		<c:set var="rating">${i}</c:set>
+                                                        	</c:forEach>
+                                                        	
+                                                        	<c:if test="${ product.product_rating - rating >= 0.5 }">
+                                                        		<a><i class="zmdi zmdi-star-half"></i></a>
+                                                        	</c:if>
+                                                        	<c:if test="${ product.product_rating - rating < 0.5 }">
+                                                        		<a><i class="zmdi zmdi-star-outline"></i></a>
+                                                        	</c:if>
+                                                        	<c:forEach var="i" begin="${product.product_rating+2}" end="5">
+                                                        		<a><i class="zmdi zmdi-star-outline"></i></a>
+                                                        	</c:forEach>
+                                       						<b><c:out value="${product.product_rating }"/></b>&nbsp;(<c:out value="${product.review_count }"/>)               
+                                                        
                                                             </div>
                                                         </div>
                                                         <h6 class="brand-name mb-30">
@@ -395,7 +419,6 @@ aria-lablelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-body">처리가 완료되었습니다.</div>
 			<div class = "modal-footer">
 				<button type ="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save Change</button>
 				<!-- btn btn-primary는 파란색으로 구성된 버튼을 말한다.btn-success,warning등이 있다. -->
 			</div>
 		</div>

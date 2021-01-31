@@ -101,4 +101,16 @@ public class ProductMapperTests {
 		list.forEach(product->log.info(product));
 	}
 	
+	@Test
+	public void testMyReviewProductList() {
+		Criteria cri = new Criteria(1,5);
+		List<ProductVO> list = mapper.myReviewProductList(cri, "admin");
+		list.forEach(product->log.info(product));
+	}
+	
+	@Test
+	public void testupdateReview() {
+		mapper.updateReview(4L,0);
+		
+	}
 }
