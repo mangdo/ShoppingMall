@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="/WEB-INF/views/layout/top.jsp" %>
 
  <!-- BREADCRUMBS SETCTION START -->
@@ -25,7 +25,7 @@
 
         <!-- Start page content -->
         <section id="page-content" class="page-wrapper">
-
+		
             <!-- SHOP SECTION START -->
             <div class="shop-section mb-80">
                 <div class="container">
@@ -217,10 +217,10 @@
                                     </div>
                                 </div>
                                 <!-- shopping-cart end -->
-                                <!-- wishlist start -->
+                                <!-- wishlist start -->                                
                                 <div class="tab-pane active" id="wishlist">
                                     <div class="wishlist-content">
-                                        <form action="#">
+                                        
                                             <div class="table-content table-responsive mb-50">
                                                 <table class="text-center">
                                                     <thead>
@@ -234,89 +234,56 @@
                                                     </thead>
                                                     <tbody>
                                                         <!-- tr -->
+                                                      <c:forEach var="row" items="${list}"  varStatus="varstatus">
+                                                                                                            
                                                         <tr>
                                                             <td class="product-thumbnail">
                                                                 <div class="pro-thumbnail-img">
-                                                                    <img src="/resources/img/cart/1.jpg" alt="">
+                                                                <img id = 'main-img${varstatus.index}' alt="image error" onError ="this.src='/resources/img/product/9.jpg'">
+			                                            		<script>
+			                                            			var imageName = encodeURIComponent('${row.product_imageList[0].image_uploadPath}'+'/s_'+'${row.product_imageList[0].image_uuid}'+'_'+'${row.product_imageList[0].image_name}');
+			                                            			var realSrc = '/product/display?fileName='+imageName;
+			                                            	
+			                                        				document.getElementById('main-img${varstatus.index}').src= realSrc;
+																</script>
+                                                                    <!--<img src="/resources/img/cart/1.jpg" alt="">  -->
                                                                 </div>
+                                                                
                                                                 <div class="pro-thumbnail-info text-left">
                                                                     <h6 class="product-title-2">
-                                                                        <a href="#">dummy product name</a>
+                                                                        <a href="#">${row.product_title}</a>
                                                                     </h6>
-                                                                    <p>Brand: Brand Name</p>
-                                                                    <p>Model: Grand s2</p>
-                                                                    <p> Color: Black, White</p>
+                                                                    <p>Brand: ${row.product_brand}</p>
+                                                                    <p>Model: ${row.product_type}</p>
+                                                                    <p>Carrier: ${row.product_carrier}</p>
                                                                 </div>
                                                             </td>
-                                                            <td class="product-price">$560.00</td>
-                                                            <td class="product-stock text-uppercase">in stoct</td>
+                                                            <td class="product-price">${row.product_price}</td>
+                                                            <td class="product-stock text-uppercase">in stock</td>
                                                             <td class="product-add-cart">
                                                                 <a href="#" title="Add To Cart">
                                                                     <i class="zmdi zmdi-shopping-cart-plus"></i>
                                                                 </a>
                                                             </td>
+                                                            
                                                             <td class="product-remove">
-                                                                <a href="#"><i class="zmdi zmdi-close"></i></a>
+                                                            	<form name="form1" action="/mypage/deleteWishList" method="post"> 
+                                                            	 <input type="hidden" name="product_id" value="${row.product_id}"/>                                                                                                                   	
+                                                                 <button type="submit"><i class="zmdi zmdi-close"></i></button>                                                                 
+                                                                </form>                                                                 
                                                             </td>
+                                                           
+                                                            
                                                         </tr>
-                                                        <!-- tr -->
-                                                        <tr>
-                                                            <td class="product-thumbnail">
-                                                                <div class="pro-thumbnail-img">
-                                                                    <img src="/resources/img/cart/2.jpg" alt="">
-                                                                </div>
-                                                                <div class="pro-thumbnail-info text-left">
-                                                                    <h6 class="product-title-2">
-                                                                        <a href="#">dummy product name</a>
-                                                                    </h6>
-                                                                    <p>Brand: Brand Name</p>
-                                                                    <p>Model: Grand s2</p>
-                                                                    <p> Color: Black, White</p>
-                                                                </div>
-                                                            </td>
-                                                            <td class="product-price">$560.00</td>
-                                                            <td class="product-stock text-uppercase">in stoct</td>
-                                                            <td class="product-add-cart">
-                                                                <a href="#" title="Add To Cart">
-                                                                    <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                                                </a>
-                                                            </td>
-                                                            <td class="product-remove">
-                                                                <a href="#"><i class="zmdi zmdi-close"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <!-- tr -->
-                                                        <tr>
-                                                            <td class="product-thumbnail">
-                                                                <div class="pro-thumbnail-img">
-                                                                    <img src="/resources/img/cart/3.jpg" alt="">
-                                                                </div>
-                                                                <div class="pro-thumbnail-info text-left">
-                                                                    <h6 class="product-title-2">
-                                                                        <a href="#">dummy product name</a>
-                                                                    </h6>
-                                                                    <p>Brand: Brand Name</p>
-                                                                    <p>Model: Grand s2</p>
-                                                                    <p> Color: Black, White</p>
-                                                                </div>
-                                                            </td>
-                                                            <td class="product-price">$560.00</td>
-                                                            <td class="product-stock text-uppercase">in stoct</td>
-                                                            <td class="product-add-cart">
-                                                                <a href="#" title="Add To Cart">
-                                                                    <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                                                </a>
-                                                            </td>
-                                                            <td class="product-remove">
-                                                                <a href="#"><i class="zmdi zmdi-close"></i></a>
-                                                            </td>
-                                                        </tr>
+                                                       </c:forEach>
+                                                        
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        </form>
+                                        
                                     </div>
                                 </div>
+                               
                                 <!-- wishlist end -->
                                 <!-- checkout start -->
                                 <div class="tab-pane" id="checkout">

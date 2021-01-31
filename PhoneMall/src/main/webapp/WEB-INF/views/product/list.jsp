@@ -107,10 +107,13 @@
                                        						<b><c:out value="${product.product_rating }"/></b>&nbsp;(<c:out value="${product.review_count }"/>)               
                                                         </div>
                                                         
+                                                                                                              
                                                         <h3 class="pro-price"><c:out value="${product.product_price }"/> 원</h3>
-                                                        <ul class="action-button">
-                                                            <li>
-                                                                <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
+                                                        <form name="wishListform" method="post" action="/product/insertWishList">
+                                                        <ul class="action-button">                                                        
+                                                            <li>       
+                                                            	<input type="hidden" name="product_id" value="${product.product_id}"/>                                             
+                                                                <a title="wishlist"><button onclick="alert('wishlist에 추가되었습니다!')" type="submit" title="Wishlist"><i class="zmdi zmdi-favorite"></i></button></a>                                                                
                                                             </li>
                                                             <li>
                                                                 <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"
@@ -125,6 +128,7 @@
                                                                 <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                             </li>
                                                         </ul>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>

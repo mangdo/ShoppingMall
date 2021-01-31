@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.phonemall.mapper.MemberMapper">
+	<resultMap id="memberMap" type="com.phonemall.domain.UserVO">
+		<id column="email" property="email"></id>
+		<result column="userpw" property="userpw"></result>
+		<result column="lastname" property="lastname"></result>
+		<result column="firstname" property="firstname"></result>
+		<result column="postalcode" property="postalcode"></result>
+		<result column="phonenum" property="phonenum"></result>
+		<result column="address" property="address"></result>
+		<collection property="authList" resultMap = "authMap"></collection>
+	</resultMap>
+	
+	<resultMap id="authMap" type="com.phonemall.domain.AuthVO">
+		<result property ="email" column="email"/>
+		<result property ="auth" column="auth"></result>
+	</resultMap>
+	
+	<select id="read" resultMap = "memberMap">
+	 SELECT mem.email, userpw, lastname, firstname, postalcode, phonenum, address, auth FROM memberinfo mem LEFT OUTER JOIN memberauth auth on mem.email = auth.email WHERE mem.email = #{email}
+	</select>
+</mapper>

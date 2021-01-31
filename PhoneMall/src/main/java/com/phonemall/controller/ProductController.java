@@ -58,7 +58,7 @@ public class ProductController {
 		model.addAttribute("list",service.getList(cri));
 		int total = service.getTotal(cri);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
-
+		
 		return "/product/list";
 	}
 	

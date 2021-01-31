@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.phonemall.mapper.WishListMapper"> 
+	<resultMap id="WishListMap" type="com.phonemall.domain.WishListVO">
+		<id column="cart_id" property="cart_id"></id>
+		<result column="user_email" property="user_email"></result>
+		<result column="product_id" property="product_id"></result>
+	</resultMap>
+	
+	<resultMap type="com.phonemall.domain.ProductVO" id ="productMap">
+	<id property = "product_id" column="product_id"/>
+	<result property = "product_title" column = "product_title"/>
+	<result property = "product_price" column = "product_price"/>
+	<result property = "product_regDate" column = "product_regDate"/>
+	<result property = "product_description" column = "product_description"/>
+	<result property = "product_information" column = "product_information"/>
+	<result property = "product_brand" column = "product_brand"/>
+	<result property = "product_type" column = "product_type"/>
+	<result property = "product_carrier" column = "product_carrier"/>
+	<collection property="product_imageList" resultMap = "imageMap">
+	</collection>
+	</resultMap>
+
+	<resultMap type = "com.phonemall.domain.ProductImageVO" id = "imageMap">
+	<result property = "image_uuid" column = "image_uuid"/>
+	<result property="image_uploadPath" column = "image_uploadPath"/>
+	<result property="image_name" column="image_name"/>
+	<result property = "image_type" column="image_type"/>
+	<result property = "product_id" column="product_id"/>
+	</resultMap>
+	
+	<insert id="insert" parameterType="com.phonemall.domain.WishListVO">
+		INSERT INTO wishlist(user_email, product_id)
+		VALUES ( #{user_email}, #{product_id})
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM wishlist WHERE product_id = #{product_id} AND user_email=#{user_email}
+	</delete>
+	
+	<select id="read" resultType = "int">
+		SELECT COUNT(*) FROM wishlist
+		WHERE user_email=#{user_email} AND product_id=#{product_id}		
+	</select>
+	
+	<select id="ListWishList" resultMap = "productMap">
+	select wishlist_id, p.product_id, c.user_email, product_title, product_price, product_description,product_carrier, product_information, product_brand,product_type,image_uuid, image_uploadPath, image_name, image_type
+	from wishlist c, product p, product_image i
+	where c.product_id=p.product_id and c.user_email=#{user_email} and p.product_id = i.product_id
+	</select>
+	
+	
+	
+	
+</mapper>

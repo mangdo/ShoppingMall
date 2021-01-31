@@ -36,15 +36,15 @@
                         <!-- new-customers -->
                         <div class="col-md-6">
                             <div class="new-customers">
-                                <form action="/mypage/newCustomers" method="post">
+                                <form id="my-form" action="/mypage/newCustomers" method="post">
                                     <h6 class="widget-title border-left mb-50">NEW CUSTOMERS</h6>
                                     <div class="login-account p-30 box-shadow">
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <input type="text" name="firstname" placeholder="First Name">
+                                                <input type="text" name="firstname" id="firstname" placeholder="First Name">
                                             </div>
                                             <div class="col-sm-6">
-                                                <input type="text" name="lastname" placeholder="last Name">
+                                                <input type="text" name="lastname" id="lastname" placeholder="last Name">
                                             </div>
                                                <div class="col-sm-6">
                                                 <input type="text" name="postalcode" id="sample4_postcode" placeholder="Postal Code...">                                                
@@ -53,11 +53,11 @@
                                             	<input type="button" class="submit-btn-1 btn-hover-1" onclick="sample4_execDaumPostcode()" value="우편번호 찾기">                                  
                                             </div>
                                         </div>
-                                        <input type="text" name="address" placeholder="Specific Address here...">
-                                        <input type="text" name="phonenum" placeholder="Phone here...">                                       
-                                        <input type="text" name="email" placeholder="Email address here...">
-                                        <input type="password" name="userpw" placeholder="Password">
-                                        <input type="password"  placeholder="Confirm Password">
+                                        <input type="text" id="address" name="address" placeholder="Specific Address here...">
+                                        <input type="text" id="phonenum" name="phonenum" placeholder="Phone here...">                                       
+                                        <input type="text" id="email" name="email" placeholder="Email address here...">
+                                        <input type="password" id="pass" name="userpw" placeholder="Password">
+                                        <input type="password"  id="pass-check" placeholder="Confirm Password">
                                         <div class="checkbox">
                                             <label class="mr-10"> 
                                                 <small>
@@ -98,7 +98,60 @@ function sample4_execDaumPostcode() {
         }
     }).open();
 }
+
+
+window.onload=function(){
+	document.getElementById('my-form').onsubmit=function(){
+		var pass=document.getElementById('pass').value;
+		var passCheck=document.getElementById('pass-check').value;
+		var email=document.getElementById('email').value;
+		var phonenum=document.getElementById('phonenum').value;
+		var postalcode=document.getElementById('sample4_postcode').value;
+		var address=document.getElementById('address').value;
+		var firstname=document.getElementById('firstname').value;
+		var lastname=document.getElementById('lastname').value;
+		if(pass==''){
+			alert('please fill out all elements!');
+			return false;
+		}
+		if(passCheck==''){
+			alert('please fill out all elements!');
+			return false;
+		}
+		if(email==''){
+			alert('please fill out all elements!');
+			return false;
+		}
+		if(firstname==''){
+			alert('please fill out all elements!');
+			return false;
+		}
+		if(lastname==''){
+			alert('please fill out all elements!');
+			return false;
+		}
+		if(postalcode==''){
+			alert('please fill out all elements!');
+			return false;
+		}
+		if(address==''){
+			alert('please fill out all elements!');
+			return false;
+		}
+		if(phonenum==''){
+			alert('please fill out all elements!');
+			return false;
+		}
+		if(pass!=passCheck){
+			alert('Please Check Password Again!');
+			return false;
+		}else{
+			alert('Register Success! Now Please Log-In')
+		}
+	}
+}
 </script>
+
 
 
         <!-- End page content -->
