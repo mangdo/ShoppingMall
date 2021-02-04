@@ -108,7 +108,7 @@
                                                         </div>
                                                         
                                                                                                               
-                                                        <h3 class="pro-price"><c:out value="${product.product_price }"/> 원</h3>
+                                                        <h3 class="pro-price"><fmt:formatNumber value="${product.product_price}" type="number" maxFractionDigits="3"/>원</h3>
                                                         <form name="wishListform" method="post" action="/product/insertWishList">
                                                         <ul class="action-button">                                                        
                                                             <li>       
@@ -184,7 +184,7 @@
                                                         <h6 class="brand-name mb-30">
                                                         	<c:out value="${product.product_brand }"/> / <c:out value="${product.product_type }"/> / <c:out value="${product.product_carrier }"/>
                                                         </h6>
-                                                        <h3 class="pro-price"><c:out value="${product.product_price }"/> 원</h3>
+                                                        <h3 class="pro-price"><fmt:formatNumber value="${product.product_price}" type="number" maxFractionDigits="3"/>원</h3>
                                                         <p><c:out value="${product.product_information }"/></p>
                                                         <ul class="action-button">
                                                             <li>
@@ -368,9 +368,9 @@
                                     </div>
                                     <div class="product-info">
                                         <h6 class="product-title">
-                                            <a href="single-product.html"><c:out value="${product.product_title}"/></a>
+                                            <a class="move" href='<c:out value="${product.product_id}"/>'><c:out value="${product.product_title}"/></a>
                                         </h6>
-                                        <h3 class="pro-price"><c:out value="${product.product_price}"/></h3>
+                                        <h3 class="pro-price"><fmt:formatNumber value="${product.product_price}" type="number" maxFractionDigits="3"/>원</h3>
                                     </div>
                                 </div>
                                 </c:forEach>
@@ -466,6 +466,11 @@ aria-lablelledby="myModalLabel" aria-hidden="true">
                                               <i class="zmdi zmdi-rss"></i>
                                           </a>
                                       </li>
+                                      <li>
+                                      	<a id="kakao-link-btn" href="#">
+                                          <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" style="width:100%"/>
+  									  	</a>
+  									  </li>
                                   </ul>
                               </div>
                           </div>
@@ -484,6 +489,9 @@ aria-lablelledby="myModalLabel" aria-hidden="true">
  	<input type='hidden' name='product_id' value=''>
 </form>
 <%@include file="/WEB-INF/views/layout/foot.jsp" %>
+
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script type="text/javascript" src="/resources/js/quickViewModal.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -591,11 +599,6 @@ $(document).ready(function(){
 	
 	}
 	
-	// 숫자 세자리마다 콤마 찍기
-	function numberWithCommas(x) {
-	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
-	
 	// 가격대 설정
     $( "#slider-range" ).slider({
       range: true,
@@ -633,21 +636,6 @@ $(document).ready(function(){
 		$('a[data-toggle="tab"][href="' + activeTab + '"]').tab('show');
 	}
 	
-	// quickView modal
-	$('#productModal').on('show.bs.modal', function(e) {
-		var product_id = $(e.relatedTarget).data('id');
-		$.getJSON("/product/quickView?product_id="+product_id, function(data){
-			
-			$("#quick-id").attr( "href", "product/get?product_id="+data.product_id );
-		    $("#quick-title").html( data.product_title );
-		    $("#quick-price").html( data.product_price +" 원");
-		    $("#quick-information").html( data.product_information );
-		    
-		    var imageName = encodeURIComponent(data.product_imageList[0].image_uploadPath+'/'+data.product_imageList[0].image_uuid+'_'+data.product_imageList[0].image_name);
-	        var realSrc = '/product/display?fileName='+imageName;
-			$("#quick-img").attr("src",realSrc);
-		});
-
-	});	
+	
 });
 </script>

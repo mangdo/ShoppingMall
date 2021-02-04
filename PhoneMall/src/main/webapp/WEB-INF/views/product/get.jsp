@@ -120,11 +120,11 @@
                                                     <ul class="action-button">
                                                         <li>
                                                             <a href="#" title="Wishlist" tabindex="0"><i
-                                                                    class="zmdi zmdi-favorite"></i></a>
+                                                                    class="zmdi zmdi-favorite" data-id="<c:out value='${product.product_id }'/>"></i></a>
                                                         </li>
                                                         <li>
                                                             <a href="#" data-toggle="modal" data-target="#productModal"
-                                                                title="Quickview" tabindex="0" data-id="${product.product_id }"><i
+                                                                title="Quickview" tabindex="0" data-id="<c:out value='${product.product_id }'/>"><i
                                                                     class="zmdi zmdi-zoom-in"></i></a>
                                                         </li>
                                                         <li>
@@ -142,7 +142,7 @@
                                             <!-- hr -->
                                             <hr>
                                             <!-- single-product-price -->
-                                            <h3 class="pro-price">Price :&nbsp; <c:out value="${product.product_price}"/> 원</h3>
+                                            <h3 class="pro-price">Price :&nbsp; <fmt:formatNumber value="${product.product_price}" type="number" maxFractionDigits="3"/> 원</h3>
                                             <!--  hr -->
                                             <hr>
                                             <div>
@@ -219,17 +219,17 @@
                                     <div class="col-lg-12">
                                         <div class="product-item">
                                             <div class="product-img" style="position:relative; padding-top:111%; display:block;" >
-                                                        <a class ='move' href='<c:out value="${product.product_id}"/>'>
-                                                        <img id = 'related-img${varstatus.index}' alt="image error" onError ="this.src='/resources/img/product/9.jpg'"
-                                                        	style="position:absolute; top:0; width:100%;height:100%">
-			                                            <script>
-			                                            	var imageName = encodeURIComponent('${product.product_imageList[0].image_uploadPath}'+'/s_'+'${product.product_imageList[0].image_uuid}'+'_'+'${product.product_imageList[0].image_name}');
-			                                            	var realSrc = '/product/display?fileName='+imageName;
-			                                            	
-			                                        		document.getElementById('related-img${varstatus.index}').src= realSrc;
-														</script>
-                                                        </a>
-                                                    </div>
+                                                <a href='get?product_id=<c:out value="${product.product_id}"/>'>
+                                                <img id = 'related-img${varstatus.index}' alt="image error" onError ="this.src='/resources/img/product/9.jpg'"
+                                                  	style="position:absolute; top:0; width:100%;height:100%">
+	                                        	<script>
+	                                         	var imageName = encodeURIComponent('${product.product_imageList[0].image_uploadPath}'+'/s_'+'${product.product_imageList[0].image_uuid}'+'_'+'${product.product_imageList[0].image_name}');
+	                                         	var realSrc = '/product/display?fileName='+imageName;
+	                                         	
+	                                     		document.getElementById('related-img${varstatus.index}').src= realSrc;
+												</script>
+                                                </a>
+                                              </div>
                                             <div class="product-info">
                                                 <h6 class="product-title">
                                                     <a href="single-product.html"><c:out value="${product.product_title}"/></a>
@@ -251,14 +251,14 @@
 	                                               	</c:forEach>
 	                              						<b><c:out value="${product.product_rating }"/></b>&nbsp;(<c:out value="${product.review_count }"/>)               
 	                                            </div>
-                                                <h3 class="pro-price"><c:out value="${product.product_price}"/></h3>
+                                                <h3 class="pro-price"><fmt:formatNumber value="${product.product_price}" type="number" maxFractionDigits="3"/>원</h3>
                                                 <ul class="action-button">
                                                     <li>
-                                                        <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
+                                                        <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite" data-id="<c:out value='${product.product_id }'/>"></i></a>
                                                     </li>
                                                     <li>
                                                         <a href="#" data-toggle="modal" data-target="#productModal"
-                                                            title="Quickview" data-id="${product.product_id }"><i class="zmdi zmdi-zoom-in"></i></a>
+                                                            title="Quickview" data-id="<c:out value='${product.product_id }'/>"><i class="zmdi zmdi-zoom-in"></i></a>
                                                     </li>
                                                     <li>
                                                         <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
@@ -392,7 +392,6 @@
                           <div class="price-box-3">
                               <div class="s-price-box">
                                   <span class="new-price" id ="quick-price"> </span>
-                                  <span class="old-price">£190.00</span>
                               </div>
                           </div>
                           <a class ='move see-all' id="quick-id" href='<c:out value="${product.product_id}"/>'>See all features</a>
@@ -434,6 +433,11 @@
                                               <i class="zmdi zmdi-rss"></i>
                                           </a>
                                       </li>
+                                      <li>
+                                      	<a id="kakao-link-btn" href="#">
+                                          <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" style="width:100%"/>
+  									  	</a>
+  									  </li>
                                   </ul>
                               </div>
                           </div>
@@ -449,6 +453,9 @@
 
 <script type="text/javascript" src="/resources/js/review.js"></script>
 <script type="text/javascript" src="/resources/js/reply.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script type="text/javascript" src="/resources/js/quickViewModal.js"></script>
+
 <script type="text/javascript">
  $(document).ready(function(){
 	 
@@ -535,7 +542,7 @@
 	                	str += '<br>'+reviewService.displayTime(list[i].review_updateDate)+'(수정됨)';
 	                }
 	                str += '</p></div> <ul class="reply-delate pull-right"> <li><a class= "reply-update" href='+list[i].reply_id+' data-reviewer='+list[i].review_reviewer+'>수정</a></li>';
-	                str += ' <li>/</li><li><a class= "reply-delete" href="'+list[i].reply_id+'">Delete</a></li> </ul> </div>';
+	                str += ' <li>/</li><li><a class= "reply-delete" href="'+list[i].reply_id+'">삭제</a></li> </ul> </div>';
 	                str += '<div class="pro-rating sin-pro-rating">';
 	                str += '<p class="mb-0">'+ list[i].review_content+'</p> </div> </div> </div>';
 				
@@ -772,21 +779,35 @@
 		</sec:authorize>		
 	});
 	
-	// quickView modal
-	$('#productModal').on('show.bs.modal', function(e) {
-		var product_id = $(e.relatedTarget).data('id');
-		$.getJSON("/product/quickView?product_id="+product_id, function(data){
-			
-			$("#quick-id").attr( "href", "product/get?product_id="+data.product_id );
-		    $("#quick-title").html( data.product_title );
-		    $("#quick-price").html( data.product_price +" 원");
-		    $("#quick-information").html( data.product_information );
-		    
-		    var imageName = encodeURIComponent(data.product_imageList[0].image_uploadPath+'/'+data.product_imageList[0].image_uuid+'_'+data.product_imageList[0].image_name);
-	        var realSrc = '/product/display?fileName='+imageName;
-			$("#quick-img").attr("src",realSrc);
+	// insert wishList
+	$(".zmdi-favorite").on("click",function(e){
+		
+		// only member can insert wishList
+		<sec:authorize access="isAnonymous()">
+			alert("로그인 후 가능합니다.");
+			return;
+		</sec:authorize>
+		console.log($(this).data('id'));
+		$.ajax({
+			type : 'post',
+			url : '/product/insertWishListJson',
+			data : JSON.stringify({product_id:$(this).data('id')}),
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr){
+				if( result == "insert in wishList")
+					alert("wishList에 추가되었습니다.");
+				else if( result == "aleady in wishList")
+					alert("이미 wishList에 있습니다.");
+				else{
+					alert("실패하였습니다.");
+				}
+			},
+			error : function(xhr, status, er){
+				alert("실패하였습니다.");
+			}
 		});
-
-	});	
+		
+	});
+	
  });
 </script>
