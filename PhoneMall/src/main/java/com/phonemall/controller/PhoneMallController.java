@@ -15,6 +15,7 @@ import com.phonemall.domain.Criteria;
 import com.phonemall.domain.PageDTO;
 import com.phonemall.domain.ProductReviewPageDTO;
 import com.phonemall.service.ProductReviewService;
+import com.phonemall.service.ProductService;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -27,8 +28,17 @@ public class PhoneMallController {
 	@Setter(onMethod_=@Autowired)
 	private ProductReviewService service;
 	
+	@Setter(onMethod_=@Autowired)
+	private ProductService productService;
+	
 	@RequestMapping("/")
-	public String toMainPage(){
+	public String toMainPage(Model model){
+		
+		model.addAttribute("recentList", productService.getRecentList(5));
+		model.addAttribute("saleList", productService.getSaleList());
+		model.addAttribute("popularList", productService.getPopularList());
+		model.addAttribute("bestList", productService.getBestList());
+		
 		return "/mallView/mainPage";
 	}
 

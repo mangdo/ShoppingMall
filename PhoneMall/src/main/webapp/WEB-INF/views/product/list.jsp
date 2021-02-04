@@ -352,51 +352,29 @@
                             <!-- widget-product -->
                             <aside class="widget widget-product box-shadow">
                                 <h6 class="widget-title border-left mb-20">recent products</h6>
-                                <!-- product-item start -->
+                                
+                                <c:forEach items="${recentList}" var="product" varStatus="varstatus">
                                 <div class="product-item">
                                     <div class="product-img">
-                                        <a href="single-product.html">
-                                            <img src="/resources/img/product/4.jpg" alt=""/>
+                                        <a class ='move' href='<c:out value="${product.product_id}"/>'>
+                                        <img id = 'recent-img${varstatus.index}' alt="image error" onError ="this.src='/resources/img/product/4.jpg'">
+		                               <script>
+		                               	var imageName = encodeURIComponent('${product.product_imageList[0].image_uploadPath}'+'/s_'+'${product.product_imageList[0].image_uuid}'+'_'+'${product.product_imageList[0].image_name}');
+		                               	var realSrc = '/product/display?fileName='+imageName;
+		                               	
+		                           		document.getElementById('recent-img${varstatus.index}').src= realSrc;
+										</script>
                                         </a>
                                     </div>
                                     <div class="product-info">
                                         <h6 class="product-title">
-                                            <a href="single-product.html">Product Name</a>
+                                            <a href="single-product.html"><c:out value="${product.product_title}"/></a>
                                         </h6>
-                                        <h3 class="pro-price">$ 869.00</h3>
+                                        <h3 class="pro-price"><c:out value="${product.product_price}"/></h3>
                                     </div>
                                 </div>
-                                <!-- product-item end -->
-                                <!-- product-item start -->
-                                <div class="product-item">
-                                    <div class="product-img">
-                                        <a href="single-product.html">
-                                            <img src="/resources/img/product/8.jpg" alt=""/>
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a href="single-product.html">Product Name</a>
-                                        </h6>
-                                        <h3 class="pro-price">$ 869.00</h3>
-                                    </div>
-                                </div>
-                                <!-- product-item end -->
-                                <!-- product-item start -->
-                                <div class="product-item">
-                                    <div class="product-img">
-                                        <a href="single-product.html">
-                                            <img src="/resources/img/product/12.jpg" alt=""/>
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a href="single-product.html">Product Name</a>
-                                        </h6>
-                                        <h3 class="pro-price">$ 869.00</h3>
-                                    </div>
-                                </div>
-                                <!-- product-item end -->                               
+                                </c:forEach>
+                            
                             </aside>
                         </div>
                     </div>
@@ -437,7 +415,7 @@ aria-lablelledby="myModalLabel" aria-hidden="true">
                   <div class="modal-product clearfix">
                       <div class="product-images">
                           <div class="main-image images">
-                              <img alt="" src="/resources/img/product/quickview.jpg">
+                              <img alt="" id="quick-img"src="/resources/img/product/quickview.jpg">
                           </div>
                       </div><!-- .product-images -->
                       
@@ -458,34 +436,33 @@ aria-lablelledby="myModalLabel" aria-hidden="true">
                                   <button class="single_add_to_cart_button" type="submit">Add to cart</button>
                               </form>
                           </div>
-                          <div id="quick-information">
-                          </div>
+                          <div id="quick-information" class="quick-desc"></div>
                           <div class="social-sharing">
                               <div class="widget widget_socialsharing_widget">
                                   <h3 class="widget-title-modal">Share this product</h3>
                                   <ul class="social-icons clearfix">
                                       <li>
-                                          <a class="facebook" href="#" target="_blank" title="Facebook" style="padding-top:25%;">
+                                          <a class="facebook" href="#" target="_blank" title="Facebook">
                                               <i class="zmdi zmdi-facebook"></i>
                                           </a>
                                       </li>
                                       <li>
-                                          <a class="google-plus" href="#" target="_blank" title="Google +" style="padding-top:25%;">
+                                          <a class="google-plus" href="#" target="_blank" title="Google +">
                                               <i class="zmdi zmdi-google-plus"></i>
                                           </a>
                                       </li>
                                       <li>
-                                          <a class="twitter" href="#" target="_blank" title="Twitter" style="padding-top:25%;">
+                                          <a class="twitter" href="#" target="_blank" title="Twitter">
                                               <i class="zmdi zmdi-twitter"></i>
                                           </a>
                                       </li>
                                       <li>
-                                          <a class="pinterest" href="#" target="_blank" title="Pinterest" style="padding-top:25%;">
+                                          <a class="pinterest" href="#" target="_blank" title="Pinterest">
                                               <i class="zmdi zmdi-pinterest"></i>
                                           </a>
                                       </li>
                                       <li>
-                                          <a class="rss" href="#" target="_blank" title="RSS" style="padding-top:25%;">
+                                          <a class="rss" href="#" target="_blank" title="RSS">
                                               <i class="zmdi zmdi-rss"></i>
                                           </a>
                                       </li>
@@ -556,7 +533,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		
 		searchForm.submit();
-	})
+	});
 	
 	// 페이징 처리
 	var categoryForm = $("#categoryForm");
@@ -574,7 +551,10 @@ $(document).ready(function(){
 	// 카테고리 선택	
 	$("#category li ul li a").on("click",function(e){
 		e.preventDefault();
-
+		
+		var word = $.trim(searchForm.find("input[name='keyword']").val());
+		categoryForm.find("input[name='keyword']").val(word);
+		
 		categoryForm.find("input[name='pageNum']").val("1");
 		categoryForm.find("input[name='type']").val($(this).attr("href"));
 		categoryForm.find("input[name='brand']").val($(this).closest('ul').attr("id"));
@@ -585,6 +565,9 @@ $(document).ready(function(){
 	// 통신사 선택
 	$("#categoryForm input[type='radio']").on("click", function(e){
 		e.preventDefault();
+		
+		var word = $.trim(searchForm.find("input[name='keyword']").val());
+		categoryForm.find("input[name='keyword']").val(word);
 		categoryForm.find("input[name='pageNum']").val("1");
 		
 		categoryForm.submit();
@@ -626,6 +609,8 @@ $(document).ready(function(){
       change: function( event, ui){
     	  console.log("change");
     	  categoryForm.find("input[name='pageNum']").val("1");
+  		  var word = $.trim(searchForm.find("input[name='keyword']").val());
+		  categoryForm.find("input[name='keyword']").val(word);
     	  categoryForm.find("input[name='priceStart']").val(ui.values[0]);
     	  categoryForm.find("input[name='priceEnd']").val(ui.values[1]);
     	  categoryForm.submit();
@@ -649,17 +634,20 @@ $(document).ready(function(){
 	}
 	
 	// quickView modal
-	$('#productModal').on('show.bs.modal', function(event) {          
-        var product_id = $(event.relatedTarget).data('id');
-        var product_title = $(event.relatedTarget).data('title');
-        var product_price = $(event.relatedTarget).data('price');
-        var product_information = $(event.relatedTarget).data('information');
-        
-        $("#quick-id").attr( "href", product_id );
-        $("#quick-title").html( product_title );
-        $("#quick-price").html( product_price +" 원");
-        $("#quick-information").html( product_information );
+	$('#productModal').on('show.bs.modal', function(e) {
+		var product_id = $(e.relatedTarget).data('id');
+		$.getJSON("/product/quickView?product_id="+product_id, function(data){
+			
+			$("#quick-id").attr( "href", "product/get?product_id="+data.product_id );
+		    $("#quick-title").html( data.product_title );
+		    $("#quick-price").html( data.product_price +" 원");
+		    $("#quick-information").html( data.product_information );
+		    
+		    var imageName = encodeURIComponent(data.product_imageList[0].image_uploadPath+'/'+data.product_imageList[0].image_uuid+'_'+data.product_imageList[0].image_name);
+	        var realSrc = '/product/display?fileName='+imageName;
+			$("#quick-img").attr("src",realSrc);
+		});
 
-    });	
+	});	
 });
 </script>

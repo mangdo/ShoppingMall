@@ -130,9 +130,9 @@
                                            <button class="search-toggle">
                                             <i class="zmdi zmdi-search"></i>
                                            </button>
-                                            <form action="#">
+                                            <form id='topSearchForm' action="/product/list" method='get'>
                                                 <div class="top-search-box">
-                                                    <input type="text" placeholder="Search here your product...">
+                                                    <input type="text" name = "keyword" placeholder="Search here your product...">
                                                     <button type="submit">
                                                         <i class="zmdi zmdi-search"></i>
                                                     </button>
@@ -278,3 +278,23 @@
         </div>
 
         <!-- END MOBILE MENU AREA -->
+        
+<script>
+// 검색
+var topSearchForm = $("#topSearchForm");
+
+$("#topSearchForm button").on("click",function(e){
+	var word = $.trim(topSearchForm.find("input[name='keyword']").val());
+	if(!word || word==""){
+		alert("키워드를 입력하세요");
+		return false;
+	}
+	
+	topSearchForm.find("input[name='pageNum']").val("1");
+	topSearchForm.find("input[name='keyword']").val(word);
+	e.preventDefault();
+	
+	topSearchForm.submit();
+});
+
+</script>

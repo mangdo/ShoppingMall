@@ -122,6 +122,36 @@ public class ProductServiceImpl implements ProductService {
 		log.info("get Image List by id, "+product_id);
 		return imageListMapper.findById(product_id);
 	}
-
+	@Override
+	public List<ProductVO> getRecentList(int amount) {
+		log.info("get product List count : "+ amount);
+		
+		return mapper.getRecentList(amount);
+	}
+	@Override
+	public List<ProductVO> getSaleList() {
+		log.info("get sale product List");
+		return mapper.getSaleList();
+	}
+	@Override
+	public List<ProductVO> getPopularList() {
+		log.info("get popular product List");
+		return mapper.getPopularList();
+	}
+	@Override
+	public List<ProductVO> getBestList() {
+		log.info("get best product List");
+		return mapper.getBestList();
+	}
+	@Override
+	public ProductVO getQuickView(Long product_id) {
+		log.info("get quick view, "+ product_id);
+		return mapper.getQuickView(product_id);
+	}
+	@Override
+	public List<ProductVO> getRelatedList(Long product_id, String product_brand){
+		log.info("get related list, "+product_brand);
+		return mapper.getRelatedList(product_id,product_brand);
+	}
 
 }

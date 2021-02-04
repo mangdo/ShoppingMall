@@ -47,9 +47,8 @@ public class ProductReviewController {
 	public ResponseEntity<ProductReviewPageDTO> getList(
 			@PathVariable("page")int page, @PathVariable("product_id") Long product_id){
 		
-		log.info("get Review List");
 		Criteria cri = new Criteria(page,5);
-		
+		log.info("get Review List");
 		return new ResponseEntity<>(service.getListPage(cri, product_id), HttpStatus.OK);
 	}
 	

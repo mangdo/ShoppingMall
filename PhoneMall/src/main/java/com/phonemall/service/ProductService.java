@@ -23,4 +23,16 @@ public interface ProductService {
 	public int getTotal(Criteria cri);
 	
 	public List<ProductImageVO> getImageList(Long product_id);
+	
+	public List<ProductVO> getRecentList(int amount);
+	
+	public List<ProductVO> getSaleList();
+	
+	public List<ProductVO> getPopularList();
+
+	public List<ProductVO> getBestList();
+
+	public ProductVO getQuickView(Long product_id);
+	
+	public List<ProductVO> getRelatedList(Long product_id, String product_brand);
 }

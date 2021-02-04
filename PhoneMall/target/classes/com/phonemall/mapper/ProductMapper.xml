@@ -91,7 +91,7 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id = "getListWithPaging" resultMap = "productMap">
 	<![CDATA[
-	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type
+	SELECT p.*, image_uuid, image_uploadPath, image_name
 	FROM product AS p
 	LEFT OUTER JOIN product_image AS i
 	ON p.product_id = i.product_id AND i.product_id>0 AND image_type = 'mainImage'
@@ -149,4 +149,66 @@ ON rr.product_id = p.product_id
 
 </select>
 
+<select id="getRecentList" resultMap = "productMap">
+	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type
+	FROM (SELECT product_id, product_title, product_price, product_brand 
+		FROM product 
+		WHERE product_id>0
+		ORDER BY product_id DESC
+        LIMIT #{amount}) p
+	LEFT OUTER JOIN product_image AS i
+	ON p.product_id = i.product_id AND i.product_id>0 AND image_type = 'mainImage'
+</select>
+
+<select id="getSaleList" resultMap = "productMap">
+	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type
+	FROM (SELECT product_id, product_title, product_price
+		FROM product 
+		WHERE product_id>0
+        LIMIT 2) p
+	LEFT OUTER JOIN product_image AS i
+	ON p.product_id = i.product_id AND i.product_id>0 AND image_type = 'mainImage'
+</select>
+
+<select id="getPopularList" resultMap="productMap">
+	SELECT w.*, image_uuid, image_uploadPath, image_name, image_type, p.product_title, p.product_price, p.product_brand
+	FROM (SELECT product_id, count(*) AS wish_count
+		FROM wishlist 
+		GROUP by product_id
+		ORDER BY wish_count DESC, wishlist_id DESC
+		LIMIT 3) w
+	LEFT OUTER JOIN product_image AS i
+	ON w.product_id = i.product_id AND w.product_id>0 AND image_type = 'mainImage'
+	JOIN product AS p
+	ON w.product_id = p.product_id AND w.product_id>0
+
+</select>
+
+<select id="getBestList" resultMap="productMap">
+	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type
+	FROM (SELECT product_id, product_title, product_price, product_rating, product_brand
+		FROM product 
+		ORDER BY product_rating DESC
+        LIMIT 3) p
+	LEFT OUTER JOIN product_image AS i
+	ON p.product_id = i.product_id AND i.product_id>0 AND image_type = 'mainImage'
+</select>
+
+<select id="getQuickView" resultMap="productMap">
+	SELECT p.product_id, product_title, product_price, product_information, image_uuid, image_uploadPath, image_name
+	FROM product AS p
+	LEFT OUTER JOIN product_image AS i
+	ON i.product_id=#{product_id} AND image_type = 'mainImage'
+    WHERE p.product_id=#{product_id}
+</select>
+
+<select id="getRelatedList" resultMap="productMap">
+	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type
+	FROM (SELECT product_id, product_title, product_price, product_rating, review_count
+		FROM product 
+		WHERE product_brand=#{product_brand} AND product_id != #{product_id}
+        LIMIT 3) p
+	LEFT OUTER JOIN product_image AS i
+	ON p.product_id = i.product_id AND i.product_id>0 AND image_type = 'mainImage'
+</select>
 </mapper>

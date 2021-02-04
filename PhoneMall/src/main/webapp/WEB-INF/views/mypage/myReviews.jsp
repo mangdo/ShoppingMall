@@ -268,10 +268,12 @@ $("#reviewUpdateBtn").on("click", function(e){
 });
 
 // there's no review yet
-var myList = <c:out value='${reviewList}'/>;
+var myList = "<c:out value='${reviewList[0].review_id}'/>";
+
 if(myList.length==0){
 	console.log("00000");
 	$(".shop-pagination").hide();
 	$(".box-shadow").html("작성한 리뷰가 아직 없습니다.");
 }
 </script>
+

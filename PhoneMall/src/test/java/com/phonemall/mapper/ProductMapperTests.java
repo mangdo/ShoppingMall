@@ -113,4 +113,21 @@ public class ProductMapperTests {
 		mapper.updateReview(4L,0);
 		
 	}
+	
+	@Test
+	public void testRecentList() {
+		List<ProductVO> list = mapper.getRecentList(2);
+		list.forEach(product->log.info(product));
+	}
+	
+	@Test
+	public void testMainList() {
+		List<ProductVO> list = mapper.getSaleList();
+		list.forEach(product->log.info(product));
+	}
+	
+	@Test
+	public void testgetQuickView() {
+		log.info(mapper.getQuickView(3L));
+	}
 }
