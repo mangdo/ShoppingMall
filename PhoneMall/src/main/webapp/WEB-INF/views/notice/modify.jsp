@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<!DOCTYPE html>
-<html class="no-js" lang="en">
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<!DOCTYPE html>
+<html class="no-js" lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -34,7 +34,6 @@
 
     <!-- Modernizr JS -->
     <script src="/resources/js/vendor/modernizr-2.8.3.min.js"></script>
-    
     <!-- jquery latest version -->
     <script src="/resources/js/vendor/jquery-3.1.1.min.js"></script>
     <!-- Bootstrap framework js -->
@@ -44,7 +43,7 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
-    
+
 </head>
 
 <body>
@@ -285,18 +284,18 @@
         </div>
 
         <!-- END MOBILE MENU AREA -->
-
- <!-- BREADCRUMBS SETCTION START -->
+        
+        <!-- BREADCRUMBS SETCTION START -->
         <div class="breadcrumbs-section plr-200 mb-80 section">
             <div class="breadcrumbs overlay-bg">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="breadcrumbs-inner">
-                                <h1 class="breadcrumbs-title">Product Register Form</h1>
+                                <h1 class="breadcrumbs-title">Notice modify Form</h1>
                                 <ul class="breadcrumb-list">
-                                    <li><a href="index.html">Product</a></li>
-                                    <li>Register Form</li>
+                                    <li><a href="index.html">Notice</a></li>
+                                    <li>modify Form</li>
                                 </ul>
                             </div>
                         </div>
@@ -315,101 +314,46 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="message-box box-shadow white-bg">
-                                <form role="form" action="/product/register" method="post" enctype="multipart/form-data">
-                                    <div class="row">
+						        <form action="/notice/modify" method="post" enctype="multipart/form-data">
+						             <div class="row">
                                         <div class="col-lg-12">
-                                            <h4 class="blog-section-title border-left mb-30">제품 등록</h4>
+                                            <h4 class="blog-section-title border-left mb-30">공지 등록</h4>
                                         </div>
                                         <div class="col-lg-12">
-                                            <input type="text" name="product_title" placeholder="Product Tittle">
+                                            <input type="text" name="notice_title" value="<c:out value='${notice.notice_title }'/>">
                                         </div>
                                         <div class="col-lg-12">
-                                            <input type="text" name="product_price" placeholder="Product Price">
+                                            <input type="text" id="notice_writer" name="notice_writer" value="<c:out value='${notice.notice_writer }'/>">
                                         </div>
-                                        <div class="col-lg-12">
-                                        	<div class="single-pro-color-rating clearfix">
-                                                <div class="sin-pro-color f-left">
-                                                    <p class="color-title f-left">Color</p>
-                                                    <div class="widget-color f-left">
-                                                        <ul>
-                                                            <li class="color-1">
-                                                            	<input type="checkbox" id="product_colorList" value = "pink"> &nbsp;
-                                                            </li>
-                                                            <li class="color-2">
-                                                                <input type="checkbox" id="product_colorList" value = "brown"> &nbsp;                                              
-                                                            </li>
-                                                            <li class="color-3">
-                                                            	<input type="checkbox" id="product_colorList" value = "red"> &nbsp;
-                                                            </li>
-                                                            <li class="color-4">
-                                                            	<input type="checkbox" id="product_colorList" value = "blue"> &nbsp;
-                                                            </li>
-                                                            <li class="color-5">
-                                                            	<input type="checkbox" id="product_colorList" value = "lightGreen"> &nbsp;
-                                                            </li>
-                                                            <li class="color-6">
-                                                            	<input type="checkbox" id="product_colorList" value = "green"> &nbsp;
-                                                            </li>
-                                                        </ul>
-                                                        <br/>
-                                                    </div>
-                                                </div>
-                                        	</div>
-                                        </div>
-                                        
                                         <div class="col-lg-6">
 											<p class="color-title f-left">메인 사진</p>
-											<input type="file" id='main_image' name='mainImage' accept = "image/jpg, image/jpeg, image/png, image/gif">
+											<div id="image-button">
+												
+												<c:if test="${notice.notice_image ne null }">
+													<li>${notice.notice_image.image_name }<button type="button" id = "delete-image"> x </button></li>
+												</c:if>
+												<c:if test="${notice.notice_image eq null }">
+													<input type="file" id='notice_image' name='noticeImage' accept = "image/jpg, image/jpeg, image/png, image/gif">
+												</c:if>
+											</div>
 										</div>
-										<div class="col-lg-6">
-											<p class="color-title f-left">추가 사진</p>
-											<input type="file" id='subImage' name='subImage' accept = "image/jpg, image/jpeg, image/png, image/gif" multiple>
-                                        </div>
-                                        <div class="col-lg-6">
-											<p class="color-title f-left">통신사</p>
-											<select class="custom-select" name = product_carrier>
-												<option value="SKT">SKT</option>
-												<option value="KT">KT</option>
-												<option value="LGU+">LGU+</option>
-												<option value="알뜰폰">알뜰폰</option>
-											</select>
-                                        </div>
-                                        <div class="col-lg-6">
-											<p class="color-title f-left">Brand</p>
-											<select class="custom-select" name = product_brand>
-												<option value="SAMSUNG">SAMSUNG</option>
-												<option value="APPLE">APPLE</option>
-												<option value="LG">LG</option>
-												<option value="GOOGLE">GOOGLE</option>
-												<option value="BlackBerry">BlackBerry</option>
-											</select>
-                                        </div>
-                                        
-                                        <div class="col-lg-6">
-											<p class="color-title f-left">Type</p>
-											<select class="custom-select" name = product_type>
-												<option value="Phone">Phone</option>
-												<option value="tab">tab</option>
-												<option value="watch">watch</option>
-											</select>   
+                                        <div class="col-lg-12">
+                                            <textarea class="mb-20" name="notice_information" placeholder="요약" ><c:out value='${notice.notice_information }'/></textarea>
                                         </div>
                                         
                                         <div class="col-lg-12">
-                                            <textarea class="mb-20" name="product_information" placeholder="제품 정보"></textarea>
+                                            <textarea class="mb-20" id="summernote" name="notice_description"></textarea>
                                         </div>
                                         
+                                        <input type="hidden" name="notice_id" value="${notice.notice_id }">
                                         <div class="col-lg-12">
-                                            <textarea class="custom-textarea" id="summernote" name="product_description" placeholder="제품 설명"></textarea>
+                                        	<button class="submit-btn-1 mt-30 btn-hover-1" type="submit">수정</button>
+                                        	<button class="submit-btn-1 mt-30 btn-hover-1" type="reset" style="background-color : #575757;">초기화</button>
+                                        	<button class="submit-btn-1 mt-30 btn-hover-1" type="button" onClick="location.href='/notice/list'" style="background-color : #4FC1F0;">목록</button>
                                         </div>
-                                      
-                                        <div class="col-lg-12">
-                                        	<button class="submit-btn-1 mt-30 btn-hover-1" type="submit">등록</button>
-                                        	<button class="submit-btn-1 mt-30 btn-hover-1" type="reset" style="background-color : #4FC1F0;">초기화</button>
-                                        	<button class="submit-btn-1 mt-30 btn-hover-1" type="button" onClick="location.href='/notice/list'" style="background-color : #575757;">목록</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <p class="form-messege"></p>
+						  			</div>
+								</form>
+								<p class="form-messege"></p>
                             </div>
                         </div>
                     </div>
@@ -419,6 +363,7 @@
         </section>
         <!-- End page content -->
 
+    
         <!-- START FOOTER AREA -->
         <footer id="footer" class="footer-area section">
             <div class="footer-top">
@@ -563,6 +508,7 @@
 
 
     <!-- Placed JS at the end of the document so the pages load faster -->
+
     <!-- jquery.nivo.slider js -->
     <script src="/resources/lib/js/jquery.nivo.slider.js"></script>
     <!-- All js plugins included in this file. -->
@@ -571,27 +517,9 @@
     <script src="/resources/js/main.js"></script>
 
 <script>
-// check possible image file to upload
-var fileForm = new RegExp("(.*?)\.(jpg|jpeg|png|gif)$","i");
-var maxSize = 5 * 1024 * 1024; //5MB
-
-function imageCheck(fileName, fileSize){
-	var imgFile = $('#main_image').val();
-
-	if(imgFile != "" && imgFile != null) {	    
-	    if(!imgFile.match(fileForm)) {
-	    	alert("이미지 파일(jpg|jpeg|png|gif)만 업로드 가능");
-	        return false;
-	    } else if(fileSize >= maxSize) {
-	    	alert("파일 사이즈는 5MB까지 가능");
-	        return false;
-	    }
-	}
-	return true;
-}
-$(document).ready(function(e){
-    $('#summernote').summernote({
-        placeholder: '제품 설명을 작성해주세요.',
+    $(document).ready(function() {
+      $('#summernote').summernote({
+        placeholder: '내용을 작성해주세요.',
         height: 400,
         lang : 'ko-KR', // menu language chage(US->KR)
         toolbar: [
@@ -610,48 +538,23 @@ $(document).ready(function(e){
 		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
       }).on("summernote.enter", function(we, e) { 
     	  $(this).summernote("pasteHTML", "<br><br>"); e.preventDefault(); 
-    	 }); //Enter 후에 <br><br> 제거 하는 코드
-
-	$("button[type='reset']").on("click",function(e){
+    	  }); //Enter 후에 <br><br> 제거 하는 코드
+    $("#summernote").summernote('code',  '${notice.notice_description }');
+    	  
+    $("button[type='reset']").on("click",function(e){
     	$("#summernote").summernote('undo');
     });
-	
-	var formObj = $("form[role='form']");
-	$("button[type='submit']").on("click",function(e){
-		console.log("submit clicked");
-	    
-		// sub image file check
-		var subImage = $("input[name='subImage']");
-		var images = subImage[0].files;
-		for(var i = 0; i < images.length; i++){
-			if(!imageCheck(images[i].name, images[i].size)){
-				return false;
-			}
-		}
-		// main image file check
-		var mainImage = $("input[name='mainImage']");
-		if(!imageCheck(mainImage[0].files.name, mainImage[0].files.size)){
-			return false;
-		}
+    
+	$('#delete-image').on("click",function(e){
 		
-		if(!mainImage.val()) {
-			alert("메인 사진은 필수!");
-		    return false;
-		}
+		var str ="<li><input type='file' id='noticeImage' name='noticeImage' accept = 'image/jpg, image/jpeg, image/png, image/gif' style='margin-bottom:5px;'></li>";
+		$(this).closest("li").remove();
+		$("#image-button").append(str);
 		
-	    var str ="";
-	    $("input[id='product_colorList']:checked").each(function(i) {
-	    	// 색깔이 체크된 것만 값을 뽑아서 배열에 push
-	    	str += "<input type ='hidden' name='product_colorList["+i+"].product_color' value='"+$(this).val()+"'>";
-	    });
-
-	    formObj.append(str).submit();
 	});
-	
-});
-
+  });
 </script>
 </body>
 
 </html>
- 
+

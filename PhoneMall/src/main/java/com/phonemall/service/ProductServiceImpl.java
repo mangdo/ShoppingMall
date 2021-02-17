@@ -47,11 +47,11 @@ public class ProductServiceImpl implements ProductService {
 		
 		// register on product_image
 		if(product.getProduct_imageList() != null || product.getProduct_imageList().size() > 0) {
-			product.getProduct_imageList().forEach(imageList->{
-				imageList.setProduct_id(product.getProduct_id());
+			product.getProduct_imageList().forEach(image->{
+				image.setProduct_id(product.getProduct_id());
 				
-				imageListMapper.insert(imageList);
-				log.info("register imageList "+imageList);
+				imageListMapper.insert(image);
+				log.info("register imageList "+image);
 			});
 		}
 	}
@@ -86,6 +86,7 @@ public class ProductServiceImpl implements ProductService {
 		if(modifyResult && product.getProduct_imageList()!=null && product.getProduct_imageList().size()>0) {
 			
 			product.getProduct_imageList().forEach(image->{
+				image.setProduct_id(product.getProduct_id());
 				imageListMapper.insert(image);
 			});
 		}

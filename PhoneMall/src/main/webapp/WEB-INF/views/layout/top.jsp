@@ -110,7 +110,7 @@
                                     <ul class="main-menu text-center">
                                         <li class="mega-parent"><a href="/product/list">Products</a>
                                         <li>
-                                        	<a href="/blog">Blog</a>
+                                        	<a href="/notice/list">Notice</a>
                                         </li>
                                         <li>
                                             <a href="/about">About us</a>
@@ -261,7 +261,7 @@
                                         <a href="/product/list">Products</a>
                                     </li>
                                     <li>
-                                    	<a href="/blog">Blog</a>
+                                    	<a href="/notice/list">Notice</a>
                                     </li>
                                     <li>
                                         <a href="/about">About Us</a>

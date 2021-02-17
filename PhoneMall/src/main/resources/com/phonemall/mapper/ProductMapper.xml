@@ -50,7 +50,7 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type
 	FROM product AS p
 	LEFT OUTER JOIN product_image AS i
-	ON p.product_id = i.product_id
+	ON i.product_id = #{product_id}
 	WHERE p.product_id = #{product_id}
 </select>
 

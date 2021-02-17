@@ -173,9 +173,8 @@
                                             </ul>
                                             <div class="tab-content">
                                                 <div role="tabpanel" class="tab-pane active" id="description">
-                                                    <p> 상품 설명입니다.'${_csrf.token}' </p>
-                                                    <p>  <c:out value="${product.product_description}"/>  </p>
-                                                    
+                                                    <p> 상품 설명입니다.</p>
+                                                    <pre style="background-color:transparent; border: none"> ${product.product_description} </pre>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="information">
                                                     <p> information </p>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.phonemall.mapper.NoticeMapper">
+
+	<resultMap type="com.phonemall.domain.NoticeVO" id ="NoticeMap">
+		<id property = "notice_id" column="notice_id"/>
+		<result property = "notice_title" column = "notice_title"/>
+		<result property = "notice_regDate" column = "notice_regDate"/>
+		<result property = "notice_writer" column = "notice_writer"/>
+		<result property = "notice_description" column = "notice_description"/>
+		<result property = "notice_information" column = "notice_information"/>
+		<result property = "prev_title" column = "prev_title"/>
+		<result property = "prev_id" column = "prev_id"/>
+		<result property = "next_title" column = "next_title"/>
+		<result property = "next_id" column = "next_id"/>
+		<collection property="notice_image" resultMap = "ImageMap">
+		</collection>
+	</resultMap>
+	
+	<resultMap type = "com.phonemall.domain.NoticeImageVO" id = "ImageMap">
+		<id property = "notice_id" column="notice_id"/>
+		<result property = "image_uuid" column = "image_uuid"/>
+		<result property="image_uploadPath" column = "image_uploadPath"/>
+		<result property="image_name" column="image_name"/>
+	</resultMap>
+	
+	
+	<insert id = "insert" useGeneratedKeys="true" keyProperty="notice_id">
+		INSERT INTO notice (notice_title , notice_information, notice_description , notice_writer)
+		VALUES(#{notice_title}, #{notice_information}, #{notice_description}, #{notice_writer})
+	
+	</insert>
+	
+	<select id="read" resultMap="NoticeMap">
+	<![CDATA[
+		SELECT *
+		FROM notice n
+		LEFT OUTER JOIN (SELECT notice_id AS prev_id, notice_title AS prev_title 
+			FROM notice 
+			WHERE notice_id < #{notice_id}
+			ORDER BY notice_id DESC LIMIT 1) a
+		ON 1=1
+		LEFT OUTER JOIN (SELECT notice_id AS next_id, notice_title AS next_title 
+			FROM notice 
+			WHERE notice_id > #{notice_id}
+			ORDER BY notice_id ASC LIMIT 1) b
+		ON 1=1
+		LEFT OUTER JOIN notice_image AS i
+		ON i.notice_id = #{notice_id}
+		WHERE n.notice_id = #{notice_id}
+		]]>
+	</select>
+	
+	<select id="getList" resultMap="NoticeMap">
+		SELECT *
+		FROM notice AS n
+		LEFT OUTER JOIN notice_image AS i
+		ON i.notice_id = n.notice_id AND i.notice_id>0
+		WHERE n.notice_id > 0
+		ORDER BY n.notice_id DESC
+		LIMIT #{pageStart},#{amount}
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT count(*) FROM notice WHERE notice_id>0
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM notice WHERE notice_id = #{notice_id}
+	</delete>
+	
+	<update id="update">
+		UPDATE notice
+		SET notice_title = #{notice_title},
+		notice_description = #{notice_description},
+		notice_information = #{notice_information}
+		WHERE notice_id = #{notice_id}
+	</update>
+</mapper>

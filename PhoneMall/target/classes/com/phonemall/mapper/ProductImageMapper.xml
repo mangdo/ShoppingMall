@@ -10,7 +10,7 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<delete id="delete">
-		DELETE FROM product_image WHERE uuid = #{image_uuid}
+		DELETE FROM product_image WHERE image_uuid = #{image_uuid}
 	</delete>
 	
 	<select id="findById" resultType = "com.phonemall.domain.ProductImageVO">
@@ -20,4 +20,5 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteAll">
 		DELETE FROM product_image WHERE product_id = #{product_id}
 	</delete>
+	
 </mapper>
