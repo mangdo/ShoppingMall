@@ -32,10 +32,11 @@
                 	<div class="row">
                         <div class="col-md-12">
                             <div class="section-title text-left ">
-                                <h2 class="uppercase">Notice</h2>
+                                <h2 class="uppercase">Notice</h2><a class="button extra-small button-black f-right" href='register'><span>Register</span></a>
                                 <h6 class="mb-40">공지사항과 다양한 이벤트들을 확인해주세요.</h6>
+                                
                             </div>
-                        	<a class="button extra-small button-black" href='register'><span>Register</span></a>
+                        	
                         </div>
                     </div>
                     

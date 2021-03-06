@@ -12,13 +12,20 @@ $(function() {
 		e.preventDefault();
 
 		// Serialize the form data.
-		var formData = $(form).serialize();
+		var formData = {"name": form.find("input[name='name']").val(),
+		"email" : form.find("input[name='email']").val(), 
+		"title" : form.find("input[name='title']").val(),
+		"phone" : form.find("input[name='phone']").val(),
+		"message":form.find("input[name='message']").val()};
+		
+		alert("메시지 전송중");
 
 		// Submit the form using AJAX.
 		$.ajax({
 			type: 'POST',
 			url: $(form).attr('action'),
-			data: formData
+			data: JSON.stringify(formData),
+			contentType: "application/json"
 		})
 		.done(function(response) {
 			// Make sure that the formMessages div has the 'success' class.
@@ -26,8 +33,9 @@ $(function() {
 			$(formMessages).addClass('success');
 
 			// Set the message text.
-			$(formMessages).text(response);
-
+			//$(formMessages).text(response);
+			alert("메시지를 보냈습니다.");
+			
 			// Clear the form.
 			$('#contact-form input,#contact-form textarea').val('');
 		})

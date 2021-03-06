@@ -56,7 +56,7 @@
 		                                    </tr>
 		                                    <tr>
 		                                        <th class="share-tags-title">date</th>
-		                                        <td> <fmt:formatDate value="${notice.notice_regDate }" type="both"/></td>
+		                                        <td> <fmt:formatDate value="${notice.notice_regDate }" type="both"/> </td>
 		                                    </tr>
 		                                   </tbody>
                                         </table>
@@ -75,8 +75,11 @@
                                        		document.getElementById('notice-img').src= realSrc;
 										</script>
 	                                    <div class="today-date bg-img-1">
-	                                        <span class="meta-date">30</span>
-	                                        <span class="meta-month">June</span>
+	                                    	<fmt:setLocale value="en_US" scope="session"></fmt:setLocale>
+											
+	                                        <span class="meta-date"><fmt:formatDate value="${notice.notice_regDate }" pattern="dd"/></span>
+	                                        <span class="meta-month"><fmt:formatDate value="${notice.notice_regDate }" pattern="MMM"/></span>
+	                                    	<fmt:setLocale value="ko_kr" scope="session"></fmt:setLocale>
 	                                    </div>
 	                                </div>
 	                                <div class="col-lg-3"></div>
@@ -130,5 +133,5 @@ $(document).ready(function(){
 	function remove(){
 		$("#operForm").submit();
 	}
-}
+});
 </script>

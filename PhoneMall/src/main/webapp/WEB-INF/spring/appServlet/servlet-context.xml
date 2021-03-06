@@ -35,4 +35,18 @@
 	class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</beans:bean>
 	
+	<!-- mail -->
+	<beans:bean id = "mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<beans:property name="host" value="smtp.gmail.com" />
+	<beans:property name="port" value="587" />
+	<beans:property name="username" value="springphonemall2021@gmail.com" />
+	<beans:property name="password" value="phonemall2021!" />
+	<beans:property name="javaMailProperties"> 
+		<beans:props>
+			<beans:prop key="mail.smtp.auth">true</beans:prop>
+	 		<beans:prop key="mail.smtp.starttls.enable">true</beans:prop>
+	 	</beans:props>
+	</beans:property>
+	</beans:bean>
+	
 </beans:beans>
