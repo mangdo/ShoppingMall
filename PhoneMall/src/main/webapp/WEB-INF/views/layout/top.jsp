@@ -226,7 +226,7 @@
                                                 <li>
                                                     <div class="top-cart-inner view-cart">
                                                         <h4 class="text-uppercase">
-                                                            <a href="/viewCart">View cart</a>
+                                                            <a href="/purchase/viewCart">View cart</a>
                                                         </h4>
                                                     </div>
                                                 </li>

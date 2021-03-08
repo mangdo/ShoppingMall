@@ -36,6 +36,8 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	<result property = "product_rating" column="product_rating"/>
 	<collection property="product_imageList" resultMap = "imageMap">
 	</collection>
+	<collection property="product_colorList" resultMap = "colorMap">
+	</collection>
 </resultMap>
 
 <resultMap type = "com.phonemall.domain.ProductImageVO" id = "imageMap">
@@ -46,11 +48,18 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	<result property = "product_id" column="product_id"/>
 </resultMap>
 
+<resultMap type = "com.phonemall.domain.ProductColorListVO" id="colorMap">
+	<result property = "product_id" column = "product_id"/>
+	<result property = "product_color" column = "product_color"/>
+</resultMap>
+
 <select id="read" resultMap = "productMap">
-	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type
+	SELECT p.*, image_uuid, image_uploadPath, image_name, image_type, product_color
 	FROM product AS p
 	LEFT OUTER JOIN product_image AS i
 	ON p.product_id = i.product_id
+	LEFT OUTER JOIN product_colorList AS c
+	on p.product_id = c.product_id
 	WHERE p.product_id = #{product_id}
 </select>
 

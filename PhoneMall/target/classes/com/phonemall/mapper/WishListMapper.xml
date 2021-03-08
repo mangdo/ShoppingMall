@@ -22,6 +22,8 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	<result property = "product_carrier" column = "product_carrier"/>
 	<collection property="product_imageList" resultMap = "imageMap">
 	</collection>
+	<collection property="product_colorList" resultMap = "colorMap">
+	</collection>
 	</resultMap>
 
 	<resultMap type = "com.phonemall.domain.ProductImageVO" id = "imageMap">
@@ -30,6 +32,11 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	<result property="image_name" column="image_name"/>
 	<result property = "image_type" column="image_type"/>
 	<result property = "product_id" column="product_id"/>
+	</resultMap>
+	
+	<resultMap type = "com.phonemall.domain.ProductColorListVO" id="colorMap">
+	<result property = "product_id" column = "product_id"/>
+	<result property = "product_color" column = "product_color"/>
 	</resultMap>
 	
 	<insert id="insert" parameterType="com.phonemall.domain.WishListVO">
@@ -47,9 +54,9 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="ListWishList" resultMap = "productMap">
-	select wishlist_id, p.product_id, c.user_email, product_title, product_price, product_description,product_carrier, product_information, product_brand,product_type,image_uuid, image_uploadPath, image_name, image_type
-	from wishlist c, product p, product_image i
-	where c.product_id=p.product_id and c.user_email=#{user_email} and p.product_id = i.product_id
+	select wishlist_id, p.product_id, c.user_email, product_title, product_price, product_description,product_carrier, product_information, product_brand,product_type,image_uuid, image_uploadPath, image_name, image_type,product_color
+	from wishlist c, product p, product_image i, product_colorList l
+	where c.product_id=p.product_id and c.user_email=#{user_email} and p.product_id = i.product_id and p.product_id = c.product_id
 	</select>
 	
 	

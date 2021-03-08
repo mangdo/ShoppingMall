@@ -33,7 +33,7 @@
                         <div class="col-md-2">
                             <ul class="cart-tab">
                                 <li>
-                                    <a class="active" href="#shopping-cart" data-toggle="tab">
+                                    <a class="active" href="/purchase/viewCart">
                                         <span>01</span>
                                         Shopping cart
                                     </a>
@@ -45,7 +45,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#checkout" data-toggle="tab">
+                                    <a href="#" onclick="alert('결제는 장바구니를 통해 가능합니다!')">
                                         <span>03</span>
                                         Checkout
                                     </a>
@@ -251,18 +251,20 @@
                                                                 
                                                                 <div class="pro-thumbnail-info text-left">
                                                                     <h6 class="product-title-2">
-                                                                        <a href="#">${row.product_title}</a>
+                                                                        <a href='/product/get?product_id=${row.product_id}'>${row.product_title}</a>
                                                                     </h6>
                                                                     <p>Brand: ${row.product_brand}</p>
                                                                     <p>Model: ${row.product_type}</p>
                                                                     <p>Carrier: ${row.product_carrier}</p>
                                                                 </div>
                                                             </td>
+                                                            
                                                             <td class="product-price">${row.product_price}</td>
                                                             <td class="product-stock text-uppercase">in stock</td>
+                                                            
                                                             <td class="product-add-cart">
                                                                 <a href="#" title="Add To Cart">
-                                                                    <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                                                    <button onclick="openModal(${row.product_id},${row.product_price})"><i class="zmdi zmdi-shopping-cart-plus"></i></button>
                                                                 </a>
                                                             </td>
                                                             
@@ -272,242 +274,20 @@
                                                                  <button type="submit"><i class="zmdi zmdi-close"></i></button>                                                                 
                                                                 </form>                                                                 
                                                             </td>
-                                                           
-                                                            
+
                                                         </tr>
+                                                        
                                                        </c:forEach>
                                                         
                                                     </tbody>
                                                 </table>
+                                            
                                             </div>
                                         
                                     </div>
                                 </div>
                                
                                 <!-- wishlist end -->
-                                <!-- checkout start -->
-                                <div class="tab-pane" id="checkout">
-                                    <div class="checkout-content box-shadow p-30">
-                                        <form action="#">
-                                            <div class="row">
-                                                <!-- billing details -->
-                                                <div class="col-md-6">
-                                                    <div class="billing-details pr-10">
-                                                        <h6 class="widget-title border-left mb-20">billing details</h6>
-                                                        <input type="text"  placeholder="Your Name Here...">
-                                                        <input type="text"  placeholder="Email address here...">
-                                                        <input type="text"  placeholder="Phone here...">
-                                                        <input type="text"  placeholder="Company neme here...">
-                                                        <select class="custom-select">
-                                                            <option value="defalt">country</option>
-                                                            <option value="c-1">Australia</option>
-                                                            <option value="c-2">Bangladesh</option>
-                                                            <option value="c-3">Unitd States</option>
-                                                            <option value="c-4">Unitd Kingdom</option>
-                                                        </select>
-                                                        <select class="custom-select">
-                                                            <option value="defalt">State</option>
-                                                            <option value="c-1">Melbourne</option>
-                                                            <option value="c-2">Dhaka</option>
-                                                            <option value="c-3">New York</option>
-                                                            <option value="c-4">London</option>
-                                                        </select>
-                                                        <select class="custom-select">
-                                                            <option value="defalt">Town/City</option>
-                                                            <option value="c-1">Victoria</option>
-                                                            <option value="c-2">Chittagong</option>
-                                                            <option value="c-3">Boston</option>
-                                                            <option value="c-4">Cambridge</option>
-                                                        </select>
-                                                        <textarea class="custom-textarea" placeholder="Your address here..."></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <!-- our order -->
-                                                    <div class="payment-details pl-10 mb-50">
-                                                        <h6 class="widget-title border-left mb-20">our order</h6>
-                                                        <table>
-                                                            <tr>
-                                                                <td class="td-title-1">Dummy Product Name x 2</td>
-                                                                <td class="td-title-2">$1855.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="td-title-1">Dummy Product Name</td>
-                                                                <td class="td-title-2">$555.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="td-title-1">Cart Subtotal</td>
-                                                                <td class="td-title-2">$2410.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="td-title-1">Shipping and Handing</td>
-                                                                <td class="td-title-2">$15.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="td-title-1">Vat</td>
-                                                                <td class="td-title-2">$00.00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="order-total">Order Total</td>
-                                                                <td class="order-total-price">$2425.00</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div> 
-                                                    <!-- payment-method -->
-                                                    <div class="payment-method">
-                                                        <h6 class="widget-title border-left mb-20">payment method</h6>
-                                                        <div id="accordion">
-                                                            <div class="panel">
-                                                                <h4 class="payment-title box-shadow">
-                                                                    <a data-toggle="collapse" data-parent="#accordion" href="#bank-transfer" >
-                                                                    direct bank transfer
-                                                                    </a>
-                                                                </h4>
-                                                                <div id="bank-transfer" class="panel-collapse collapse in" >
-                                                                    <div class="payment-content">
-                                                                    <p>Lorem Ipsum is simply in dummy text of the printing and type setting industry. Lorem Ipsum has been.</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="panel">
-                                                                <h4 class="payment-title box-shadow">
-                                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                                                    cheque payment
-                                                                    </a>
-                                                                </h4>
-                                                                <div id="collapseTwo" class="panel-collapse collapse">
-                                                                    <div class="payment-content">
-                                                                        <p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p> 
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="panel">
-                                                                <h4 class="payment-title box-shadow">
-                                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" >
-                                                                    paypal
-                                                                    </a>
-                                                                </h4>
-                                                                <div id="collapseThree" class="panel-collapse collapse" >
-                                                                    <div class="payment-content">
-                                                                        <p>Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
-                                                                        <ul class="payent-type mt-10">
-                                                                            <li><a href="#"><img src="/resources/img/payment/1.png" alt=""></a></li>
-                                                                            <li><a href="#"><img src="/resources/img/payment/2.png" alt=""></a></li>
-                                                                            <li><a href="#"><img src="/resources/img/payment/3.png" alt=""></a></li>
-                                                                            <li><a href="#"><img src="/resources/img/payment/4.png" alt=""></a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- payment-method end -->
-                                                    <button class="submit-btn-1 mt-30 btn-hover-1" type="submit">place order</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!-- checkout end -->
-                                <!-- order-complete start -->
-                                <div class="tab-pane" id="order-complete">
-                                    <div class="order-complete-content box-shadow">
-                                        <div class="thank-you p-30 text-center">
-                                            <h6 class="text-black-5 mb-0">Thank you. Your order has been received.</h6>
-                                        </div>
-                                        <div class="order-info p-30 mb-10">
-                                            <ul class="order-info-list">
-                                                <li>
-                                                    <h6>order no</h6>
-                                                    <p>m 2653257</p>
-                                                </li>
-                                                <li>
-                                                    <h6>order no</h6>
-                                                    <p>m 2653257</p>
-                                                </li>
-                                                <li>
-                                                    <h6>order no</h6>
-                                                    <p>m 2653257</p>
-                                                </li>
-                                                <li>
-                                                    <h6>order no</h6>
-                                                    <p>m 2653257</p>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="row">
-                                            <!-- our order -->
-                                            <div class="col-md-6">
-                                                <div class="payment-details p-30">
-                                                    <h6 class="widget-title border-left mb-20">our order</h6>
-                                                    <table>
-                                                        <tr>
-                                                            <td class="td-title-1">Dummy Product Name x 2</td>
-                                                            <td class="td-title-2">$1855.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="td-title-1">Dummy Product Name</td>
-                                                            <td class="td-title-2">$555.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="td-title-1">Cart Subtotal</td>
-                                                            <td class="td-title-2">$2410.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="td-title-1">Shipping and Handing</td>
-                                                            <td class="td-title-2">$15.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="td-title-1">Vat</td>
-                                                            <td class="td-title-2">$00.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="order-total">Order Total</td>
-                                                            <td class="order-total-price">$2425.00</td>
-                                                        </tr>
-                                                    </table>
-                                                </div>         
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="bill-details p-30">
-                                                    <h6 class="widget-title border-left mb-20">billing details</h6>
-                                                    <ul class="bill-address">
-                                                        <li>
-                                                            <span>Address:</span>
-                                                            28 Green Tower, Street Name, New York City, USA
-                                                        </li>
-                                                        <li>
-                                                            <span>email:</span>
-                                                            info@companyname.com
-                                                        </li>
-                                                        <li>
-                                                            <span>phone : </span>
-                                                            (+880) 19453 821758
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="bill-details pl-30">
-                                                    <h6 class="widget-title border-left mb-20">billing details</h6>
-                                                    <ul class="bill-address">
-                                                        <li>
-                                                            <span>Address:</span>
-                                                            28 Green Tower, Street Name, New York City, USA
-                                                        </li>
-                                                        <li>
-                                                            <span>email:</span>
-                                                            info@companyname.com
-                                                        </li>
-                                                        <li>
-                                                            <span>phone : </span>
-                                                            (+880) 19453 821758
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- order-complete end -->
                             </div>
                         </div>
                     </div>
@@ -517,5 +297,78 @@
 
         </section>
         <!-- End page content -->
-
+<!-- option Modal -->
+<!-- Modal -->
+<div class="modal fade" id="optionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <form name="form1" action="/purchase/insertCart" method="post">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            	<h4 class="modal-title">옵션 선택</h4>
+            </div>
+            <div class="modal-body">
+            	<div id="hiddenInput"></div>
+				<table>
+					<thead style="color: black;">
+						<tr>
+							<td>수량</td>
+							<td>색깔</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<div class="cart-plus-minus f-left" style="text-align:center;">
+                                      <input type="text" value="02" name="product_qty" class="cart-plus-minus-box">
+                                </div>
+							</td>
+							<td>
+								<div id="colorSelectBox" style="border:black;">
+                                     <select name="product_color" id="select2">
+									 </select>
+                                </div>
+							</td>
+						</tr>
+				   </tbody>
+				</table>
+            </div><!-- .modal-body -->
+            <div class="modal-footer">
+            	<button id="AddToCartBtn" class="submit-btn-1 btn-hover-1" type="submit">Add to Cart</button>
+            	<button class="submit-btn-1 btn-hover-1" data-dismiss="modal" aria-label="Close" style="background-color : #575757;">취소</button>
+            </div>
+        </div><!-- .modal-content -->
+       </form>
+    </div><!-- .modal-dialog -->
+</div>
+<!-- END Modal -->
 <%@include file="/WEB-INF/views/layout/foot.jsp" %>
+
+
+<script type="text/javascript">
+var optionModal = $("#optionModal");
+function openModal(product_id,product_price) {
+	
+	optionModal.modal('show');
+	var price = product_price;
+	var id = product_id;
+	
+	$.getJSON("/product/getColorList",{product_id : id}, function(arr){
+		 console.log(arr);
+		 str="";
+		 str2 = "";
+		 str3 = "";
+		 $(arr).each(function(i, color){
+			console.log(color.product_color);
+			str = str + "<option value='"+color.product_color+"'>"+color.product_color+"</option>";
+		
+		 });
+		 str2 = str2 + "<input type='hidden' name='product_id' value='"+product_id+"'/>"
+		 str3 = str3 + "<input type='hidden' name='product_price' value='"+price+"'/>"
+		 $("#select2").empty().append(str);
+		 $("#hiddenInput").empty().append(str2);
+		 $("#hiddenInput").append(str3)
+	 });
+	
+	};
+</script>

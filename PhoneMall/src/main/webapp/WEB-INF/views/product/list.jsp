@@ -125,7 +125,7 @@
                                                                 <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
                                                             </li>
                                                             <li>
-                                                                <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                                                <a href="#" title="Add to cart" onclick="openModal(${product.product_id},${product.product_price})"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                             </li>
                                                         </ul>
                                                         </form>
@@ -501,7 +501,51 @@ aria-lablelledby="myModalLabel" aria-hidden="true">
   <!-- END Modal -->
 </div>
 <!-- END QUICKVIEW PRODUCT -->
-
+<!-- option Modal -->
+<!-- Modal -->
+<div class="modal fade" id="optionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <form name="form1" action="/purchase/insertCart" method="post">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            	<h4 class="modal-title">옵션 선택</h4>
+            </div>
+            <div class="modal-body">
+            	<div id="hiddenInput"></div>
+				<table>
+					<thead style="color: black;">
+						<tr>
+							<td>수량</td>
+							<td>색깔</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<div class="cart-plus-minus f-left" style="text-align:center;">
+                                      <input type="text" value="02" name="product_qty" class="cart-plus-minus-box">
+                                </div>
+							</td>
+							<td>
+								<div id="colorSelectBox" style="border:black;">
+                                     <select name="product_color" id="select2">
+									 </select>
+                                </div>
+							</td>
+						</tr>
+				   </tbody>
+				</table>
+            </div><!-- .modal-body -->
+            <div class="modal-footer">
+            	<button id="AddToCartBtn" class="submit-btn-1 btn-hover-1" type="submit">Add to Cart</button>
+            	<button class="submit-btn-1 btn-hover-1" data-dismiss="modal" aria-label="Close" style="background-color : #575757;">취소</button>
+            </div>
+        </div><!-- .modal-content -->
+       </form>
+    </div><!-- .modal-dialog -->
+</div>
+<!-- END Modal -->
 <!-- 상품 클릭 후 이동 -->
 <form id='actionForm' action="/product/get" method='get'>
  	<input type='hidden' name='product_id' value=''>
@@ -662,4 +706,31 @@ $(document).ready(function(){
 
     });	
 });
+
+var optionModal = $("#optionModal");
+function openModal(product_id,product_price) {
+	
+	optionModal.modal('show');
+	var price = product_price;
+	var id = product_id;
+	
+	$.getJSON("/product/getColorList",{product_id : id}, function(arr){
+		 console.log(arr);
+		 str="";
+		 str2 = "";
+		 str3 = "";
+		 $(arr).each(function(i, color){
+			console.log(color.product_color);
+			str = str + "<option value='"+color.product_color+"'>"+color.product_color+"</option>";
+		
+		 });
+		 str2 = str2 + "<input type='hidden' name='product_id' value='"+product_id+"'/>"
+		 str3 = str3 + "<input type='hidden' name='product_price' value='"+price+"'/>"
+		 $("#select2").empty().append(str);
+		 $("#hiddenInput").empty().append(str2);
+		 $("#hiddenInput").append(str3)
+	 });
+	
+	};
+
 </script>

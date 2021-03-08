@@ -13,9 +13,10 @@
 	
 	<!--  <security:intercept-url pattern="/**" access="permitAll" /> -->
 	<security:intercept-url pattern="/mypage/customlogin" access="permitAll" />
-	<security:intercept-url pattern="/myPurchase" access="hasRole('ROLE_MEMBER')" />
-	<security:intercept-url pattern="/product/insertWishList" access="hasRole('ROLE_MEMBER')" />
-	<security:intercept-url pattern="/mypage/wishList" access="hasRole('ROLE_MEMBER')" />	
+	<security:intercept-url pattern="/myPurchase" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
+	<security:intercept-url pattern="/purchase/viewCart" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
+	<security:intercept-url pattern="/product/insertWishList" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
+	<security:intercept-url pattern="/mypage/wishList" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />	
 	<security:form-login login-page="/mypage/customlogin" login-processing-url="/mypage/login" username-parameter="email" password-parameter="userpw" default-target-url="/"/>
 	<security:csrf disabled="true" />
 </security:http>

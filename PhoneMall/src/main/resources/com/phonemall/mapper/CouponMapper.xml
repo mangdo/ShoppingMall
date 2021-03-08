@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.phonemall.mapper.CouponMapper">
+	<resultMap id="couponMap" type="com.phonemall.domain.CouponVO">
+		<id column="coupon_id" property="coupon_id"></id>
+		<result column="coupon_name" property="coupon_name"></result>
+		<result column="coupon_description" property="coupon_description"></result>
+		<result column="discount" property="discount"></result>
+		<result column="duration" property="duration"></result>
+		<result column="coupon_code" property="coupon_code"></result>
+		<result column="price_limit" property="price_limit"></result>
+	</resultMap>
+	
+	<resultMap id="couponUserMap" type="com.phonemall.domain.CouponUserVO">
+		<id column="coupon_id" property="coupon_id"></id>
+		<result column="user_email" property="user_email"></result>		
+		<result column="startDate" property="startDate"></result>
+		<result column="endDate" property="endDate"></result>
+		<result column="used" property="used"></result>
+		<collection property="coupon_List" resultMap = "couponMap"></collection>
+	</resultMap>	
+		
+	
+	<insert id="insert" parameterType="com.phonemall.domain.CouponUserVO">
+		INSERT INTO user_coupons(user_email, coupon_id, startDate, endDate, used)
+		VALUES ( #{user_email}, #{coupon_id},#{startDate},#{endDate},#{used})
+	</insert>
+	
+	<select id="search" resultMap="couponMap">
+		SELECT * from coupons
+		WHERE coupon_code = #{coupon_code}
+	</select>
+	
+	<select id="getList" resultMap = "couponUserMap">
+	select startDate,endDate,used, c.coupon_id, coupon_name, coupon_description, discount, price_limit, duration, coupon_code
+	from coupons c, user_coupons u
+	where user_email=#{user_email} and c.coupon_id = u.coupon_id
+	</select>
+	
+	<select id="getValidList" resultMap = "couponUserMap">
+	select startDate,endDate,used, c.coupon_id, coupon_name, coupon_description, discount, price_limit, duration, coupon_code
+	from coupons c, user_coupons u
+	where user_email=#{user_email} and c.coupon_id = u.coupon_id and endDate >= CURDATE() and used = "사용 가능"
+	</select>
+	
+	<delete id="delete">
+	DELETE FROM user_coupons WHERE coupon_id = #{coupon_id} AND user_email=#{user_email}
+	</delete>
+	
+</mapper>

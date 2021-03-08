@@ -76,6 +76,7 @@
                                     <!-- imgs-zoom-area end -->
                                     <!-- single-product-info start -->
                                     <div class="col-lg-7">
+                                      <form id="cartform" name="form1" action="/purchase/insertCart" method="post">
                                         <div class="single-product-info">
                                             <h3 class="text-black-1"><c:out value="${product.product_title}"/></h3>
                                             <h6 class="brand-name-2">
@@ -108,36 +109,27 @@
                                             <!-- hr -->
                                             <hr>
                                             <!-- plus-minus-pro-action -->
-                                            <div class="plus-minus-pro-action clearfix">
+                                            
+                                            <div class="plus-minus-pro-action clearfix" style="height:30px;">
                                                 <div class="sin-plus-minus f-left clearfix">
                                                     <p class="color-title f-left">Qty</p>
                                                     <div class="cart-plus-minus f-left">
-                                                        <input type="text" value="01" name="qtybutton"
+                                                        <input type="text" value="01" name="product_qty"
                                                             class="cart-plus-minus-box">
                                                     </div>
                                                 </div>
-                                                <div class="sin-pro-action f-right">
-                                                    <ul class="action-button">
-                                                        <li>
-                                                            <a href="#" title="Wishlist" tabindex="0"><i
-                                                                    class="zmdi zmdi-favorite"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" data-toggle="modal" data-target="#productModal"
-                                                                title="Quickview" tabindex="0"><i
-                                                                    class="zmdi zmdi-zoom-in"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" title="Compare" tabindex="0"><i
-                                                                    class="zmdi zmdi-refresh"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" title="Add to cart" tabindex="0"><i
-                                                                    class="zmdi zmdi-shopping-cart-plus"></i></a>
-                                                        </li>
-                                                    </ul>
+                                                <div class="sin-plus-minus f-left clearfix" style="margin-left:30px;">
+                                                	<input type="hidden" name="product_id" value="${product.product_id}"/>
+                                                	<input type="hidden" name="product_price" value="${product.product_price}"/>
+                                                    <p class="color-title f-left">Color</p>
+                                                        <select name="product_color">
+                                                        <c:forEach var = "color" items = "${product.product_colorList}">
+    															<option value="${color.product_color}">${color.product_color}</option>
+    													</c:forEach>
+														</select>
                                                 </div>
-                                            </div>
+                                         
+                                              </div>   
                                             <!-- plus-minus-pro-action end -->
                                             <!-- hr -->
                                             <hr>
@@ -146,8 +138,8 @@
                                             <!--  hr -->
                                             <hr>
                                             <div>
-                                                <a href="#" class="button extra-small button-black" tabindex="-1">
-                                                    <span class="text-uppercase">Buy now</span>
+                                                <a id="customSubmit2"  class="button extra-small button-black" tabindex="-1">
+                                                    <span class="text-uppercase">Add to Cart</span>
                                                 </a>
                                                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                                                 <a class="button extra-small button-black" tabindex="-1" data-oper='modify'>
@@ -155,7 +147,10 @@
 	                                            </a>
 	                                            </sec:authorize>
                                             </div>
-                                            
+                                     
+												</div>
+												</form>
+											</div> 
                                         </div>
                                     </div>
                                     <!-- single-product-info end -->
@@ -389,6 +384,7 @@
 </form>
 
 <%@include file="/WEB-INF/views/layout/foot.jsp" %>
+                                   
 
 <!-- Modal -->
 <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog">
@@ -791,5 +787,11 @@
 		</sec:authorize>		
 	});
 	
+	$("#customSubmit2").on("click", function(e){
+		alert("성공적으로 추가되었습니다!");
+		$("#cartform").submit();
+	});
+	
  });
+ 
 </script>

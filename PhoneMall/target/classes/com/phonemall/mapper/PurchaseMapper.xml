@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.phonemall.mapper.PurchaseMapper">
+	
+	<resultMap type="com.phonemall.domain.CartVO" id="CartMap">
+		<id property = "cart_id" column="cart_id"/>
+		<result property = "user_email" column="user_email"/>
+		<result property = "product_id" column="product_id"/>
+		<result property = "product_qty" column="product_qty"/>
+		<result property = "product_price" column="product_price"/>
+		<result property = "product_color" column="product_color"/>
+		<result property = "total_price" column="total_price"/>		
+	</resultMap>
+	
+	 <resultMap type="com.phonemall.domain.PurchaseVO" id ="purchaseMap">
+	 	<id property = "purchase_id" column="purchase_id"/>
+	 	<result property = "purchaseDate" column = "purchaseDate"/>
+	 	<result property = "memo" column = "memo"/>
+	 	<result property = "email" column = "email"/>
+	 	<result property = "lastname" column = "lastname"/>
+	 	<result property = "firstname" column = "firstname"/>
+	 	<result property = "postalcode" column = "postalcode"/>
+	 	<result property = "phonenum" column = "phonenum"/>
+	 	<result property = "address" column = "address"/>
+	 	<result property = "paymentMethod" column = "paymentMethod"/>
+	 	<result property = "used_coupon" column = "used_coupon"/>
+	 	<collection property="cartList" resultMap = "cartMap"></collection>
+	 </resultMap>
+	 
+	 
+	 <select id="read" resultMap = "purchaseMap">
+	 	SELECT p.*, c.*
+	 	FROM cart c, purchase p 
+	 	WHERE c.user_email=#{user_email} and c.user_email = p.email
+	 </select>
+	 
+	 <insert id="insert">
+	 	INSERT INTO purchase(purchase_id,purchaseDate,memo,email,lastname,firstname,postalcode,phonenum,address,paymentMethod,used_coupon)
+		VALUES (#{purchase_id},#{purchaseDate},#{memo},#{email},#{lastname},#{firstname},#{postalcode},#{phonenum},#{address},#{paymentMethod},#{used_coupon} )
+	 </insert>
+	 
+	 <insert id="orderInfo_Details">
+		INSERT INTO order_complete(user_email, product_id, product_qty, product_price, product_color, purchase_id)
+     select user_email, product_id, product_qty, product_price, product_color , #{purchase_id}
+         from cart   
+	</insert> 
+	
+
+</mapper>
+
