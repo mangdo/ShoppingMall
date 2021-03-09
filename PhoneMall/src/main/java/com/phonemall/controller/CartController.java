@@ -213,5 +213,25 @@ public class CartController {
 		return mav;	
 	}
 	
+	@RequestMapping("/cartPreview")
+	@ResponseBody
+	public Map<String, Object> cartPreviewlist(Principal principal) {
+		log.info("cart preview");
+
+		String email = principal.getName();
+		List<CartVO> list=cartservice.ListCart(email);
+		
+		if(list.size()==0) {
+			log.info("empty cart");
+			return null;
+		}
+		int total_money = cartservice.sumTotalMoney(email);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("total_money",total_money);
+		map.put("list", list);
+		
+		return map;
+	}
 	
 }

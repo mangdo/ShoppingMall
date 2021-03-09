@@ -219,7 +219,7 @@
                                                     <div class="top-cart-inner subtotal">
                                                         <h4 class="text-uppercase g-font-2">
                                                             Total  =  
-                                                            <span>$ 500.00</span>
+                                                            <span id ="total_money">$ 500.00</span>
                                                         </h4>
                                                     </div>
                                                 </li>

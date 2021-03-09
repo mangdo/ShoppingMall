@@ -1831,6 +1831,10 @@
     <!-- Main js file that contents all jQuery plugins activation. -->
     <script src="/resources/js/main.js"></script>
 
+	<!-- cartPreview -->
+	<sec:authorize access="isAuthenticated()">
+		<script src="/resources/js/ajax-cartPreview.js"></script>
+	</sec:authorize>
 </body>
 
 </html>

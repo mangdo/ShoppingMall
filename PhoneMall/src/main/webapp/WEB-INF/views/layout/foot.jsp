@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+    
     
     
         <!-- START FOOTER AREA -->
@@ -158,6 +160,11 @@
     <!-- Main js file that contents all jQuery plugins activation. -->
     <script src="/resources/js/main.js"></script>
 
+	<!-- cartPreview -->
+	<sec:authorize access="isAuthenticated()">
+		로그인!!!
+		<script src="/resources/js/ajax-cartPreview.js"></script>
+	</sec:authorize>
 </body>
 
 </html>
