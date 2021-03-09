@@ -42,11 +42,6 @@ public class PhoneMallController {
 		return "/mallView/mainPage";
 	}
 
-	@RequestMapping("/blog")
-	public String toBlogPage() {
-		return "/mallView/blog";
-	}
-	
 	@RequestMapping("/about")
 	public String toAboutPage() {
 		return "/mallView/about";

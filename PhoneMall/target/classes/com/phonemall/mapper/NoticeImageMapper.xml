@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.phonemall.mapper.NoticeImageMapper">
+
+	<insert id="insert">
+		INSERT INTO notice_image (image_uuid, image_uploadPath, image_name, notice_id)
+		VALUES (#{image_uuid}, #{image_uploadPath}, #{image_name}, #{notice_id} )
+	</insert>
+	
+	<select id="findById" resultType = "com.phonemall.domain.NoticeImageVO">
+		SELECT * FROM notice_image WHERE notice_id = #{notice_id}
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM notice_image WHERE notice_id = #{notice_id}
+	</delete>
+	
+	<update id="update">
+		UPDATE notice_image
+		SET image_uuid = #{image_uuid},
+		image_uploadPath = #{image_uploadPath},
+		image_name = #{image_name}
+		WHERE notice_id = #{notice_id}
+	</update>
+</mapper>

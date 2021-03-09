@@ -100,9 +100,20 @@
 					                              		<a><i class="zmdi zmdi-star"></i></a>
 					                              		<c:set var="rating">${i}</c:set>
 					                              	</c:forEach>
-					                              	<c:forEach var="i" begin="${product.product_rating}" end="4">
-				                                    	<a><i class="zmdi zmdi-star-outline"></i></a>
-				                                    </c:forEach>
+					                              	<c:if test="${ product.product_rating - rating >= 0.5 }">
+                                                   		<a><i class="zmdi zmdi-star-half"></i></a>
+                                                   	</c:if>
+                                                   	<c:if test="${ product.product_rating - rating != 0 }">
+                                                    	<c:if test="${ product.product_rating - rating < 0.5 }">
+                                                    		<a><i class="zmdi zmdi-star-outline"></i></a>
+                                                    	</c:if>
+                                                   	</c:if>
+                                                   	<c:if test="${ product.product_rating - rating == 0 }">
+                                                    	<a><i class="zmdi zmdi-star-outline"></i></a>
+                                                   	</c:if>
+                                                   	<c:forEach var="i" begin="${product.product_rating+2}" end="5">
+                                                   		<a><i class="zmdi zmdi-star-outline"></i></a>
+                                                   	</c:forEach>
                                                     <span class="text-black-5">( <c:out value="${product.product_rating}"/>점 )</span>
                                                 </div>
                                             </div>
@@ -168,9 +179,8 @@
                                             </ul>
                                             <div class="tab-content">
                                                 <div role="tabpanel" class="tab-pane active" id="description">
-                                                    <p> 상품 설명입니다.'${_csrf.token}' </p>
-                                                    <p>  <c:out value="${product.product_description}"/>  </p>
-                                                    
+                                                    <p> 상품 설명입니다.</p>
+                                                    <pre style="background-color:transparent; border: none"> ${product.product_description} </pre>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="information">
                                                     <p> information </p>

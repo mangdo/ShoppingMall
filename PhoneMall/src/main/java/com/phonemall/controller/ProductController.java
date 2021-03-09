@@ -74,13 +74,14 @@ public class ProductController {
 	public String register(ProductVO product, RedirectAttributes rttr, MultipartFile mainImage, MultipartFile[] subImage) {
 		
 		List<ProductImageVO> imagelist = new ArrayList<>();
+		log.info(product.getProduct_id());
 		if(mainImage!=null && !mainImage.isEmpty()) {
-			imageFolderSave(mainImage, imagelist, "mainImage", product.getProduct_id());
+			imageFolderSave(mainImage, imagelist, "mainImage");
 		}
 		
 		for(MultipartFile multipartFile : subImage) {
 			if(!multipartFile.isEmpty()) {
-				imageFolderSave(multipartFile, imagelist, "subImage", product.getProduct_id());
+				imageFolderSave(multipartFile, imagelist, "subImage");
 			}
 		}
 		
@@ -104,7 +105,7 @@ public class ProductController {
 	}
 	
 	
-	private void imageFolderSave(MultipartFile mainImage, List<ProductImageVO> imagelist, String imageType, Long id) {
+	private void imageFolderSave(MultipartFile mainImage, List<ProductImageVO> imagelist, String imageType) {
 		
 		String uploadFolder = "c:\\phoneMall\\upload";
 		
@@ -130,7 +131,7 @@ public class ProductController {
 			}
 			
 			// productImageVO create
-			imagelist.add(new ProductImageVO(uuid.toString(), uploadFolderPath.toString().replace("\\", "/"), mainImage.getOriginalFilename(), imageType, id));
+			imagelist.add(new ProductImageVO(uuid.toString(), uploadFolderPath.toString().replace("\\", "/"), mainImage.getOriginalFilename(), imageType, null));
 
 		}catch(Exception e){log.error(e.getMessage());}
 	}
@@ -181,11 +182,11 @@ public class ProductController {
 		});
 		
 		if(newMainImage!=null && !newMainImage.isEmpty()) 
-			imageFolderSave(newMainImage, newImagelist, "mainImage", product.getProduct_id());
+			imageFolderSave(newMainImage, newImagelist, "mainImage");
 		
 		for(MultipartFile multipartFile : newSubImage) {
 			if(!multipartFile.isEmpty()) {
-				imageFolderSave(multipartFile, newImagelist, "subImage", product.getProduct_id());
+				imageFolderSave(multipartFile, newImagelist, "subImage");
 			}
 		}
 				
@@ -222,12 +223,12 @@ public class ProductController {
 		log.info("delete imageFile");
 		try {
 			Path file = Paths.get("C:\\phoneMall\\upload\\"+
-					image.getImage_uploadPath().replace("/", "\\")+"\\"+image.getImage_uuid()+"\\"+image.getImage_name());
+					image.getImage_uploadPath().replace("/", "\\")+"\\"+image.getImage_uuid()+"_"+image.getImage_name());
 			Files.deleteIfExists(file);
 			
-			if(image.getImage_type().equals("mainImage")) {
+			if(image.getImage_type().contains("mainImage")) {
 				Path thumbNail = Paths.get("C:\\phoneMall\\upload\\"+
-						image.getImage_uploadPath().replace("/", "\\")+"\\s_"+image.getImage_uuid()+"\\"+image.getImage_name());
+						image.getImage_uploadPath().replace("/", "\\")+"\\s_"+image.getImage_uuid()+"_"+image.getImage_name());
 				Files.deleteIfExists(thumbNail);
 			}
 		}catch(Exception e) {

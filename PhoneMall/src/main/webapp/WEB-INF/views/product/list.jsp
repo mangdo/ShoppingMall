@@ -42,24 +42,17 @@
 
                                         
                                     </ul>
-                                    <!-- short-by -->
-                                    <div class="short-by f-left text-center">
-                                        <span>Sort by :</span>
-                                        <select>
-                                            <option value="volvo">Newest items</option>
-                                            <option value="saab">Saab</option>
-                                            <option value="mercedes">Mercedes</option>
-                                            <option value="audi">Audi</option>
-                                        </select> 
-                                    </div> 
-                                    <!-- showing -->
+                                    <a class="button extra-small button-black f-right" id='regBtn' ><span style="height:30px;padding:4px 20px">Register</span></a>
+                                    <!-- showing 
                                     <div class="showing f-right text-right">
-                                        <span>Showing : 01-09 of 17.</span>
-                                    </div>                                   
+                                        
+                                    </div> 
+                                    -->
+                                                                      
                                 </div>
                                 <!-- shop-option end -->
                                 <!-- Tab Content start -->
-                                <div> <a class="button extra-small button-black mb-20" id='regBtn'><span>Register</span></a></div>
+                                
                                 <div class="tab-content">
                                 	
                                     <!-- grid-view -->
@@ -98,12 +91,17 @@
                                                         	<c:if test="${ product.product_rating - rating >= 0.5 }">
                                                         		<a><i class="zmdi zmdi-star-half"></i></a>
                                                         	</c:if>
-                                                        	<c:if test="${ product.product_rating - rating < 0.5 }">
-                                                        		<a><i class="zmdi zmdi-star-outline"></i></a>
+                                                        	<c:if test="${ product.product_rating - rating != 0 }">
+	                                                        	<c:if test="${ product.product_rating - rating < 0.5 }">
+	                                                        		<a><i class="zmdi zmdi-star-outline"></i></a>
+	                                                        	</c:if>
                                                         	</c:if>
-                                                        	<c:forEach var="i" begin="${product.product_rating+2}" end="5">
-                                                        		<a><i class="zmdi zmdi-star-outline"></i></a>
-                                                        	</c:forEach>
+                                                        	<c:if test="${ product.product_rating - rating == 0 }">
+		                                                    	<a><i class="zmdi zmdi-star-outline"></i></a>
+		                                                   	</c:if>
+		                                                   	<c:forEach var="i" begin="${product.product_rating+2}" end="5">
+		                                                   		<a><i class="zmdi zmdi-star-outline"></i></a>
+		                                                   	</c:forEach>
                                        						<b><c:out value="${product.product_rating }"/></b>&nbsp;(<c:out value="${product.review_count }"/>)               
                                                         </div>
                                                         
