@@ -54,10 +54,13 @@ public class ProductController {
 	@GetMapping("/list")
 	public String list(Criteria cri, Model model) {
 		
-		log.info("/list");
+		log.info("/list"+cri);
 		model.addAttribute("list",service.getList(cri));
 		int total = service.getTotal(cri);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		
+		// recent product
+		model.addAttribute("recentList", service.getRecentList(3));
 		
 		return "/product/list";
 	}
@@ -137,7 +140,10 @@ public class ProductController {
 	public String get(@RequestParam("product_id") Long product_id, Model model) {
 		
 		log.info("/get");
-		model.addAttribute("product",service.get(product_id));
+		ProductVO vo = service.get(product_id);
+		model.addAttribute("product",vo);
+		model.addAttribute("relatedList", service.getRelatedList(product_id, vo.getProduct_brand()));
+		
 		return "/product/get";
 		
 	}
@@ -259,4 +265,12 @@ public class ProductController {
 		return result;
 	}
 	
+	// quickViewModal JSON data transmit
+	@GetMapping("/quickView")
+	@ResponseBody
+	public ProductVO getQuickView(Long product_id) {
+		
+		log.info("quick View data, " + product_id);
+		return service.getQuickView(product_id);
+	}
 }

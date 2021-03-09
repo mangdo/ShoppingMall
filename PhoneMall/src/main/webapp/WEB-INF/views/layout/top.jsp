@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <head>
     <meta charset="utf-8">
@@ -130,9 +131,9 @@
                                            <button class="search-toggle">
                                             <i class="zmdi zmdi-search"></i>
                                            </button>
-                                            <form action="#">
+                                            <form id='topSearchForm' action="/product/list" method='get'>
                                                 <div class="top-search-box">
-                                                    <input type="text" placeholder="Search here your product...">
+                                                    <input type="text" name = "keyword" placeholder="Search here your product...">
                                                     <button type="submit">
                                                         <i class="zmdi zmdi-search"></i>
                                                     </button>
