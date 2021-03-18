@@ -12,26 +12,27 @@
                     <div class="row">
                         <div class="col-md-2 col-sm-12">
                             <ul class="cart-tab">
-                                <li>
-                                    <a class="active" href="/purchase/viewCart">
-                                        <span>01</span>
-                                        Shopping cart
-                                    </a>
-                                </li>
-                                <li>
+                            	<li>
                                     <a class="active" href="/mypage/wishList">
-                                        <span>02</span>
+                                        <span>01</span>
                                         Wishlist
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="/purchase/checkout" >
+                                    <a class="active" href="/purchase/viewCart">
+                                        <span>02</span>
+                                        Shopping cart
+                                    </a>
+                                </li>
+                             
+                                <li>
+                                    <a class="active" href="#">
                                         <span>03</span>
                                         Checkout
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#order-complete" data-toggle="tab">
+                                    <a href="#" onclick="return false;">
                                         <span>04</span>
                                         Order complete
                                     </a>
@@ -60,6 +61,8 @@
                                                         <input type="text" name="address" placeholder="Address" value="<sec:authentication property="principal.user.address"/>">
                                                         <textarea name="memo" class="custom-textarea" placeholder="If you have any special memo, write here"></textarea>
                                                     	<input type="hidden" name="used_coupon" value="${coupon_id}"/>
+                                                    	<input type="hidden" name="total_money" value="${total_money}"/>
+                                                    	<input type="hidden" name="discount_result" value="${discount_result}"/>
                                                     </div>
                                                   </div>
                                                 </form>
@@ -78,6 +81,7 @@
                                                             <tr>
                                                                 <td class="td-title-1">Cart Subtotal</td>
                                                                 <td class="td-title-2">${total_money}</td>
+                                                                
                                                             </tr>
                                                             <tr>
                                                                 <td class="td-title-1">Coupon</td>

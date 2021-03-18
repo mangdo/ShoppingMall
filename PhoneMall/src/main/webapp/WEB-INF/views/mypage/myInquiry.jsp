@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="/WEB-INF/views/layout/top.jsp" %>
 
         <!-- BREADCRUMBS SETCTION START -->
@@ -34,11 +35,11 @@
 					  <tbody>
 					    <tr>
 					      <th scope="row">주문하신 분</th>
-					      <td>홍길동</td>
+					      <td>${purchaseInfo[0].firstname} ${purchaseInfo[0].lastname}</td>
 					     </tr>
 					     <tr>
 					      <th scope="row">주문 번호</th>
-					      <td>2111111-11</td>
+					      <td>${purchaseInfo[0].purchase_id}</td>
 					     </tr>
 					     <tr>
 					      <th scope="row">배송 상태</th>
@@ -46,11 +47,11 @@
 					    </tr>
 					    <tr>
 					      <th scope="row">배송 주소</th>
-					      <td>서울시 성북구 ~~</td>
+					      <td>${purchaseInfo[0].address}</td>
 					     </tr>
 					     <tr>
 					      <th scope="row">전화번호</th>
-					      <td>010-9874-2938</td>
+					      <td>${purchaseInfo[0].phonenum}</td>
 					     </tr>
 					  </tbody>
 					</table>
@@ -61,15 +62,15 @@
 					  <tbody>
 					    <tr>
 					      <th scope="row">주문상품</th>
-					      <td>주문 상품 명 표시</td> <!-- 주문 상품 명 표시 -->
+					      <td><c:forEach var="row" items="${orderList}"  varStatus="varstatus"><a href='/product/get?product_id=${row.product_id}'>${row.product_title}</a> x ${row.product_qty} (${row.product_color})<br/></c:forEach></td> <!-- 주문 상품 명 표시 -->
 					     </tr>
 					     <tr>
 					      <th scope="row">총 주문 금액</th>
-					      <td>총 주문 금액 명시</td>
+					      <td>${purchaseInfo[0].discount_result}</td>
 					     </tr>
 					     <tr>
 					      <th scope="row">결제 방법</th>
-					      <td>결제 방법 명시</td>
+					      <td>${purchaseInfo[0].paymentMethod}</td>
 					    </tr>
 					  </tbody>
 					</table>

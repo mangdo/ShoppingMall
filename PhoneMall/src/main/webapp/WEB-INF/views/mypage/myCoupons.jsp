@@ -90,7 +90,7 @@
 			</div>
 		</div>
 <script type="text/javascript">
-		window.onload = function() {
+
 			var header = document.getElementById('coupon_list');
 			var message = "${msg}";
 			var url = "${url}";
@@ -99,7 +99,7 @@
 				alert(message); 
 				
 				}
-			};
+
 
 </script>	
 					

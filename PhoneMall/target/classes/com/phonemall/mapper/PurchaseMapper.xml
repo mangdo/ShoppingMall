@@ -5,18 +5,37 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace = "com.phonemall.mapper.PurchaseMapper">
 	
-	<resultMap type="com.phonemall.domain.CartVO" id="CartMap">
-		<id property = "cart_id" column="cart_id"/>
+	<resultMap type = "com.phonemall.domain.CartListVO" id = "CartListMap">
 		<result property = "user_email" column="user_email"/>
 		<result property = "product_id" column="product_id"/>
 		<result property = "product_qty" column="product_qty"/>
-		<result property = "product_price" column="product_price"/>
 		<result property = "product_color" column="product_color"/>
-		<result property = "total_price" column="total_price"/>		
+		<result property = "product_title" column = "product_title"/>
+		<result property = "product_price" column = "product_price"/>
+		<result property = "total_price" column = "product_price"/>
+		<result property = "product_brand" column = "product_brand"/>
+		<result property = "product_type" column = "product_type"/>
+		<result property = "product_carrier" column = "product_carrier"/>
+		<collection property="product_imageList" resultMap = "imageMap"></collection>
 	</resultMap>
 	
+	<resultMap type = "com.phonemall.domain.CartListVO" id = "CartListMap2">
+		<result property = "user_email" column="user_email"/>
+		<result property = "product_id" column="product_id"/>
+		<result property = "product_qty" column="product_qty"/>
+		<result property = "product_color" column="product_color"/>
+		<result property = "product_title" column = "product_title"/>
+		<result property = "product_price" column = "product_price"/>
+		<result property = "total_price" column = "product_price"/>
+		<result property = "product_brand" column = "product_brand"/>
+		<result property = "product_type" column = "product_type"/>
+		<result property = "product_carrier" column = "product_carrier"/>
+	</resultMap>
+
+	
 	 <resultMap type="com.phonemall.domain.PurchaseVO" id ="purchaseMap">
-	 	<id property = "purchase_id" column="purchase_id"/>
+	 	<id property = "sequence_id" column="sequence_id"/>
+	 	<result property = "purchase_id" column="purchase_id"/>
 	 	<result property = "purchaseDate" column = "purchaseDate"/>
 	 	<result property = "memo" column = "memo"/>
 	 	<result property = "email" column = "email"/>
@@ -27,27 +46,44 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	 	<result property = "address" column = "address"/>
 	 	<result property = "paymentMethod" column = "paymentMethod"/>
 	 	<result property = "used_coupon" column = "used_coupon"/>
-	 	<collection property="cartList" resultMap = "cartMap"></collection>
+	 	<result property = "total_money" column = "total_money"/>
+	 	<result property = "discount_result" column = "dicount_result"/>
 	 </resultMap>
 	 
 	 
 	 <select id="read" resultMap = "purchaseMap">
-	 	SELECT p.*, c.*
-	 	FROM cart c, purchase p 
-	 	WHERE c.user_email=#{user_email} and c.user_email = p.email
+	 	select * from purchase where email=#{user_email}
 	 </select>
 	 
 	 <insert id="insert">
-	 	INSERT INTO purchase(purchase_id,purchaseDate,memo,email,lastname,firstname,postalcode,phonenum,address,paymentMethod,used_coupon)
-		VALUES (#{purchase_id},#{purchaseDate},#{memo},#{email},#{lastname},#{firstname},#{postalcode},#{phonenum},#{address},#{paymentMethod},#{used_coupon} )
+	 	INSERT INTO purchase(purchase_id,purchaseDate,memo,email,lastname,firstname,postalcode,phonenum,address,paymentMethod,used_coupon,total_money,discount_result)
+		VALUES (#{purchase_id},#{purchaseDate},#{memo},#{email},#{lastname},#{firstname},#{postalcode},#{phonenum},#{address},#{paymentMethod},#{used_coupon},#{total_money},#{discount_result})
 	 </insert>
 	 
 	 <insert id="orderInfo_Details">
 		INSERT INTO order_complete(user_email, product_id, product_qty, product_price, product_color, purchase_id)
      select user_email, product_id, product_qty, product_price, product_color , #{purchase_id}
          from cart   
-	</insert> 
+	</insert>
 	
-
+	<select id="selectbyId" resultMap = "CartListMap2">
+		select p.product_id, o.product_color, o.product_qty, o.user_email, product_title, p.product_price,product_carrier,product_brand,product_type
+		from order_complete o, product p
+		where o.purchase_id = #{puchase_id} and o.product_id = p.product_id 
+	</select>
+	
+	<select id="selectbyPurchaseId" resultMap="purchaseMap">
+		select * from purchase where purchase_id = #{purchase_id}
+	</select>
+	
+	<select id = "getListWithPaging" resultMap = "purchaseMap">
+		select * from purchase where email=#{email}
+		
+		ORDER BY sequence_id DESC
+		LIMIT #{cri.pageStart}, #{cri.amount}
+		
+	
+	</select>
+	
 </mapper>
 

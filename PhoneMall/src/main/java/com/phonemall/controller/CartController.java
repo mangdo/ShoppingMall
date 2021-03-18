@@ -90,6 +90,7 @@ public class CartController {
 	public String tocheckOut(Model model,Principal principal, int discount_value, int coupon_id) {
 		String email = principal.getName();
 		List<CartVO> list=cartservice.ListCart(email);
+		log.info(list);
 		int total_money = cartservice.sumTotalMoney(email);
 		model.addAttribute("list",list);
 		model.addAttribute("total_money",total_money);
@@ -103,7 +104,7 @@ public class CartController {
 	}
 	
 	@PostMapping("/orderInsert")
-	public String insertOrder(Principal principal,PurchaseVO purchaseVO) throws ParseException{
+	public String insertOrder(Principal principal,PurchaseVO purchaseVO,RedirectAttributes rttr) throws ParseException{
 		
 		//insert Today into order data
 		Calendar cal = Calendar.getInstance();
@@ -119,19 +120,27 @@ public class CartController {
 	     purchaseVO.setPurchase_id(purchase_id);
 	     
 		//insert payment method(not decided)
-		purchaseVO.setPaymentMethod("Credit Cart");
-		log.info(purchaseVO);
+		purchaseVO.setPaymentMethod("KaKao Pay");
 		purchaseservice.insertBuyData(purchaseVO);
 		
 		//transfer all cart data to order complete table
 		purchaseservice.insertCompleteOrder(purchase_id);
 		cartservice.deleteAllCart();
-		
+		rttr.addAttribute("purchase_id",purchase_id);
+		//rttr.하고 여기서 purchase_id보내서 ordercomplete에서 조회할 수 있도록
 		return "redirect:/purchase/orderComplete";
 	}
 	
 	@RequestMapping("orderComplete")
-	public String toOrderComplete() {
+	public String toOrderComplete(@RequestParam(value = "purchase_id") Long purchase_id,Model model) {
+		List<PurchaseVO> list = purchaseservice.getListById(purchase_id);
+		
+		PurchaseVO purchaseVO = list.get(0);
+		int discount_amount = purchaseVO.getTotal_money()-purchaseVO.getDiscount_result();
+
+		model.addAttribute("purchaseList",list);
+		model.addAttribute("discount_amount",discount_amount);
+		model.addAttribute("orderList",purchaseservice.ListOrder(purchase_id));
 		return "/purchase/orderComplete";
 	}
 	
@@ -142,8 +151,8 @@ public class CartController {
 		log.info("goto cart");
 		String email = principal.getName();
 		List<CartVO> list=cartservice.ListCart(email);
-		
 		if(list.size()==0) {
+			model.addAttribute("total_money",0);
 			model.addAttribute("emptyCart","장바구니가 비었습니다");
 			model.addAttribute("discount_result",0);
 			List<CouponUserVO> coupon_list=couponservice.getValidList(email);

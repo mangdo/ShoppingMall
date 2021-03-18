@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="/WEB-INF/views/layout/top.jsp" %>
 
 
@@ -56,9 +58,7 @@
 						</div>
 					</div>
 					
-					<div class="keyword_search_btn">
-						<a href="javascript:submitOrdersearch();" class="button_middle_white" style="padding: 11px 20px 11px 20px;">찾기</a>
-					</div>
+					
 					        
                     <div>
                     	<table class="table table-bordered" style="color:rgb(0, 0, 0);">
@@ -67,32 +67,52 @@
 									<th scope="col" class="text-center">주문일</th>
 									<th scope="col" class="text-center">주문번호</th>
 									<th scope="col" class="text-center">수령인</th>
-									<th scope="col" class="text-center">주문상품</th>
+									<th scope="col" class="text-center">배송 주소</th>
 								</tr>
 							</thead>
 							<tbody>
+								<c:forEach var="row" items="${list}"  varStatus="varstatus">
 								<tr>
-									<td align="center">1111</td>
-									<td align="center"><a href="/myInquiry" style="color:blue;">Mark</a></td>
-									<td align="center">Otto</td>
-								    <td align="center">@mdo</td>
+									<fmt:formatDate var="resultRegDt" value="${row.purchaseDate}" pattern="yyyy-MM-dd"/>
+									<td align="center"> ${resultRegDt} </td>
+									<td align="center"><a class="move" href="/myInquiry/${row.purchase_id}" style="color:blue;">${row.purchase_id}</a></td>
+									<td align="center">${row.lastname} ${row.firstname}</td>
+								    <td align="center">${row.address}</td>
 								</tr>
+								</c:forEach>
 							</tbody>
 						</table>
-								
+						<form id="actionForm" action="/myPurchase" method="get">
+							<input type="hidden" name='pageNum' value='<c:out value ="${pageMaker.cri.pageNum}"/>'>
+							<input type="hidden" name='amount' value='<c:out value ="${pageMaker.cri.amount}"/>'>
+						</form>	
 						<div class="mb-80">
 			            	<div class="row">
 			             		<div class="col-xs-12">
 			                 		<!-- shop-pagination start -->
 			                    	<ul class="shop-pagination box-shadow text-center ptblr-10-30">
-			                    		<li><a href="#"><i class="zmdi zmdi-chevron-left"></i></a></li>
-			                    		<li><a href="#">01</a></li>
-			                     		<li><a href="#">02</a></li>
-			                     		<li><a href="#">03</a></li>
-			                     		<li><a href="#">...</a></li>
-			                     		<li><a href="#">05</a></li>
-			                      		<li class="active"><a href="#"><i class="zmdi zmdi-chevron-right"></i></a></li>
-			                     	</ul>
+                                	<c:if test = "${pageMaker.prev}">
+                                		<li class="paginate_button"><a href="${pageMaker.startPage - 1}">
+                                		<i class="zmdi zmdi-chevron-left"></i>
+                                		</a></li>
+                                	</c:if>
+                                    
+                                    <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+                                    	<c:if test="${num eq pageMaker.cri.pageNum}">
+                                    		<li class="paginate_button active"><a href="${num}">${num}</a></li>
+                                    	</c:if>
+                                    	<c:if test="${num ne pageMaker.cri.pageNum}">
+                                    		<li class="paginate_button"><a href="${num}">${num}</a></li>
+                                    	</c:if>
+                                    </c:forEach>
+                                    
+                                    <c:if test = "${pageMaker.next}">
+                                    	<li class="paginate_button active">
+                                    	<a href="${pageMaker.endPage + 1}">
+                                    	<i class="zmdi zmdi-chevron-right">
+                                    	</i></a></li>
+                                	</c:if>
+                                	</ul>
 			                     	<!-- shop-pagination end -->
 			                    	</div>
 			                 </div> 
@@ -101,5 +121,17 @@
 				</div>
 			</div>
 		</div>
-	
+<script src="/resources/js/vendor/jquery-3.1.1.min.js"></script>
+<script>
+	var actionForm = $("#actionForm");
+	$(".paginate_button a").on("click",function(e){
+		e.preventDefault();
+		
+		console.log('click');
+		
+		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		actionForm.submit();
+		
+	});
+</script>	
 					

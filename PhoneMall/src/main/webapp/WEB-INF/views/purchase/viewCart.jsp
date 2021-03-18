@@ -12,26 +12,27 @@
                     <div class="row">
                         <div class="col-md-2 col-sm-12">
                             <ul class="cart-tab">
-                                <li>
-                                    <a class="active" href="/purchase/viewCart">
+                            	<li>
+                                    <a class="active" href="/mypage/wishList">
                                         <span>01</span>
-                                        Shopping cart
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/mypage/wishList">
-                                        <span>02</span>
                                         Wishlist
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#checkout" id="tocheckout" data-toggle="tab">
+                                    <a class="active" href="/purchase/viewCart">
+                                        <span>02</span>
+                                        Shopping cart
+                                    </a>
+                                </li>
+                             
+                                <li>
+                                    <a href="#" onclick="alert('결제는 장바구니를 통해 가능합니다!'); return false;">
                                         <span>03</span>
                                         Checkout
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#order-complete" data-toggle="tab">
+                                    <a href="#" onclick="alert('결제는 장바구니를 통해 가능합니다!')" >
                                         <span>04</span>
                                         Order complete
                                     </a>
@@ -44,7 +45,6 @@
                                 <!-- shopping-cart start -->
                                 <div class="tab-pane active" id="shopping-cart">
                                     <div class="shopping-cart-content">
-                                        <form action="#">
                                             <div class="table-content table-responsive mb-50">
                                                 <table class="text-center">
                                                     <thead>
@@ -79,16 +79,20 @@
                                                                     <p> Color: ${row.product_color}</p>
                                                                 </div>
                                                             </td>
+                                                            
                                                             <td class="product-price">${row.product_price}</td>
+                                                            
                                                             <td class="product-quantity" style="color:black;">${row.product_qty}</td>
+                                                            
                                                             <td class="product-subtotal">${row.total_price}</td>
                                                             
                                                             <td class="product-remove">
-                                                            	 <form name="form2" action="/purchase/deleteCart" method="post"> 
-                                                            	 <input type="hidden" name="product_id" value="${row.product_id}"/>                                                                                                                   	
-                                                                 <button type="submit"><i class="zmdi zmdi-close"></i></button>                                                                 
-                                                                </form>                                                                 
-                                                            </td>   
+                                                              	<form name="deleteForm" action="/purchase/deleteCart" method="post" > 
+                                                            	 	<input type="hidden" name="product_id" value="${row.product_id}"/>                                                                                                                   	
+                                                                 	<button type="submit"><i class="zmdi zmdi-close"></i></button>                                                                 
+                                                              	</form>                                                                 
+                                                            </td>
+                                                             
                                                         </tr>
                                                         </c:forEach>                                                 
                                                     </tbody>
@@ -98,15 +102,15 @@
                                                 
                                                 <div class="col-md-6">
                     	  							<form name="form5" action="/mypage/searchAndInsertCoupon" method="GET">
-                            <div class="coupon-discount box-shadow p-30 mb-50">
-                                 <h6 class="widget-title border-left mb-20">coupon discount</h6>
-                                 <p>Enter your coupon code if you have one!</p>
-                                 <input type="text" name="coupon_code" placeholder="Enter your code here."/>
-                                 <button id="coupon_list" class="submit-btn-1 black-bg btn-hover-2" type="submit">쿠폰 등록하기</button>
-                                 <button type="button" id="modal_opne_btn" class="submit-btn-1 black-bg btn-hover-2" style="float:right;" onclick="openModal()">보유한 쿠폰 보기</button>
-                            </div>
-                          </form>
-                        </div>
+                            							<div class="coupon-discount box-shadow p-30 mb-50">
+                                 							<h6 class="widget-title border-left mb-20">coupon discount</h6>
+                                 							<p>Enter your coupon code if you have one!</p>
+                                 							<input type="text" name="coupon_code" placeholder="Enter your code here."/>
+                                 							<button id="coupon_list" class="submit-btn-1 black-bg btn-hover-2" type="submit">쿠폰 등록하기</button>
+                                 							<button type="button" id="modal_opne_btn" class="submit-btn-1 black-bg btn-hover-2" style="float:right;" onclick="openModal()">보유한 쿠폰 보기</button>
+                            							</div>
+                          							</form>
+                       							</div>
                                                 <div class="col-md-6">
                                                 <form name="form3" id="checkoutform" action="/purchase/checkout" method="post">
                                                     <div class="payment-details box-shadow p-30 mb-50">
@@ -142,7 +146,6 @@
                                                 </div>
                                             </div>
                                             
-                                        </form>
                                       <!-- Modal -->
 										<div class="modal fade" id="myModal" style="margin:0;" tabindex="-1" role="dialog">
 											<div class="modal-dialog">
@@ -522,42 +525,36 @@
       
 <%@include file="/WEB-INF/views/layout/foot.jsp" %>
 <script type="text/javascript">
-var couponModal = $("#myModal");
-function openModal() {
-	couponModal.modal('show');
-};
+
+	var couponModal = $("#myModal");
+	function openModal() {
+		couponModal.modal('show');
+	};
 
 
-document.getElementById("tocheckout").onclick = function() {
-	var total_money = '<c:out value="${total_money}"/>';
-	console.log(total_money);
-	if(total_money == 0){
+	document.getElementById("tocheckout2").onclick = function() {
+		var total_money = '<c:out value="${total_money}"/>';
+		console.log(total_money);
+		if(total_money == 0){
 		
-		alert('적어도 한 개의 제품이 장바구니에 존재해야 결제 가능합니다!');
-		return false;
+			alert('적어도 한 개의 제품이 장바구니에 존재해야 결제 가능합니다!');
+			return false;
+		}
+    	document.getElementById("checkoutform").submit();
 	}
-    document.getElementById("checkoutform").submit();
-}
 
-document.getElementById("tocheckout2").onclick = function() {
-	var total_money = '<c:out value="${total_money}"/>';
-	console.log(total_money);
-	if(total_money == 0){
-		
-		alert('적어도 한 개의 제품이 장바구니에 존재해야 결제 가능합니다!');
-		return false;
+	
+	
+	if(document.getElementById("useCoupon")!=null){
+	document.getElementById("useCoupon").onclick = function() {
+		var total_money = '<c:out value="${total_money}"/>';
+		console.log(total_money);
+		if(total_money == 0){
+			alert('적어도 한 개의 제품이 장바구니에 존재해야 쿠폰을 사용할 수 있습니다!');
+			return false;
+		}
+    	document.getElementById("couponform").submit();
 	}
-    document.getElementById("checkoutform").submit();
-}
-
-document.getElementById("useCoupon").onclick = function() {
-	var total_money = '<c:out value="${total_money}"/>';
-	console.log(total_money);
-	if(total_money == 0){
-		alert('적어도 한 개의 제품이 장바구니에 존재해야 쿠폰을 사용할 수 있습니다!');
-		return false;
 	}
-    document.getElementById("couponform").submit();
-}
 
 </script> 

@@ -1,5 +1,11 @@
 package com.phonemall.domain;
 
-public class OrderListVO {
+import java.util.List;
 
+import lombok.Data;
+
+@Data
+public class OrderListVO {
+	
+	
 }

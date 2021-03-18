@@ -88,7 +88,6 @@ public class UserRegisterController {
 		log.info("goto wishlist");
 		String email = principal.getName();
 		List<WishListVO> list=wishlistservice.ListWishList(email);
-		model.addAttribute("list",list);
 		log.info(list);
 		return "/mypage/wishList";
 	}
@@ -112,6 +111,7 @@ public class UserRegisterController {
 		
 		String email = principal.getName();
 		List<WishListVO> list=wishlistservice.ListWishList(email);
+		log.info(list);
 		log.info(list.size());
 		model.addAttribute("list_num",list.size());
 		

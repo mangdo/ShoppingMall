@@ -12,8 +12,11 @@
 <security:http auto-config="true" use-expressions="true">
 	
 	<!--  <security:intercept-url pattern="/**" access="permitAll" /> -->
+	
 	<security:intercept-url pattern="/mypage/customlogin" access="permitAll" />
 	<security:intercept-url pattern="/myPurchase" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
+	<security:intercept-url pattern="/purchase/orderInsert" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
+	<security:intercept-url pattern="/purchase/insertCart" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
 	<security:intercept-url pattern="/purchase/viewCart" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
 	<security:intercept-url pattern="/product/insertWishList" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
 	<security:intercept-url pattern="/mypage/wishList" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />	

@@ -52,10 +52,7 @@ public class PhoneMallController {
 		return "/mallView/contact";
 	}
 	
-	@RequestMapping("/myPurchase")
-	public String toMyAccount() {
-		return "/mypage/myPurchase";
-	}
+
 	
 
 

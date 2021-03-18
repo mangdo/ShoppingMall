@@ -32,18 +32,19 @@
                     <div class="row">
                         <div class="col-md-2">
                             <ul class="cart-tab">
-                                <li>
-                                    <a class="active" href="/purchase/viewCart">
+                            	<li>
+                                    <a class="active" href="/mypage/wishList">
                                         <span>01</span>
-                                        Shopping cart
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="active" href="#wishlist" data-toggle="tab">
-                                        <span>02</span>
                                         Wishlist
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="/purchase/viewCart">
+                                        <span>02</span>
+                                        Shopping cart
+                                    </a>
+                                </li>
+                             
                                 <li>
                                     <a href="#" onclick="alert('결제는 장바구니를 통해 가능합니다!')">
                                         <span>03</span>
@@ -51,7 +52,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#order-complete" data-toggle="tab">
+                                    <a href="#order-complete" onclick="alert('결제는 장바구니를 통해 가능합니다!')">
                                         <span>04</span>
                                         Order complete
                                     </a>

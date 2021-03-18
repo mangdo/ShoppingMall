@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class PurchaseVO {
+	private Long sequence_id;
 	private Long purchase_id;
 	private Date purchaseDate;
 	private String memo;
@@ -17,6 +18,8 @@ public class PurchaseVO {
 	private String phonenum;
 	private String address;
 	private String paymentMethod;
-	private List<CartVO> cartList;
+	private List<CartListVO> cartList;
 	private int used_coupon;
+	private int total_money;
+	private int discount_result;
 }

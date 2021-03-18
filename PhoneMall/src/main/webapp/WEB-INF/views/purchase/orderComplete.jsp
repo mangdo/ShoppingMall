@@ -12,26 +12,28 @@
                     <div class="row">
                         <div class="col-md-2 col-sm-12">
                             <ul class="cart-tab">
-                                <li>
-                                    <a class="active" href="/purchase/viewCart">
-                                        <span>01</span>
-                                        Shopping cart
-                                    </a>
-                                </li>
-                                <li>
+                            	<li>
                                     <a class="active" href="/mypage/wishList">
-                                        <span>02</span>
+                                    
+                                        <span>01</span>
                                         Wishlist
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="#" id="tocheckout">
+                                    <a class="active" href="/purchase/viewCart">
+                                        <span>02</span>
+                                        Shopping cart
+                                    </a>
+                                </li>
+                             
+                                <li>
+                                    <a class="active" onclick="return false;">
                                         <span>03</span>
                                         Checkout
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="#order-complete">
+                                    <a href="#" class="active"onclick="alert('결제는 장바구니를 통해 가능합니다!'); return false;">
                                         <span>04</span>
                                         Order complete
                                     </a>
@@ -51,20 +53,9 @@
                                             <ul class="order-info-list">
                                                 <li>
                                                     <h6>order no</h6>
-                                                    <p>m 2653257</p>
+                                                    <p>${purchaseList[0].purchase_id}</p>
                                                 </li>
-                                                <li>
-                                                    <h6>order no</h6>
-                                                    <p>m 2653257</p>
-                                                </li>
-                                                <li>
-                                                    <h6>order no</h6>
-                                                    <p>m 2653257</p>
-                                                </li>
-                                                <li>
-                                                    <h6>order no</h6>
-                                                    <p>m 2653257</p>
-                                                </li>
+                                                
                                             </ul>
                                         </div>
                                         <div class="row">
@@ -73,29 +64,22 @@
                                                 <div class="payment-details p-30">
                                                     <h6 class="widget-title border-left mb-20">our order</h6>
                                                     <table>
+                                                    	<c:forEach var="row" items="${orderList}"  varStatus="varstatus">
                                                         <tr>
-                                                            <td class="td-title-1">Dummy Product Name x 2</td>
-                                                            <td class="td-title-2">$1855.00</td>
+                                                            <td class="td-title-1">${row.product_title} x ${row.product_qty} (${row.product_color})</td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="td-title-1">Dummy Product Name</td>
-                                                            <td class="td-title-2">$555.00</td>
-                                                        </tr>
+                                                        </c:forEach>
                                                         <tr>
                                                             <td class="td-title-1">Cart Subtotal</td>
-                                                            <td class="td-title-2">$2410.00</td>
+                                                            <td class="td-title-2">${purchaseList[0].total_money}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="td-title-1">Shipping and Handing</td>
-                                                            <td class="td-title-2">$15.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="td-title-1">Vat</td>
-                                                            <td class="td-title-2">$00.00</td>
+                                                            <td class="td-title-1">Coupon Discount</td>
+                                                            <td class="td-title-2">${discount_amount}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="order-total">Order Total</td>
-                                                            <td class="order-total-price">$2425.00</td>
+                                                            <td class="order-total-price">${purchaseList[0].discount_result}</td>
                                                         </tr>
                                                     </table>
                                                 </div>         
@@ -106,35 +90,27 @@
                                                     <ul class="bill-address">
                                                         <li>
                                                             <span>Address:</span>
-                                                            28 Green Tower, Street Name, New York City, USA
+                                                            ${purchaseList[0].address}
                                                         </li>
                                                         <li>
                                                             <span>email:</span>
-                                                            info@companyname.com
+                                                            ${purchaseList[0].email}
                                                         </li>
                                                         <li>
                                                             <span>phone : </span>
-                                                            (+880) 19453 821758
+                                                            ${purchaseList[0].phonenum}
+                                                        </li>
+                                                        <li>
+                                                        	<span>payment : </span>
+                                                            ${purchaseList[0].paymentMethod}
+                                                        </li>
+                                                        <li>
+                                                        	<span>name : </span>
+                                                            ${purchaseList[0].firstname} ${purchaseList[0].lastname}
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <div class="bill-details pl-30">
-                                                    <h6 class="widget-title border-left mb-20">billing details</h6>
-                                                    <ul class="bill-address">
-                                                        <li>
-                                                            <span>Address:</span>
-                                                            28 Green Tower, Street Name, New York City, USA
-                                                        </li>
-                                                        <li>
-                                                            <span>email:</span>
-                                                            info@companyname.com
-                                                        </li>
-                                                        <li>
-                                                            <span>phone : </span>
-                                                            (+880) 19453 821758
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>

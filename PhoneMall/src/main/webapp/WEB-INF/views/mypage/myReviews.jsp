@@ -18,7 +18,7 @@
                             <li><a href="/myPurchase">Purchase</a></li>
                             <li><a href="/myInfo">MyInfo</a></li>
                             <li><a href="/myReviews">Reviews</a></li>
-                            <li><a href="/myCoupon">MyCoupons</a></li>
+                            <li><a href="/mypage/myCoupon">MyCoupons</a></li>
                         </ul>
                     </div>
                 </div>
