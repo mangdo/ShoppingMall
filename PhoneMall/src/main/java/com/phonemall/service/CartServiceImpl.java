@@ -43,7 +43,7 @@ public class CartServiceImpl implements CartService {
 		return mapper.sumMoney(user_email);
 	}
 	
-	public void deleteAllCart() {
-		mapper.deleteAll();
+	public void deleteAllCart(String user_email) {
+		mapper.deleteAll(user_email);
 	}
 }

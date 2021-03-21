@@ -35,6 +35,8 @@ import com.phonemall.domain.Criteria;
 import com.phonemall.domain.PageDTO;
 import com.phonemall.domain.PurchaseVO;
 import com.phonemall.domain.WishListVO;
+import com.phonemall.domain.KakaoPayPurchaseVO;
+import com.phonemall.service.KakaoPayService;
 import com.phonemall.service.CartService;
 import com.phonemall.service.CouponService;
 import com.phonemall.service.ProductService;
@@ -59,6 +61,9 @@ public class CartController {
 	
 	@Setter(onMethod_=@Autowired)
 	private PurchaseService purchaseservice;
+	
+	@Setter(onMethod_=@Autowired)
+	private KakaoPayService kaKaoPayService;
 	
 	@PostMapping("/insertCart")
 	@ResponseBody
@@ -104,14 +109,13 @@ public class CartController {
 	}
 	
 	@PostMapping("/orderInsert")
-	public String insertOrder(Principal principal,PurchaseVO purchaseVO,RedirectAttributes rttr) throws ParseException{
+	public String insertOrder(Principal principal,PurchaseVO purchaseVO,RedirectAttributes rttr, KakaoPayPurchaseVO kakaoPayPurchaseVO) throws ParseException{
 		
 		//insert Today into order data
 		Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date purchaseDate = sdf.parse(sdf.format(cal.getTime()));
 		purchaseVO.setPurchaseDate(purchaseDate);
-		
 		
 		//use random number to make purchase_id
 		 Random rand = new Random();
@@ -123,16 +127,20 @@ public class CartController {
 		purchaseVO.setPaymentMethod("KaKao Pay");
 		purchaseservice.insertBuyData(purchaseVO);
 		
-		//transfer all cart data to order complete table
-		purchaseservice.insertCompleteOrder(purchase_id);
-		cartservice.deleteAllCart();
-		rttr.addAttribute("purchase_id",purchase_id);
-		//rttr.하고 여기서 purchase_id보내서 ordercomplete에서 조회할 수 있도록
-		return "redirect:/purchase/orderComplete";
+		// pay in KakaoPay
+		kakaoPayPurchaseVO.setPurchase_id(purchase_id);
+		kakaoPayPurchaseVO.setUser_email(principal.getName());
+		return "redirect:" + kaKaoPayService.kakaoPayReady(kakaoPayPurchaseVO);
+		
 	}
 	
 	@RequestMapping("orderComplete")
-	public String toOrderComplete(@RequestParam(value = "purchase_id") Long purchase_id,Model model) {
+	public String toOrderComplete(@RequestParam(value = "purchase_id") Long purchase_id, Model model, Principal principal) {
+		
+		// kakaoPay결제 중 실패를 방지하여 결제 완료후 insert order, cart delete
+		purchaseservice.insertCompleteOrder(purchase_id, principal.getName());
+		cartservice.deleteAllCart(principal.getName());
+		
 		List<PurchaseVO> list = purchaseservice.getListById(purchase_id);
 		
 		PurchaseVO purchaseVO = list.get(0);

@@ -82,7 +82,7 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<delete id="deleteAll">
-		DELETE FROM cart
+		DELETE FROM cart WHERE user_email = #{user_email}
 	</delete>	
 
 

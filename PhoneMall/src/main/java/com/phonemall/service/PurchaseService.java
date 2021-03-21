@@ -12,8 +12,9 @@ import com.phonemall.domain.PurchaseVO;
 public interface PurchaseService {
 	public List<PurchaseVO> getListNum(String email);
 	public void insertBuyData(PurchaseVO purchaseVO);
-	public void insertCompleteOrder(Long purchase_id);
+	public void insertCompleteOrder(Long purchase_id, String email);
 	public List<CartListVO> ListOrder(Long purchase_id);
 	public List<PurchaseVO> getListById(Long purchase_id);
 	public List<PurchaseVO> getList(Criteria cri, String email);
+	public void deleteById(Long purchase_id);
 }

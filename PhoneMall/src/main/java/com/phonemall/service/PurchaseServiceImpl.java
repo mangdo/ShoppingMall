@@ -33,8 +33,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 	
 	@Override
-	public void insertCompleteOrder(Long purchase_id) {
-		mapper.orderInfo_Details(purchase_id);
+	public void insertCompleteOrder(Long purchase_id, String email) {
+		mapper.orderInfo_Details(purchase_id, email);
 	}
 	@Override
 	public List<CartListVO> ListOrder(Long purchase_id){
@@ -43,5 +43,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public List<PurchaseVO> getListById(Long purchase_id){
 		return mapper.selectbyPurchaseId(purchase_id);
+	}
+	
+	@Override
+	public void deleteById(Long purchase_id) {
+		mapper.deletePurchaseById(purchase_id);
+		mapper.deleteOrderById(purchase_id);
 	}
 }

@@ -77,6 +77,7 @@
                                                                 <td class="td-title-1">${row.product_title} x ${row.product_qty} (${row.product_color})</td>
                                                                 <td class="td-title-2">${row.total_price}</td>
                                                             </tr>
+                                                            <c:set var="qty">${varstatus.count}</c:set>
                                                             </c:forEach>
                                                             <tr>
                                                                 <td class="td-title-1">Cart Subtotal</td>
@@ -99,49 +100,21 @@
                                                       </div>
                                                     </div>
                                                     </div>
-                                                    </form> 
                                                     <!-- payment-method -->
                                                     <div class="payment-method">
                                                         <h6 class="widget-title border-left mb-20">payment method</h6>
                                                         <div id="accordion">
                                                             <div class="panel">
                                                                 <h4 class="payment-title box-shadow">
-                                                                    <a data-toggle="collapse" data-parent="#accordion" href="#bank-transfer" >
-                                                                    direct bank transfer
-                                                                    </a>
-                                                                </h4>
-                                                                <div id="bank-transfer" class="panel-collapse collapse in" >
-                                                                    <div class="payment-content">
-                                                                    <p>Lorem Ipsum is simply in dummy text of the printing and type setting industry. Lorem Ipsum has been.</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="panel">
-                                                                <h4 class="payment-title box-shadow">
-                                                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                                                    cheque payment
-                                                                    </a>
-                                                                </h4>
-                                                                <div id="collapseTwo" class="panel-collapse collapse">
-                                                                    <div class="payment-content">
-                                                                        <p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p> 
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="panel">
-                                                                <h4 class="payment-title box-shadow">
                                                                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" >
-                                                                    paypal
+                                                                    kakaopay
                                                                     </a>
                                                                 </h4>
                                                                 <div id="collapseThree" class="panel-collapse collapse" >
                                                                     <div class="payment-content">
                                                                         <p>Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
                                                                         <ul class="payent-type mt-10">
-                                                                            <li><a href="#"><img src="/resources/img/payment/1.png" alt=""></a></li>
-                                                                            <li><a href="#"><img src="/resources/img/payment/2.png" alt=""></a></li>
-                                                                            <li><a href="#"><img src="/resources/img/payment/3.png" alt=""></a></li>
-                                                                            <li><a href="#"><img src="/resources/img/payment/4.png" alt=""></a></li>
+                                                                            <li><input type="radio" name="payment" value="kakaopay"><img src="/resources/img/payment/kakaopay-icon.png" alt="KakaoPay"></li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
@@ -168,6 +141,23 @@
 <%@include file="/WEB-INF/views/layout/foot.jsp" %>
 <script type="text/javascript">
 $("#complete").on("click", function(e){
-	$("#orderform2").submit();
+	var orderform = $("#orderform2");
+	
+	if(!$('input:radio[name="payment"]').is(':checked')){
+		alert("결제 방법을 선택해주세요.");
+		return;
+	}
+	//상품수량
+	orderform.append($('<input/>', {type: 'hidden', name: 'purchase_qty', value: ${qty} }));
+	
+	//상품명
+	if(${qty}>1){
+		orderform.append($('<input/>', {type: 'hidden', name: 'purchase_name', value:'${list[0].product_title}'+'외 '+String((${qty}-1))+'개'}));
+	}else{
+		orderform.append($('<input/>', {type: 'hidden', name: 'purchase_name', value:'${list[0].product_title}'}));
+	}
+	//상품총액
+	orderform.append($('<input/>', {type: 'hidden', name: 'purchase_price', value: ${discount_result} }));
+	orderform.submit();
 });
 </script> 

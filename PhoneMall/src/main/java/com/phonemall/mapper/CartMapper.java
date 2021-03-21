@@ -13,5 +13,5 @@ public interface CartMapper {
 	public List<CartVO> ListCart(@Param("user_email") String user_email);
 	public void update(@Param("user_email") String user_email,@Param("product_id") Long product_id, @Param("product_qty") int product_qty);
 	public int sumMoney(@Param("user_email") String user_email);
-	public void deleteAll();
+	public void deleteAll(String user_email);
 }

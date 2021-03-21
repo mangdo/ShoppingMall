@@ -14,5 +14,5 @@ public interface CartService {
 	public List<CartVO> ListCart(@Param("user_email") String user_email);
 	public void updateQty(String user_email, Long product_id, int product_qty);
 	public int sumTotalMoney(@Param("user_email") String user_email);
-	public void deleteAllCart();
+	public void deleteAllCart(String user_email);
 }

@@ -62,8 +62,9 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	 
 	 <insert id="orderInfo_Details">
 		INSERT INTO order_complete(user_email, product_id, product_qty, product_price, product_color, purchase_id)
-     select user_email, product_id, product_qty, product_price, product_color , #{purchase_id}
-         from cart   
+     	SELECT user_email, product_id, product_qty, product_price, product_color , #{purchase_id}
+        FROM cart
+        WHERE user_email = #{email}
 	</insert>
 	
 	<select id="selectbyId" resultMap = "CartListMap2">
@@ -84,6 +85,14 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 		
 	
 	</select>
+	
+	<delete id="deletePurchaseById">
+		DELETE FROM purchase WHERE purchase_id = #{purchase_id};
+	</delete>
+
+	<delete id="deleteOrderById">
+		DELETE FROM order_complete WHERE purchase_id = #{purchase_id};
+	</delete>
 	
 </mapper>
 
