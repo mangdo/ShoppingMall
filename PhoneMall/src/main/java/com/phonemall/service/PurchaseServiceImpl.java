@@ -8,6 +8,7 @@ import com.phonemall.domain.CartListVO;
 import com.phonemall.domain.CartVO;
 import com.phonemall.domain.Criteria;
 import com.phonemall.domain.ProductVO;
+import com.phonemall.domain.PurchaseUserVO;
 import com.phonemall.domain.PurchaseVO;
 import com.phonemall.mapper.PurchaseMapper;
 import com.phonemall.mapper.UserMapper;
@@ -28,7 +29,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return mapper.read(email);
 	}
 	
-	public List<PurchaseVO> getList(Criteria cri,String email) {
+	public List<PurchaseUserVO> getList(Criteria cri,String email) {
 		return mapper.getListWithPaging(cri,email);
 	}
 	

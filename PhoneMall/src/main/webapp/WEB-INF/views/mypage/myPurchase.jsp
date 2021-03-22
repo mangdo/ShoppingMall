@@ -35,53 +35,79 @@
             <div class="login-section mb-80">
                 <div class="container">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-md-12">
+                        	<div class="section-title text-left ">
+								<h2 class="uppercase">my purchase</h2>
+								<h6 class="mb-40">나의 구매 내역을 확인할 수 있습니다.</h6>
+							</div>
 					    	<div class="account_select01">
 					        	<select id="select_searchYearSel" class="Searchselect_01" title="연도 선택">
-					            	<option value="0" selected="">전체보기</option><option value="2020">2020</option><option value="2019">2019</option><option value="2018">2018</option><option value="2017">2017</option><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option>
+					            	<option value="0" selected="">전체보기</option><option value="2020">2020</option><option value="2019">2019</option>
 					            </select><span style="color: #636363; font-weight: bold;"> 년</span>
 					
 					             <select id="select_searchMonthSel" class="Searchselect_01" title="월 선택">
 					             	<option value="0" selected="">전체보기</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
 					              </select><span style="color: #636363; font-weight: bold;"> 월</span>
 					     	</div>
-					
-					        <div class="account_select02" style="width: 290px">
-					        	<div class="order_search">
-					            	<label for="search02" style="color: #636363; font-weight: bold;">주문검색</label>
-					                <select id="select_searchTypeSel" class="Searchselect_01">
-					                	<option value="1">주문상품</option><option value="2">주문번호</option><option value="3">수령인</option>
-					                </select>
-					        	</div>
-					            <input class="keyword_search" type="text" title="검색어" onkeydown="">
-					        </div>
 						</div>
 					</div>
-					
-					
-					        
+					<br>
                     <div>
-                    	<table class="table table-bordered" style="color:rgb(0, 0, 0);">
-							<thead>
-								<tr>
-									<th scope="col" class="text-center">주문일</th>
-									<th scope="col" class="text-center">주문번호</th>
-									<th scope="col" class="text-center">수령인</th>
-									<th scope="col" class="text-center">배송 주소</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="row" items="${list}"  varStatus="varstatus">
-								<tr>
-									<fmt:formatDate var="resultRegDt" value="${row.purchaseDate}" pattern="yyyy-MM-dd"/>
-									<td align="center"> ${resultRegDt} </td>
-									<td align="center"><a class="move" href="/myInquiry/${row.purchase_id}" style="color:blue;">${row.purchase_id}</a></td>
-									<td align="center">${row.lastname} ${row.firstname}</td>
-								    <td align="center">${row.address}</td>
-								</tr>
-								</c:forEach>
-							</tbody>
-						</table>
+                                <div class="tab-pane" id="wishlist">
+                                    <div class="wishlist-content">
+                                        <form action="#">
+                                            <div class="table-content table-responsive mb-50">
+                                                <table class="text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="product-thumbnail">상품정보</th>
+                                                            <th class="product-price">주문일자</th>
+                                                            <th class="product-stock">주문번호</th>
+                                                            <th class="product-add-cart">주문금액(수량)</th>
+                                                            <th class="product-remove">후기작성</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    	<c:forEach var="row" items="${list}"  varStatus="varstatus">
+                                                        <!-- tr -->
+                                                        <tr>
+                                                            <td class="product-thumbnail">
+                                                                <div class="pro-thumbnail-img" style="position:relative; padding-top:30%; display:block;">
+                                                                    <img id = 'main-img${varstatus.index}' alt="image error" onError ="this.src='/resources/img/product/9.jpg'"
+                                                                    style="position:absolute; top:0; left:0;width:100%;height:100%">
+                                                                </div>
+                                                                <script>
+			                                            			var imageName = encodeURIComponent('${row.product_image.image_uploadPath}'+'/s_'+'${row.product_image.image_uuid}'+'_'+'${row.product_image.image_name}');
+			                                            			var realSrc = '/product/display?fileName='+imageName;
+			                                            	
+			                                        				document.getElementById('main-img${varstatus.index}').src= realSrc;
+																</script>
+                                                                <div class="pro-thumbnail-info text-left">
+                                                                    <h6 class="product-title-2">
+                                                                        <a href='/product/get?product_id=${row.product_id}'>${row.product_title}</a>
+                                                                    </h6>
+                                                                    
+                                                                    <p>선택 색상 : ${row.product_color}</p>
+                                                                	<p>선택 수량 : ${row.product_qty} </p>
+                                                                </div>
+                                                            </td>
+                                                            <fmt:formatDate var="resultRegDt" value="${row.purchase_date}" pattern="yyyy-MM-dd"/>
+                                                            <td class="product-price"> ${resultRegDt} </td>
+                                                            <td class="product-stock"><a class="move" href="/myInquiry/${row.purchase_id}" style="color:blue;">${row.purchase_id}</a></td>
+                                                            
+                                                            <td class="product-price">${row.product_price} 원</td>
+                                                            <td class="product-price">
+                                                                <a class="button extra-small button-black" id='regBtn' ><span style="height:30px;padding:4px 20px">후기등록</span></a>
+                                                            </td>
+                                                        </tr>
+                                                        </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- wishlist end -->
 						<form id="actionForm" action="/myPurchase" method="get">
 							<input type="hidden" name='pageNum' value='<c:out value ="${pageMaker.cri.pageNum}"/>'>
 							<input type="hidden" name='amount' value='<c:out value ="${pageMaker.cri.amount}"/>'>

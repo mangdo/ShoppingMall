@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.phonemall.domain.CartListVO;
 import com.phonemall.domain.CartVO;
 import com.phonemall.domain.Criteria;
+import com.phonemall.domain.PurchaseUserVO;
 import com.phonemall.domain.PurchaseVO;
 
 public interface PurchaseService {
@@ -15,6 +16,6 @@ public interface PurchaseService {
 	public void insertCompleteOrder(Long purchase_id, String email);
 	public List<CartListVO> ListOrder(Long purchase_id);
 	public List<PurchaseVO> getListById(Long purchase_id);
-	public List<PurchaseVO> getList(Criteria cri, String email);
+	public List<PurchaseUserVO> getList(Criteria cri, String email);
 	public void deleteById(Long purchase_id);
 }
