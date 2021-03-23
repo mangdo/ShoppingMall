@@ -138,8 +138,8 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	<result property = "product_type" column = "product_type"/>
 	<result property = "product_carrier" column = "product_carrier"/>
 	<result property = "product_information" column="review_id"/>
-	<collection property="product_imageList" resultMap = "imageMap">
-	</collection>
+	<association  property="product_imageList" resultMap = "imageMap">
+	</association>
 </resultMap>
 
 <select id="myReviewProductList" resultMap = "myProductMap">

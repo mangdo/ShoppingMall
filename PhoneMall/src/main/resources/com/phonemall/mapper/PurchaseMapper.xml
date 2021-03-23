@@ -60,8 +60,9 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 		<result property = "purchase_id" column = "purchase_id"/>
 		<result property = "purchase_date" column = "purchaseDate"/>
 		<result property = "product_title" column = "product_title"/>
-		<collection property="product_image" resultMap = "imageMap">
-		</collection>
+		<result property = "order_status" column = "order_status"/>
+		<association property="product_image" resultMap = "imageMap">
+		</association>
 	</resultMap>
 	
 	 <resultMap type = "com.phonemall.domain.ProductImageVO" id = "imageMap">
@@ -98,25 +99,42 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id = "getListWithPaging" resultMap="PurchaseUserMap">
-		select c.*, pur.purchaseDate, p.product_title, image_uuid, image_uploadPath, image_name
-from (SELECT * FROM order_complete WHERE user_email=#{email}) c
-JOIN purchase pur
-ON pur.purchase_id = c.purchase_id
-LEFT OUTER JOIN product p
-ON c.product_id=p.product_id
-LEFT OUTER JOIN product_image i
-ON p.product_id = i.product_id AND i.image_type="mainImage"
-		
+		SELECT c.*, pur.purchaseDate, p.product_title, image_uuid, image_uploadPath, image_name
+		FROM (SELECT * FROM order_complete WHERE user_email=#{email}) c
+		JOIN purchase pur
+		ON c.purchase_id = pur.purchase_id
+		<if test= "cri.keyword != null and cri.keyword != ''">
+			AND EXTRACT(YEAR_MONTH FROM pur.purchaseDate) = #{cri.keyword}
+		</if>
+		LEFT OUTER JOIN product p
+		ON c.product_id = p.product_id
+		LEFT OUTER JOIN product_image i
+		ON p.product_id = i.product_id AND i.image_type="mainImage"
+		ORDER BY purchaseDate DESC
+		LIMIT #{cri.pageStart}, #{cri.amount}
 	
 	</select>
 	
 	<delete id="deletePurchaseById">
-		DELETE FROM purchase WHERE purchase_id = #{purchase_id};
+		DELETE FROM purchase WHERE purchase_id = #{purchase_id}
 	</delete>
 
 	<delete id="deleteOrderById">
-		DELETE FROM order_complete WHERE purchase_id = #{purchase_id};
+		DELETE FROM order_complete WHERE purchase_id = #{purchase_id}
 	</delete>
+	
+	<select id="getListNum" resultType = "int">
+	 	SELECT COUNT(*) 
+		FROM (SELECT * FROM order_complete WHERE user_email=#{email}) c
+		<if test= "keyword != null and keyword != ''">
+			JOIN purchase pur
+			ON c.purchase_id = pur.purchase_id AND EXTRACT(YEAR_MONTH FROM pur.purchaseDate) = ${keyword}
+		</if>
+	</select>
+	
+	<update id="updateStatus">
+		UPDATE order_complete SET order_status = 1 WHERE order_id=#{order_id}
+	</update>
 	
 </mapper>
 

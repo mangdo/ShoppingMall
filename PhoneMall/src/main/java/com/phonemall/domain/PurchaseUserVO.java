@@ -18,6 +18,7 @@ public class PurchaseUserVO {
 	private Date purchase_date;
 	
 	private String product_title;
+	private int order_status;
 	private ProductImageVO product_image;
 
 }

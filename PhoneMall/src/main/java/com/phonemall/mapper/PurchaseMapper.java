@@ -5,9 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.phonemall.domain.CartListVO;
-import com.phonemall.domain.CartVO;
 import com.phonemall.domain.Criteria;
-import com.phonemall.domain.ProductVO;
 import com.phonemall.domain.PurchaseUserVO;
 import com.phonemall.domain.PurchaseVO;
 
@@ -21,4 +19,6 @@ public interface PurchaseMapper {
 	public List<PurchaseUserVO> getListWithPaging(@Param("cri") Criteria cri,@Param("email") String email);
 	public void deletePurchaseById(Long purchase_id);
 	public void deleteOrderById(Long purchase_id);
+	public int getListNum(@Param("email") String email, @Param("keyword") String keyword);
+	public void updateStatus(Long order_id);
 }

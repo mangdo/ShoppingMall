@@ -187,11 +187,6 @@
                                                     <p> <c:out value="${product.product_information}"/> </p>
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane" id="reviews">
-                                                	<sec:authorize access="hasRole('ROLE_MEMBER')">
-	                                                	<a class="button extra-small button-black mb-20" id="reviewRegisterModalBtn">
-		                            					<span>리뷰 등록</span>
-		                                            	</a>
-	                                            	</sec:authorize>
                                                     <!-- reviews-tab-desc -->
                                                     <div class="reviews-tab-desc"> </div>
                                                     <br>
@@ -286,8 +281,6 @@
                             
                         </div>
                     </div>
-                </div>
-            </div>
             <!-- SHOP SECTION END -->
         
         </section>
@@ -597,32 +590,8 @@
 	<sec:authorize access="isAuthenticated()">
 		user ='<sec:authentication property="principal.username"/>';
 	</sec:authorize>
-	
-    // review Modal show
-	var reviewModal = $("#reviewModal");
-	$('#reviewRegisterModalBtn').on("click", function(e){
-		reviewModal.modal("show");
-		reviewModal.find("input[name='review_reviewer']").val(user);
-		reviewModal.find("textarea[name='review_content']").val("");
-		reviewModal.find("button[id='reviewUpdateBtn']").hide();
-		reviewModal.find("button[id='reviewRegisterBtn']").show();
-	})
-	
-	// review register
-	$("#reviewRegisterBtn").on("click",function(e){
-		var review = {
-				review_content : reviewModal.find("textarea[name='review_content']").val(),
-				review_reviewer : reviewModal.find("input[name='review_reviewer']").val(),
-				review_rating : reviewModal.find("input[name='review_rating']:checked").val(),
-				product_id : productID
-		};
-		reviewService.add(review, function(result){
-			alert("result: "+result);
-			reviewModal.modal("hide");
-			showList(1);
-		});
-	});
-	
+
+	var reviewModal = $("#reviewModal");	
 	// show review update modal 
 	$(".reviews-tab-desc").on("click", "ul li .review-update", function(e){
 		e.preventDefault();

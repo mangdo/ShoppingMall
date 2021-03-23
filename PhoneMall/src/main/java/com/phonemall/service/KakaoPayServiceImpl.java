@@ -48,7 +48,11 @@ public class KakaoPayServiceImpl implements KakaoPayService {
         params.add("partner_user_id", kakao.getUser_email());
         params.add("item_name", kakao.getPurchase_name());
         params.add("quantity", String.valueOf(kakao.getPurchase_qty()));
-        params.add("total_amount", String.valueOf(kakao.getPurchase_price()));
+        if(kakao.getPurchase_price()>1000000) {
+        	params.add("total_amount", "1000000");
+        }else {
+        	params.add("total_amount", String.valueOf(kakao.getPurchase_price()));
+        }
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://localhost:8080/purchase/orderComplete?purchase_id="+kakao.getPurchase_id());
         params.add("cancel_url", "http://localhost:8080/kakaoPay/kakaoPayCancel?purchaseId="+kakao.getPurchase_id());

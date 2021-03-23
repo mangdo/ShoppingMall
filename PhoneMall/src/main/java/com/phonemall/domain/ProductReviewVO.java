@@ -15,6 +15,7 @@ public class ProductReviewVO {
 	private Date review_updateDate;
 	private int review_rating;
 	
+	private Long order_id;
 	private Long reply_id;
 
 }

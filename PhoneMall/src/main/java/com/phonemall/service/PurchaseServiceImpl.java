@@ -25,8 +25,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 		mapper.insert(purchaseVO);
 	}
 	
-	public List<PurchaseVO> getListNum(String email){
-		return mapper.read(email);
+	public int getListNum(String email, String keyword){
+		return mapper.getListNum(email, keyword);
 	}
 	
 	public List<PurchaseUserVO> getList(Criteria cri,String email) {

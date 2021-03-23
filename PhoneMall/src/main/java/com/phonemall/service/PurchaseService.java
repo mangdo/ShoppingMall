@@ -2,16 +2,13 @@ package com.phonemall.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.phonemall.domain.CartListVO;
-import com.phonemall.domain.CartVO;
 import com.phonemall.domain.Criteria;
 import com.phonemall.domain.PurchaseUserVO;
 import com.phonemall.domain.PurchaseVO;
 
 public interface PurchaseService {
-	public List<PurchaseVO> getListNum(String email);
+	public int getListNum(String email, String keyword);
 	public void insertBuyData(PurchaseVO purchaseVO);
 	public void insertCompleteOrder(Long purchase_id, String email);
 	public List<CartListVO> ListOrder(Long purchase_id);

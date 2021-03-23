@@ -9,6 +9,7 @@ import com.phonemall.domain.ProductReviewVO;
 import com.phonemall.domain.ProductReviewPageDTO;
 import com.phonemall.mapper.ProductMapper;
 import com.phonemall.mapper.ProductReviewMapper;
+import com.phonemall.mapper.PurchaseMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -20,6 +21,7 @@ public class ProductReviewServieImpl implements ProductReviewService{
 	
 	private ProductReviewMapper mapper;
 	private ProductMapper productMapper;
+	private PurchaseMapper purchaseMapper;
 	
 	@Transactional
 	@Override
@@ -28,6 +30,7 @@ public class ProductReviewServieImpl implements ProductReviewService{
 
 		int result = mapper.insert(vo);
 		productMapper.updateReview(vo.getProduct_id(), 1);
+		purchaseMapper.updateStatus(vo.getOrder_id());
 		
 		return result;
 	}

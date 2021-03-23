@@ -28,7 +28,7 @@
         </div>
         <!-- BREADCRUMBS SETCTION END -->
         
-                <!-- Start page content -->
+        <!-- Start page content -->
         <div id="page-content" class="page-wrapper">
 
             <!-- LOGIN SECTION START -->
@@ -42,12 +42,14 @@
 							</div>
 					    	<div class="account_select01">
 					        	<select id="select_searchYearSel" class="Searchselect_01" title="연도 선택">
-					            	<option value="0" selected="">전체보기</option><option value="2020">2020</option><option value="2019">2019</option>
+					            	<option value="0" selected>전체보기</option><option value="2021">2021</option><option value="2020">2020</option><option value="2019">2019</option>
 					            </select><span style="color: #636363; font-weight: bold;"> 년</span>
 					
 					             <select id="select_searchMonthSel" class="Searchselect_01" title="월 선택">
-					             	<option value="0" selected="">전체보기</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+					             	<option value="0" selected>전체보기</option><option value="01">1</option><option value="02">2</option><option value="03">3</option><option value="04">4</option><option value="05">5</option><option value="06">6</option><option value="07">7</option><option value="08">8</option><option value="09">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
 					              </select><span style="color: #636363; font-weight: bold;"> 월</span>
+					             &nbsp;
+					     		 <button id="keywordButton"class="submit-btn-1 btn-hover-1" style="background-color : #575757;">검색</button>
 					     	</div>
 						</div>
 					</div>
@@ -60,11 +62,12 @@
                                                 <table class="text-center">
                                                     <thead>
                                                         <tr>
+                                                        
                                                             <th class="product-thumbnail">상품정보</th>
                                                             <th class="product-price">주문일자</th>
                                                             <th class="product-stock">주문번호</th>
-                                                            <th class="product-add-cart">주문금액(수량)</th>
-                                                            <th class="product-remove">후기작성</th>
+                                                            <th class="product-add-cart">주문금액</th>
+                                                            <th class="product-remove">리뷰작성</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -96,8 +99,13 @@
                                                             <td class="product-stock"><a class="move" href="/myInquiry/${row.purchase_id}" style="color:blue;">${row.purchase_id}</a></td>
                                                             
                                                             <td class="product-price">${row.product_price} 원</td>
-                                                            <td class="product-price">
-                                                                <a class="button extra-small button-black" id='regBtn' ><span style="height:30px;padding:4px 20px">후기등록</span></a>
+                                                            <td class="product-price" id="review${varstatus.index}">
+                                                            	<c:if test="${row.order_status eq 0 }">
+                                                                	<a class="button extra-small button-black reviewModalBtn" href="${row.product_id}" data-review = "${varstatus.index}" data-order = "${row.order_id}"><span>작성하기</span></a>
+                                                            	</c:if>
+                                                            	<c:if test="${row.order_status ne 0 }">
+                                                                	작성완료
+                                                            	</c:if>
                                                             </td>
                                                         </tr>
                                                         </c:forEach>
@@ -111,6 +119,7 @@
 						<form id="actionForm" action="/myPurchase" method="get">
 							<input type="hidden" name='pageNum' value='<c:out value ="${pageMaker.cri.pageNum}"/>'>
 							<input type="hidden" name='amount' value='<c:out value ="${pageMaker.cri.amount}"/>'>
+							<input type="hidden" name='keyword' id="keyword" value='<c:out value ="${pageMaker.cri.keyword}"/>'>
 						</form>	
 						<div class="mb-80">
 			            	<div class="row">
@@ -147,17 +156,137 @@
 				</div>
 			</div>
 		</div>
-<script src="/resources/js/vendor/jquery-3.1.1.min.js"></script>
+
+<!-- Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            	<h4 class="modal-title">리뷰 작성</h4>
+            </div>
+            <div class="modal-body">
+
+            	<div class="form-group">
+	            	<label>리뷰 평점</label><br>
+	            	<c:forEach var="i" begin="0" end="4">
+	            		<input type="radio" name="review_rating" value="${5-i}">
+	            		<div class="pro-rating sin-pro-rating" style="display:inline-block">
+	            			<c:forEach var="j" begin="1" end="${5-i}">
+	            				<a><i class="zmdi zmdi-star"></i></a>
+	            			</c:forEach>
+	            			<c:forEach var="j" begin="1" end="${i}">
+	            				<a><i class="zmdi zmdi-star-outline"></i></a>
+	            			</c:forEach>
+	            		</div> &nbsp;
+	            	</c:forEach>
+            	</div>
+            	<div class="form-group">
+            		<label>리뷰 내용</label>
+            		<textarea class="form-control" name="review_content" placeholder="리뷰를 작성해주세요"></textarea>
+            	</div>
+            	<div class="form-group">
+            		<label>리뷰 작성자</label>
+            		<input class="form-control" name="review_reviewer" readonly="readonly">
+            	</div>
+            	<input type="hidden" name="product_id">
+            	<input type="hidden" name="order_id">
+            </div><!-- .modal-body -->
+            
+            <div class="modal-footer">
+            	<button id="reviewRegisterBtn" class="submit-btn-1 btn-hover-1" type="button">등록</button>
+            	<button class="submit-btn-1 btn-hover-1" data-dismiss="modal" aria-label="Close" style="background-color : #575757;">취소</button>
+            </div>
+        </div><!-- .modal-content -->
+    </div><!-- .modal-dialog -->
+</div>
+<!-- END review Modal -->
+<%@include file="/WEB-INF/views/layout/foot.jsp" %>
+<script type="text/javascript" src="/resources/js/review.js"></script>
+
 <script>
+$(document).ready(function(){
+	
+	// Setting Year, Month
+	var keyword = $("#keyword").val();
+	if(keyword != ''){
+		var year = keyword.substr(0,4);
+		var month = keyword.substr(4,2);
+		$("#select_searchYearSel").val(year);
+		$("#select_searchMonthSel").val(month);
+		
+	}
+	
+	// Pagination
 	var actionForm = $("#actionForm");
 	$(".paginate_button a").on("click",function(e){
 		e.preventDefault();
-		
-		console.log('click');
 		
 		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 		actionForm.submit();
 		
 	});
-</script>	
-					
+	
+	// Search by Year, Month
+	$("#keywordButton").on("click",function(e){
+		e.preventDefault();
+		var a = $("#select_searchYearSel option:selected").val();
+		var b = $("#select_searchMonthSel option:selected").val();
+		if(a=="0" && b=="0"){
+			actionForm.find("input[name='pageNum']").val(1);
+			actionForm.find("input[name='keyword']").val("");
+			actionForm.submit();
+			return;
+		}
+		if(a=="0"){
+			alert("년도를 선택해주세요.");
+			return;
+		}
+		if(b=="0"){
+			alert("월을 선택해주세요")
+			return;
+		}
+		
+		actionForm.find("input[name='pageNum']").val(1);
+		actionForm.find("input[name='keyword']").val(""+a+b);
+		actionForm.submit();
+	});
+	
+	// Review
+	var user = "";
+	<sec:authorize access="isAuthenticated()">
+		user ='<sec:authentication property="principal.username"/>';
+	</sec:authorize>
+		
+	var reviewModal = $("#reviewModal");
+	$('.reviewModalBtn').on("click", function(e){
+		e.preventDefault();
+		reviewModal.modal("show");
+		reviewModal.find("input[name='review_reviewer']").val(user);
+		reviewModal.find("textarea[name='review_content']").val("");
+		reviewModal.find("button[id='reviewRegisterBtn']").attr("data-review",$(this).attr("data-review"));
+		reviewModal.find("input[name='product_id']").val($(this).attr("href"));
+		reviewModal.find("input[name='order_id']").val($(this).attr("data-order"));
+	});
+	
+	// review register
+	$("#reviewRegisterBtn").on("click",function(e){
+		var id = "#review"+$(this).attr("data-review");
+		var review = {
+				review_content : reviewModal.find("textarea[name='review_content']").val(),
+				review_reviewer : reviewModal.find("input[name='review_reviewer']").val(),
+				review_rating : reviewModal.find("input[name='review_rating']:checked").val(),
+				product_id : reviewModal.find("input[name='product_id']").val(),
+				order_id : reviewModal.find("input[name='order_id']").val()
+		};
+		reviewService.add(review, function(result){
+			alert("result: "+result);
+			reviewModal.modal("hide");
+			
+			var a = id +" a";
+			$(a).remove();
+			$(id).append("작성완료");
+		});
+	});
+});
+</script>

@@ -15,8 +15,8 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 		<result property = "prev_id" column = "prev_id"/>
 		<result property = "next_title" column = "next_title"/>
 		<result property = "next_id" column = "next_id"/>
-		<collection property="notice_image" resultMap = "ImageMap">
-		</collection>
+		<association  property="notice_image" resultMap = "ImageMap">
+		</association>
 	</resultMap>
 	
 	<resultMap type = "com.phonemall.domain.NoticeImageVO" id = "ImageMap">

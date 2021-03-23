@@ -113,7 +113,7 @@ public class CartController {
 		
 		//insert Today into order data
 		Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date purchaseDate = sdf.parse(sdf.format(cal.getTime()));
 		purchaseVO.setPurchaseDate(purchaseDate);
 		
