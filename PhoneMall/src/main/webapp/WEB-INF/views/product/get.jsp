@@ -754,11 +754,31 @@
 		</sec:authorize>		
 	});
 	
-	$("#customSubmit2").on("click", function(e){
+	var msg="${insertmsg}"
+
+	if(msg=="SUCCESS"){
 		alert("성공적으로 추가되었습니다!");
+		}else if(msg=="FAIL"){
+		alert("이미 장바구니에 존재하는 상품입니다");
+	}	
+	
+	$("#customSubmit2").on("click", function(e){
+		
 		$("#cartform").submit();
+		
 	});
 	
  });
+ 	
+	
+	
+	
+	
+	
+	
+
+ 
+
+
  
 </script>

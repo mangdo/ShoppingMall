@@ -15,5 +15,5 @@ public interface CouponService {
 	public List<CouponUserVO> getCouponList(String user_email);
 	public List<CouponUserVO> getValidList(String user_email);
 	public void deleteCoupon(@Param("user_email") String user_email,@Param("coupon_id") int coupon_id);
-
+	public void updateUsedCoupon(@Param("user_email") String user_email,@Param("coupon_id") int coupon_id);
 }

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.phonemall.domain.Criteria;
@@ -36,20 +39,19 @@ public class WishListController {
 	private WishListService wishlistservice;
 	
 	@PostMapping("/insertWishList")
-	@ResponseBody
-	public ModelAndView insertWishList(WishListVO wishlistVO,Principal principal) {
+	public String insertWishList(WishListVO wishlistVO,Principal principal,RedirectAttributes rttr) {
 		String email = principal.getName();
-		
+
 		int count = wishlistservice.readWishList(email, wishlistVO.getProduct_id());
 		if(count == 0) {
 			wishlistVO.setUser_email(email);
 			wishlistservice.insertWishList(wishlistVO);
-						
+			rttr.addFlashAttribute("msg","SUCCESS");	
+		}else {
+			rttr.addFlashAttribute("msg","FAIL");
 		}
-
-		ModelAndView mav = new ModelAndView();
-		mav.setView(new RedirectView("/product/list"));
-		return mav;		
+		
+		return "redirect:/product/list";	
 	}
 	
 	@PostMapping("/insertWishListJson")

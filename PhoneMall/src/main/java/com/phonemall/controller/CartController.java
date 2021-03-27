@@ -66,28 +66,35 @@ public class CartController {
 	private KakaoPayService kaKaoPayService;
 	
 	@PostMapping("/insertCart")
-	@ResponseBody
-	public ModelAndView insertCart(CartVO cartVO,Principal principal,HttpServletRequest request,
-            RedirectAttributes redirectAttributes) {
-		ModelAndView mav = new ModelAndView();
+	public String insertCart(CartVO cartVO,Principal principal,HttpServletRequest request,
+            RedirectAttributes rttr) {
+		
 		String email = principal.getName();
 		long product_id = cartVO.getProduct_id();
 		String color = cartVO.getProduct_color();
+		
+		//check product is already in cart(parameter: color, product)
 		int count = cartservice.readCart(email, product_id,color);
+		
+		//if product is not in cart
+		//else product is already in cart
 		if(count == 0) {
 			cartVO.setUser_email(email);
+			
+			//set total_price by multiplying quantity and price
 			int total_price = cartVO.getProduct_qty() * cartVO.getProduct_price();
 			cartVO.setTotal_price(total_price);
 			cartservice.insertCart(cartVO);
-			mav.addObject("msg","성공적으로 추가되었습니다.");
+			
+			//alert message
+			rttr.addFlashAttribute("insertmsg", "SUCCESS");
 		}
 		else {
-			mav.addObject("msg","이미 장바구니에 존재하는 상품입니다.");
+			rttr.addFlashAttribute("insertmsg", "FAIL");
 		}
-		redirectAttributes.addFlashAttribute("okList", "AA BB CC");
+		//go to previous page
 	    String referer = request.getHeader("Referer");
-		mav.setView(new RedirectView(referer));
-		return mav;	
+		return "redirect:"+referer;
 	}
 	
 	
@@ -102,9 +109,7 @@ public class CartController {
 		model.addAttribute("discount_value",discount_value);
 		model.addAttribute("discount_result",total_money - discount_value);
 		model.addAttribute("coupon_id",coupon_id);
-		if(coupon_id!=0) {
-			couponservice.deleteCoupon(email, coupon_id);
-		}
+		
 		return "/purchase/checkout";
 	}
 	
@@ -145,7 +150,16 @@ public class CartController {
 		
 		PurchaseVO purchaseVO = list.get(0);
 		int discount_amount = purchaseVO.getTotal_money()-purchaseVO.getDiscount_result();
-
+		
+		//to prevent payment fail, coupon updates not used -> used in this controller payment step
+		int coupon_id = purchaseVO.getUsed_coupon();
+		String email = principal.getName();
+		
+		//coupon used part changes into "used" (previously "unused")
+		if(coupon_id!=0) {
+			couponservice.updateUsedCoupon(email, coupon_id);
+		}
+		
 		model.addAttribute("purchaseList",list);
 		model.addAttribute("discount_amount",discount_amount);
 		model.addAttribute("orderList",purchaseservice.ListOrder(purchase_id));
@@ -159,6 +173,8 @@ public class CartController {
 		log.info("goto cart");
 		String email = principal.getName();
 		List<CartVO> list=cartservice.ListCart(email);
+		
+		//show products in cart
 		if(list.size()==0) {
 			model.addAttribute("total_money",0);
 			model.addAttribute("emptyCart","장바구니가 비었습니다");
@@ -166,7 +182,11 @@ public class CartController {
 			List<CouponUserVO> coupon_list=couponservice.getValidList(email);
 			model.addAttribute("coupon_list",coupon_list);
 			return "/purchase/viewCart";
+			
 		}
+		
+		//count total money
+		//logic is (total money = previous total - discount(coupon amount))
 		int total_money = cartservice.sumTotalMoney(email);
 		model.addAttribute("total_money",total_money);
 		model.addAttribute("discount",discount_amount);
@@ -176,8 +196,8 @@ public class CartController {
 		}else {
 			model.addAttribute("discount_result",discount_result);
 		}
-		log.info(list);
-		model.addAttribute("msg",msg);
+		
+		//show coupon list(only valid coupons)
 		model.addAttribute("list",list);
 		List<CouponUserVO> coupon_list=couponservice.getValidList(email);
 		model.addAttribute("coupon_list",coupon_list);
@@ -189,14 +209,25 @@ public class CartController {
 	public String apply(Model model,HttpServletResponse response,HttpServletRequest request,RedirectAttributes rttr,Principal principal,int price_limit,int CouponID, int discount) throws IOException {
 		ModelAndView mav = new ModelAndView();
 		mav.setView(new RedirectView("/purchase/viewCart"));
+		
 		int discount_amount = discount;
 		String email = principal.getName();
+		
+		//total amount of products in cart
 		int total_money = cartservice.sumTotalMoney(email); 
+		
+		//reset discount result
 		int discount_result = 0;
+		
+		//logic: if total money is zero, do nothing
 		if(total_money == 0) {
 			return "redirect:/purchase/viewCart";	
 		}
+		
+		//if total money is less than price limit, send alert and notify can't use coupon
+		//else discount apply, amount is rounded
 		if(total_money < price_limit) {
+			rttr.addFlashAttribute("couponmsg","FAIL");
 			return "redirect:/purchase/viewCart";	
 		}
 		else {
@@ -209,9 +240,12 @@ public class CartController {
 				discount_result = total_money - discount;
 			}
 			int couponID_input = CouponID;
+			
+			//convey needed values to complete order by redirect Attribute
 			rttr.addAttribute("discount_result",discount_result);
 			rttr.addAttribute("discount_amount",discount_amount);
 			rttr.addAttribute("couponID_input",couponID_input);
+			rttr.addFlashAttribute("couponmsg","SUCCESS");
 			return "redirect:/purchase/viewCart";	
 		}
 	}

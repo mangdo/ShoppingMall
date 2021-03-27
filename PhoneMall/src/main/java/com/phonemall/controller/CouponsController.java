@@ -50,10 +50,25 @@ public class CouponsController {
 	
 	
 	@GetMapping("/myCoupon")
-	public String list(Model model,Principal principal) {
+	public String list(Model model,Principal principal) throws ParseException {
 		log.info("goto coupon");
 		String email = principal.getName();
+		
+		//get coupons list(coupons can be invalid, but appears as expired or used)
 		List<CouponUserVO> list=couponservice.getCouponList(email);
+		
+		//compare date with end date, if date is overdue, used part will be expired
+		Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date Today = sdf.parse(sdf.format(cal.getTime()));
+		
+		for (int i = 0; i < list.size(); i++) {
+			int compare = Today.compareTo(list.get(i).getEndDate());
+			if(compare > 0) {
+				list.get(i).setUsed("기간 만료");
+			}
+		}
 		
 		model.addAttribute("list",list);
 		log.info(list);
@@ -61,21 +76,18 @@ public class CouponsController {
 	}
 	
 	@RequestMapping(value="/searchAndInsertCoupon" , method = {RequestMethod.GET, RequestMethod.POST})
-	public  ModelAndView searchAndInsertCoupon(HttpServletResponse response,HttpServletRequest request,String coupon_code,Principal principal,CouponUserVO CouponUservo, Model model,RedirectAttributes redirectAttributes) throws ParseException, IOException {
+	public String searchAndInsertCoupon(HttpServletResponse response,HttpServletRequest request,String coupon_code,Principal principal,CouponUserVO CouponUservo, Model model,RedirectAttributes rttr) throws ParseException, IOException {
 
 		//search Coupon with coupon_code
         CouponVO couponVO = couponservice.searchCoupon(coupon_code);
 		
-	    ModelAndView mav = new ModelAndView();
         
         //if Coupon code is invalidate
         if (couponVO==null) {
-        	redirectAttributes.addFlashAttribute("okList", "AA BB CC");
-    	    String referer = request.getHeader("Referer");
-    		mav.setView(new RedirectView(referer));
-
-    		return mav;
+        	rttr.addFlashAttribute("msg", "FAIL");
+    	    return "redirect:/mypage/myCoupon";
         }
+        
 		//email
 		String user_email = principal.getName();
 		
@@ -103,11 +115,9 @@ public class CouponsController {
 		log.info(CouponUservo);
 		couponservice.insertCoupon(CouponUservo);
 		
-		redirectAttributes.addFlashAttribute("okList", "AA BB CC");
-	    String referer = request.getHeader("Referer");
-		mav.setView(new RedirectView(referer));
-		
-		return mav;
+		rttr.addFlashAttribute("msg", "SUCCESS");
+	    return "redirect:/mypage/myCoupon";
+	    
 	}
 
 }

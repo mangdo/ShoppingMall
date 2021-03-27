@@ -20,4 +20,7 @@ public interface CouponMapper {
 	public List<CouponUserVO> getValidList(String user_email);
 	
 	public void delete(@Param("user_email") String user_email,@Param("coupon_id") int coupon_id);
+	
+	//if coupon is used update coupon used part 
+	public void update(@Param("user_email") String user_email,@Param("coupon_id") int coupon_id);
 }

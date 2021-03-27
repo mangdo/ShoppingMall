@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@include file="/WEB-INF/views/layout/top.jsp" %>
-
         <!-- BREADCRUMBS SETCTION START -->
         <div class="breadcrumbs-section plr-200 mb-80">
             <div class="breadcrumbs overlay-bg">
@@ -23,7 +22,6 @@
             </div>
         </div>
         <!-- BREADCRUMBS SETCTION END -->
-
         <!-- Start page content -->
         <div id="page-content" class="page-wrapper">
         	
@@ -111,7 +109,7 @@
                                                         <ul class="action-button">                                                        
                                                             <li>       
                                                             	<input type="hidden" name="product_id" value="${product.product_id}"/>                                             
-                                                                <a title="wishlist"><button onclick="alert('wishlist에 추가되었습니다!')" type="submit" title="Wishlist"><i class="zmdi zmdi-favorite"></i></button></a>                                                                
+                                                                <a title="wishlist"><button type="submit" title="Wishlist"><i class="zmdi zmdi-favorite"></i></button></a>                                                                
                                                             </li>
                                                             <li>
                                                                 <a href="#" data-toggle="modal" data-target="#productModal" title="Quickview"
@@ -532,10 +530,12 @@ aria-lablelledby="myModalLabel" aria-hidden="true">
 </form>
 <%@include file="/WEB-INF/views/layout/foot.jsp" %>
 
+
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript" src="/resources/js/quickViewModal.js"></script>
 
 <script type="text/javascript">
+
 $(document).ready(function(){
 	var result = '<c:out value="${result}"/>';
 	
@@ -706,5 +706,22 @@ function openModal(product_id,product_price) {
 	 });
 	
 	};
+	
+var msg="${msg}";
+
+if(msg=="SUCCESS"){
+	alert("성공적으로 추가되었습니다!");
+	}else if(msg=="FAIL"){
+	alert("이미 위시리스트에 존재하는 상품입니다");
+}
+
+var msg="${insertmsg}";
+
+if(msg=="SUCCESS"){
+	alert("성공적으로 추가되었습니다!");
+	}else if(msg=="FAIL"){
+	alert("이미 장바구니에 존재하는 상품입니다");
+}	
+
 
 </script>

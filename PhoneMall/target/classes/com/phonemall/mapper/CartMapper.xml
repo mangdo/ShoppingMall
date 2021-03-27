@@ -61,7 +61,7 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<delete id="delete">
-		DELETE FROM cart WHERE product_id = #{product_id} AND user_email=#{user_email}
+		DELETE FROM cart WHERE product_id = #{product_id} AND user_email=#{user_email} AND product_color=#{product_color}
 	</delete>
 	
 	<select id="read" resultType = "int">

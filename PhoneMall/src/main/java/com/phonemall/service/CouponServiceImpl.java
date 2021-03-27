@@ -38,4 +38,9 @@ public class CouponServiceImpl implements CouponService{
 	public void deleteCoupon(String user_email, int coupon_id) {
 		mapper.delete(user_email, coupon_id);
 	}
+	
+	public void updateUsedCoupon(String user_email, int coupon_id) {
+		mapper.update(user_email, coupon_id);
+	}
+	
 }

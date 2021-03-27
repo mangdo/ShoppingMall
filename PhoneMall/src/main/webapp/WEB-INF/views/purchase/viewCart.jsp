@@ -88,7 +88,8 @@
                                                             
                                                             <td class="product-remove">
                                                               	<form name="deleteForm" action="/purchase/deleteCart" method="post" > 
-                                                            	 	<input type="hidden" name="product_id" value="${row.product_id}"/>                                                                                                                   	
+                                                            	 	<input type="hidden" name="product_id" value="${row.product_id}"/>
+                                                            	 	<input type="hidden" name="product_color" value="${row.product_color}"/>                                                                                                                   	
                                                                  	<button type="submit"><i class="zmdi zmdi-close"></i></button>                                                                 
                                                               	</form>                                                                 
                                                             </td>
@@ -557,4 +558,17 @@
 	}
 	}
 
+var msg="${msg}";
+
+if(msg=="SUCCESS"){
+	alert("쿠폰이 성공적으로 추가되었습니다!");
+	}else if(msg=="FAIL"){
+	alert("쿠폰 코드가 맞지 않습니다. 다시 확인해주세요");
+}
+
+var msg="${couponmsg}";
+
+if(msg=="FAIL"){
+	alert("결제 금액이 쿠폰 적용 가능 금액보다 적습니다");
+}
 </script> 

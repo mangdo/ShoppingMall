@@ -42,63 +42,49 @@
                             </div>
                           </form>
                         </div>
-                    	<table class="table table-bordered" style="color:rgb(0, 0, 0);">
-							<thead>
-								<tr>
-									<th scope="col" class="text-center" style="width:200px;">쿠폰명</th>
-									<th scope="col" class="text-center" style="width:400px;">쿠폰 내용</th>
-									<th scope="col" class="text-center" style="width:300px;">사용 가능 기한</th>
-									<th scope="col" class="text-center">사용 가능 여부</th>									
-								</tr>
-							</thead>
-							<tbody style="font-size:20px;">
-								
+                    	<table style="width:730px;">
 							  <c:forEach var="row" items="${list}"  varStatus="varstatus">
-								<tr>
-									<td align="center">${row.coupon_List[0].coupon_name}</td>
-									<td align="center">${row.coupon_List[0].coupon_description}</td>
-									<fmt:formatDate var="resultRegDt" value="${row.startDate}" pattern="yyyy-MM-dd"/>
+								<tr id="used" style="height: 250px; background-image: url('/resources/img/slider/slider-2/coupondesign2.png');">
+									<input type="hidden" value="${row.used}" class="used">
+									<td>
+										<div style="padding-left:70px; z-index:0;  padding-bottom: 30px; color:rgb(255, 127, 0); font-size: 50px;" class="coupon_title">${row.coupon_List[0].coupon_name}</div>
+										<div style="color:black; z-index:0;  padding-left:70px; font-size:15px;" class="coupon_description">${row.coupon_List[0].coupon_description}</div>
+										<div style="z-index:0; color:black; padding-left:70px;" class="coupon_date"><fmt:formatDate var="resultRegDt" value="${row.startDate}" pattern="yyyy-MM-dd"/>
 									<fmt:formatDate var="resultRegDt2" value="${row.endDate}" pattern="yyyy-MM-dd"/>
-									<td align="center">${resultRegDt} ~ ${resultRegDt2}</td>
-									<td align="center">${row.used}</td>								    
+									사용 기한: ${resultRegDt} ~ ${resultRegDt2}</div>
+									
+									</td>							    
 								</tr>
 							   </c:forEach> 
-							</tbody>
 						</table>
-						
+						<br>
 						<p>*모든 쿠폰은 중복 사용이 불가합니다*</p>	
-						<div class="mb-80">
-							<div>${msg}</div>
-			            	<div class="row">
-			             		<div class="col-xs-12">
-			                 		<!-- shop-pagination start -->
-			                    	<ul class="shop-pagination box-shadow text-center ptblr-10-30">
-			                    		<li><a href="#"><i class="zmdi zmdi-chevron-left"></i></a></li>
-			                    		<li><a href="#">01</a></li>
-			                     		<li><a href="#">02</a></li>
-			                     		<li><a href="#">03</a></li>
-			                     		<li><a href="#">...</a></li>
-			                     		<li><a href="#">05</a></li>
-			                      		<li class="active"><a href="#"><i class="zmdi zmdi-chevron-right"></i></a></li>
-			                     	</ul>
-			                     	<!-- shop-pagination end -->
-			                    	</div>
-			                 </div> 
-			              </div> 
+						
 					</div>
 				</div>
 			</div>
 		</div>
 <script type="text/javascript">
+var el =  document.getElementsByClassName("used");
+console.log(el);
+for(let i=0 ; i<el.length; i++) {
+	if(el[i].value=="사용 완료"){
+		el[i].parentNode.style.backgroundImage = "url('/resources/img/slider/slider-2/usedcoupondesign2.png')";
+	}
+	
+	if(el[i].value=="기간 만료"){
+		el[i].parentNode.style.backgroundImage = "url('/resources/img/slider/slider-2/expiredcoupondesign2.png')";
+	}
+	}
 
-			var header = document.getElementById('coupon_list');
-			var message = "${msg}";
-			var url = "${url}";
-			console.log(message);
-			header.onclick = function() { 
-				alert(message); 
-				
-				}
+var msg="${msg}";
+
+if(msg=="SUCCESS"){
+	alert("쿠폰이 성공적으로 추가되었습니다!");
+	}else if(msg=="FAIL"){
+	alert("쿠폰 코드가 맞지 않습니다. 다시 확인해주세요");
+}	
+
 
 
 </script>	

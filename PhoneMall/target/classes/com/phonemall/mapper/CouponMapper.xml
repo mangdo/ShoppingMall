@@ -50,4 +50,8 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	DELETE FROM user_coupons WHERE coupon_id = #{coupon_id} AND user_email=#{user_email}
 	</delete>
 	
+	<update id="update">
+	UPDATE user_coupons SET used="사용 완료" WHERE coupon_id = #{coupon_id} AND user_email=#{user_email}
+	</update>
+	
 </mapper>
