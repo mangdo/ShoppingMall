@@ -69,6 +69,8 @@ public class CartController {
 	@ResponseBody
 	public ModelAndView insertCart(CartVO cartVO,Principal principal,HttpServletRequest request,
             RedirectAttributes redirectAttributes) {
+		log.info("hi");
+		log.info(cartVO);
 		ModelAndView mav = new ModelAndView();
 		String email = principal.getName();
 		long product_id = cartVO.getProduct_id();
@@ -79,12 +81,14 @@ public class CartController {
 			int total_price = cartVO.getProduct_qty() * cartVO.getProduct_price();
 			cartVO.setTotal_price(total_price);
 			cartservice.insertCart(cartVO);
-			mav.addObject("msg","성공적으로 추가되었습니다.");
+			//mav.addObject("msg","성공적으로 추가되었습니다.");
+			redirectAttributes.addFlashAttribute("msg", "성공적으로 추가되었습니다.");
 		}
 		else {
-			mav.addObject("msg","이미 장바구니에 존재하는 상품입니다.");
+			//mav.addObject("msg","이미 장바구니에 존재하는 상품입니다.");
+			redirectAttributes.addFlashAttribute("msg", "이미 장바구니에 존재하는 상품입니다.");
 		}
-		redirectAttributes.addFlashAttribute("okList", "AA BB CC");
+		//redirectAttributes.addFlashAttribute("okList", "AA BB CC");
 	    String referer = request.getHeader("Referer");
 		mav.setView(new RedirectView(referer));
 		return mav;	

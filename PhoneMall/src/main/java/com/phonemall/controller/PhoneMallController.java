@@ -4,7 +4,6 @@ import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.phonemall.domain.Criteria;
 import com.phonemall.domain.PageDTO;
 import com.phonemall.domain.ProductReviewPageDTO;
+import com.phonemall.service.NoticeService;
 import com.phonemall.service.ProductReviewService;
 import com.phonemall.service.ProductService;
 
@@ -31,6 +31,9 @@ public class PhoneMallController {
 	@Setter(onMethod_=@Autowired)
 	private ProductService productService;
 	
+	@Setter(onMethod_=@Autowired)
+	private NoticeService noticeService;
+	
 	@RequestMapping("/")
 	public String toMainPage(Model model){
 		
@@ -38,7 +41,8 @@ public class PhoneMallController {
 		model.addAttribute("saleList", productService.getSaleList());
 		model.addAttribute("popularList", productService.getPopularList());
 		model.addAttribute("bestList", productService.getBestList());
-		
+		model.addAttribute("recentNotice", noticeService.getRecentList());
+
 		return "/mallView/mainPage";
 	}
 
@@ -50,33 +54,6 @@ public class PhoneMallController {
 	@RequestMapping("/contact")
 	public String toContackPage() {
 		return "/mallView/contact";
-	}
-	
-
-	
-
-
-	
-	@RequestMapping("/viewCart")
-	public String toViewCart() {
-		return "/mypage/viewCart";
-	}
-	
-	@RequestMapping("/checkOut")
-	public String toCheckOut() {
-		return "/mypage/checkOut";
-	}
-	
-	@RequestMapping("/myInfo")
-	public String toMyInfo() {
-		return "/mypage/myInfo";
-	}
-	
-	
-	
-	@RequestMapping("/myInquiry")
-	public String toMyInquiry() {
-		return "/mypage/myInquiry";
 	}
 	
 	@PreAuthorize("isAuthenticated()")

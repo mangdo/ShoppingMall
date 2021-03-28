@@ -76,4 +76,10 @@ public class NoticeServiceImpl implements NoticeService {
 		return mapper.update(notice)==1;
 	}
 
+	@Override
+	public List<NoticeVO> getRecentList() {
+		
+		return mapper.getRecentList();
+	}
+
 }

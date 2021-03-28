@@ -91,7 +91,7 @@
                                                     <p class="color-title f-left">Color</p>
                                                     <div class="widget-color f-left">
                                                         <ul>
-                                                        <li class='color-1'><a href='#'></a></li> <li class='color-1'><a href='#'></a></li>
+                                                        
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -120,7 +120,6 @@
                                             <!-- hr -->
                                             <hr>
                                             <!-- plus-minus-pro-action -->
-                                            
                                             <div class="plus-minus-pro-action clearfix" style="height:30px;">
                                                 <div class="sin-plus-minus f-left clearfix">
                                                     <p class="color-title f-left">Qty</p>
@@ -139,8 +138,7 @@
     													</c:forEach>
 														</select>
                                                 </div>
-                                         
-                                              </div>   
+                                            </div>
                                             <!-- plus-minus-pro-action end -->
                                             <!-- hr -->
                                             <hr>
@@ -201,6 +199,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <!-- single-product-area end -->
                             <c:if test="${!empty relatedList}">
                             	<div class="related-product-area">
@@ -369,91 +368,8 @@
 </div>
 <!-- END reply Modal -->
 
-<!-- START QUICKVIEW PRODUCT -->
-<div id="quickview-wrapper">
-  <!-- Modal -->
-  <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              </div>
-              <div class="modal-body">
-                  <div class="modal-product clearfix">
-                      <div class="product-images">
-                          <div class="main-image images">
-                              <img alt="" id="quick-img"src="/resources/img/product/quickview.jpg">
-                          </div>
-                      </div><!-- .product-images -->
-                      
-                      <div class="product-info">
-                          <h1 id ="quick-title"> </h1>
-                          <div class="price-box-3">
-                              <div class="s-price-box">
-                                  <span class="new-price" id ="quick-price"> </span>
-                              </div>
-                          </div>
-                          <a class ='move see-all' id="quick-id" href='<c:out value="${product.product_id}"/>'>See all features</a>
-                          <div class="quick-add-to-cart">
-                              <form method="post" class="cart">
-                                  <div class="numbers-row">
-                                      <input type="number" id="french-hens" value="1">
-                                  </div>
-                                  <button class="single_add_to_cart_button" type="submit">Add to cart</button>
-                              </form>
-                          </div>
-                          <div id="quick-information" class="quick-desc"></div>
-                          <div class="social-sharing">
-                              <div class="widget widget_socialsharing_widget">
-                                  <h3 class="widget-title-modal">Share this product</h3>
-                                  <ul class="social-icons clearfix">
-                                      <li>
-                                          <a class="facebook" href="#" target="_blank" title="Facebook">
-                                              <i class="zmdi zmdi-facebook"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="google-plus" href="#" target="_blank" title="Google +">
-                                              <i class="zmdi zmdi-google-plus"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="twitter" href="#" target="_blank" title="Twitter">
-                                              <i class="zmdi zmdi-twitter"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="pinterest" href="#" target="_blank" title="Pinterest">
-                                              <i class="zmdi zmdi-pinterest"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="rss" href="#" target="_blank" title="RSS">
-                                              <i class="zmdi zmdi-rss"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                      	<a id="kakao-link-btn" href="#">
-                                          <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" style="width:100%"/>
-  									  	</a>
-  									  </li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div><!-- .product-info -->
-                  </div><!-- .modal-product -->
-              </div><!-- .modal-body -->
-          </div><!-- .modal-content -->
-      </div><!-- .modal-dialog -->
-  </div>
-  <!-- END Modal -->
-</div>
-<!-- END QUICKVIEW PRODUCT -->
-
 <script type="text/javascript" src="/resources/js/review.js"></script>
 <script type="text/javascript" src="/resources/js/reply.js"></script>
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript" src="/resources/js/quickViewModal.js"></script>
 
 <script type="text/javascript">
  $(document).ready(function(){
@@ -753,11 +669,16 @@
 			alert("관리자만 삭제가 가능합니다.");
 		</sec:authorize>		
 	});
-	
+	/*
 	$("#customSubmit2").on("click", function(e){
 		alert("성공적으로 추가되었습니다!");
 		$("#cartform").submit();
 	});
+	*/
+	var msg = '<c:out value="${msg}"/>';
+	if(msg != ''){
+		alert(msg);
+	}
 	
  });
  
