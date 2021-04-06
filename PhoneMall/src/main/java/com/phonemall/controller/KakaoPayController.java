@@ -11,17 +11,17 @@ import com.phonemall.domain.KakaoPayPurchaseVO;
 import com.phonemall.service.KakaoPayService;
 import com.phonemall.service.PurchaseService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
-@Controller
 @Log4j
 @RequestMapping("/kakaoPay")
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Controller
 public class KakaoPayController {
 
-    private KakaoPayService kaKaoPayService;    
-	private PurchaseService purchaseservice;
+    private final KakaoPayService kaKaoPayService;    
+	private final PurchaseService purchaseservice;
 
     @PostMapping("/ready")
     public String kakaoPay(KakaoPayPurchaseVO kakaoPayPurchaseVO) {
@@ -41,13 +41,13 @@ public class KakaoPayController {
 	public String kakaoPayCancel(Long purchaseId) {
 		purchaseservice.deleteById(purchaseId);
 		log.info("결제가 취소되었습니다.");
-		return null;
+		return "/error/payCancel";
 	}
 
 	@GetMapping("/kakaoPayFail")
 	public String kakaoPayFail(Long purchaseId) {
 		purchaseservice.deleteById(purchaseId);
 		log.info("결제가 실패하였습니다.");
-		return null;
+		return "/error/payFail";
 	}
 }

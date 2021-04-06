@@ -44,10 +44,18 @@ $('#productModal').on('show.bs.modal', function(e) {
 	var product_id = $(e.relatedTarget).data('id');
 	$.getJSON("/product/quickView?product_id="+product_id, function(data){
 		
-		$("#quick-id").attr( "href", "product/get?product_id="+data.product_id );
+		$("#quick-id").attr( "href", "/product/get?product_id="+data.product_id );
+		$("#product_id").val(data.product_id);
 	    $("#quick-title").html( data.product_title );
 	    $("#quick-price").html( numberWithCommas(data.product_price) +" 원");
+	    $("#product_price").val(data.product_price);
 	    $("#quick-information").html( data.product_information );
+	    
+	    var str = '';
+	    data.product_colorList.forEach(function(color){
+	    	str += '<option value='+color.product_color+'>'+color.product_color+'</option>';
+	    });
+	    $("#product_color").html(str);
 	    
 	    var imageName = encodeURIComponent(data.product_imageList[0].image_uploadPath+'/'+data.product_imageList[0].image_uuid+'_'+data.product_imageList[0].image_name);
         var realSrc = '/product/display?fileName='+imageName;

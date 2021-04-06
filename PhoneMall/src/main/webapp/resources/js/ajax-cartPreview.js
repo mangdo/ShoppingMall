@@ -18,7 +18,6 @@ function numberWithCommas(x) {
 	})
 	.done(function(response) {
 
-		console.log(response);
 		$("#total_money").html(numberWithCommas(response.total_money)+" ₩");
 		
 		var str = '';
@@ -37,7 +36,7 @@ function numberWithCommas(x) {
 		
 		$(".total-cart-pro").html(str);
 		
-        
+        $("#cart-quantity").html(response.list.length);
         
 	})
 	.fail(function(data) {

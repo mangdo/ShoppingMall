@@ -247,10 +247,7 @@
                                             <a href="#" data-id="<c:out value='${product.product_id}'/>" data-toggle="modal"  data-target="#productModal" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
                                         </li>
                                         <li>
-                                            <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                            <a href="#" title="Add to cart" onclick="openModal(${product.product_id},${product.product_price})"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -289,7 +286,7 @@
                                     <p>&nbsp;트렌디한 컬러, 강력한 내구성, 전문가급의 카메라, 보안과 편리함을 동시에 갖춘 지문인식, 5G 콘텐츠를 오래 즐길 수 있는 대용량 배터리.
 										<br>&nbsp;이 모든 기능을 특별한 가격으로 지금 즐기세요!</p>
                                     <div class="up-comming-time-2 clearfix">
-                                        <div data-countdown="2021/03/15"></div>
+                                        <div data-countdown="2021/05/01"></div>
                                     </div>
                                 </div>
                             </div>
@@ -388,10 +385,7 @@
                                                     <a href="#" data-toggle="modal" data-target="#productModal" data-id="<c:out value='${product.product_id}'/>" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
                                                 </li>
                                                 <li>
-                                                    <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                                    <a href="#" title="Add to cart" onclick="openModal(${product.product_id},${product.product_price})"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -439,10 +433,7 @@
                                                     <a href="#" data-toggle="modal" data-target="#productModal" data-id="<c:out value='${product.product_id}'/>" title="Quickview"><i class="zmdi zmdi-zoom-in"></i></a>
                                                 </li>
                                                 <li>
-                                                    <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                                    <a href="#" title="Add to cart" onclick="openModal(${product.product_id},${product.product_price})"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -512,26 +503,38 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="section-title text-left mb-40">
-                                <h2 class="uppercase">Latest blog</h2>
-                                <h6>There are many variations of passages of brands available,</h6>
+                                <h2 class="uppercase">Recent Notice</h2>
+                                <h6>최신 공지사항과 이벤트를 확인하세요.</h6>
                             </div>
                         </div>
                     </div>
                     <div class="blog">
                         <div class="row active-blog-2">
+                        <c:forEach items="${recentNotice}" var="notice" varStatus="varstatus">
                             <!-- blog-item start -->
                             <div class="col-xs-12">
                                 <div class="blog-item-2">
                                     <div class="row">
                                         <div class="col-md-6 col-xs-12">
-                                            <div class="blog-image">
-                                                <a href="single-blog.html"><img src="/resources/img/blog/4.jpg" alt=""></a>
-                                            </div>
+                                            <div class="blog-image" style="position:relative; padding-top:80%; display:block;">
+                                                <a href="notice/get?notice_id=<c:out value="${notice.notice_id}"/>">
+
+                                                <img id = 'recent-notice-img${varstatus.index}' alt="image error" onError ="this.src='/resources/img/product-2/7.jpg'"
+		                                        style="position:absolute; top:0; width:100%;height:100%">
+				                                <script>
+				                               	var imageName = encodeURIComponent('${notice.notice_image.image_uploadPath}'+'/'+'${notice.notice_image.image_uuid}'+'_'+'${notice.notice_image.image_name}');
+				                               	var realSrc = '/product/display?fileName='+imageName;
+				                               	
+				                           		document.getElementById('recent-notice-img${varstatus.index}').src= realSrc;
+												</script>
+
+                                                </a>
+                                           </div>
                                         </div>
                                         <div class="col-md-6 col-xs-12">
                                             <div class="blog-desc">
-                                                <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                                                <p>There are many variations of passages of in psum available, but the majority have sufe ered on in some form...</p>
+                                                <h5 class="blog-title-2"><a href="#"><c:out value='${recentNotice[0].notice_title }'/></a></h5>
+                                                <p><c:out value='${notice.notice_information }'/></p>
                                                 <div class="read-more">
                                                     <a href="#">Read more</a>
                                                 </div>
@@ -541,50 +544,7 @@
                                 </div>
                             </div>
                             <!-- blog-item end -->
-                            <!-- blog-item start -->
-                            <div class="col-xs-12">
-                                <div class="blog-item-2">
-                                    <div class="row">
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="blog-image">
-                                                <a href="single-blog.html"><img src="/resources/img/blog/5.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="blog-desc">
-                                                <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                                                <p>There are many variations of passages of in psum available, but the majority have sufe ered on in some form...</p>
-                                                <div class="read-more">
-                                                    <a href="#">Read more</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- blog-item end -->
-                            <!-- blog-item start -->
-                            <div class="col-xs-12">
-                                <div class="blog-item-2">
-                                    <div class="row">
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="blog-image">
-                                                <a href="single-blog.html"><img src="/resources/img/blog/4.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="blog-desc">
-                                                <h5 class="blog-title-2"><a href="#">dummy Blog name</a></h5>
-                                                <p>There are many variations of passages of in psum available, but the majority have sufe ered on in some form...</p>
-                                                <div class="read-more">
-                                                    <a href="#">Read more</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- blog-item end -->
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
@@ -616,87 +576,7 @@
             <!-- NEWSLETTER SECTION END -->            
         </section>
         <!-- END PAGE CONTENT -->
-
-<!-- START QUICKVIEW PRODUCT -->
-<div id="quickview-wrapper">
-  <!-- Modal -->
-  <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              </div>
-              <div class="modal-body">
-                  <div class="modal-product clearfix">
-                      <div class="product-images">
-                          <div class="main-image images">
-                              <img alt="" id="quick-img"src="/resources/img/product/quickview.jpg">
-                          </div>
-                      </div><!-- .product-images -->
-                      
-                      <div class="product-info">
-                          <h1 id ="quick-title"> </h1>
-                          <div class="price-box-3">
-                              <div class="s-price-box">
-                                  <span class="new-price" id ="quick-price"> </span>
-                              </div>
-                          </div>
-                          <a class ='see-all' id="quick-id" href='<c:out value="${product.product_id}"/>'>See all features</a>
-                          <div class="quick-add-to-cart">
-                              <form method="post" class="cart">
-                                  <div class="numbers-row">
-                                      <input type="number" id="french-hens" value="1">
-                                  </div>
-                                  <button class="single_add_to_cart_button" type="submit">Add to cart</button>
-                              </form>
-                          </div>
-                          <div id="quick-information" class="quick-desc"></div>
-                          <div class="social-sharing">
-                              <div class="widget widget_socialsharing_widget">
-                                  <h3 class="widget-title-modal">Share this product</h3>
-                                  <ul class="social-icons clearfix">
-                                      <li>
-                                          <a class="facebook" href="#" target="_blank" title="Facebook">
-                                              <i class="zmdi zmdi-facebook"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="google-plus" href="#" target="_blank" title="Google +">
-                                              <i class="zmdi zmdi-google-plus"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="twitter" href="#" target="_blank" title="Twitter">
-                                              <i class="zmdi zmdi-twitter"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="pinterest" href="#" target="_blank" title="Pinterest">
-                                              <i class="zmdi zmdi-pinterest"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="rss" href="#" target="_blank" title="RSS">
-                                              <i class="zmdi zmdi-rss"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                      	<a id="kakao-link-btn" href="#">
-                                          <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" style="width:100%"/>
-  									  	</a>
-  									  </li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div><!-- .product-info -->
-                  </div><!-- .modal-product -->
-              </div><!-- .modal-body -->
-          </div><!-- .modal-content -->
-      </div><!-- .modal-dialog -->
-  </div>
-  <!-- END Modal -->
-</div>
-<!-- END QUICKVIEW PRODUCT -->
+<%@include file="/WEB-INF/views/purchase/CartModal.jsp" %>
 
 <form id="getProduct" action="/product/list" method="get">
 	<input type='hidden' name='brand' value=''>
@@ -713,12 +593,11 @@
                                 <img src="/resources/img/logo/logo.png" alt="">
                             </div>
                             <ul class="footer-menu-2">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Products</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Pages</a></li>
-                                <li><a href="#">About us</a></li>
-                                <li><a href="#">Contact</a></li>
+								<li><a href="/">Home</a></li>
+                                <li><a href="/product/list">Products</a></li>
+                                <li><a href="/notice/list">Notice</a></li>
+                                <li><a href="/about">About us</a></li>
+                                <li><a href="/contact">Contact</a></li>
                             </ul>                                                  
                         </div>
                     </div>
@@ -729,48 +608,23 @@
                     <div class="row">
                         <div class="col-md-4 col-sm-5">
                             <div class="copyright-text copyright-text-2">
-                                <p>&copy; <a href="https://themeforest.net/user/codecarnival/portfolio" target="_blank">CodeCarnival</a> 2016. All Rights Reserved.</p>
+                                <p>&copy; ShoppingMallProject</p>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <ul class="footer-social footer-social-2">
                                 <li>
-                                    <a class="facebook" href="" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>
-                                </li>
-                                <li>
-                                    <a class="google-plus" href="" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a>
-                                </li>
-                                <li>
-                                    <a class="twitter" href="" title="Twitter"><i class="zmdi zmdi-twitter"></i></a>
-                                </li>
-                                <li>
-                                    <a class="rss" href="" title="RSS"><i class="zmdi zmdi-rss"></i></a>
+                                    <a class="facebook" href="" title="github"><i class="zmdi zmdi-github"></i></a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-4 col-sm-3">
-                            <ul class="footer-payment">
-                                <li>
-                                    <a href="#"><img src="/resources/img/payment/1.jpg" alt=""></a>
-                                </li>
-                                <li>
-                                    <a href="#"><img src="/resources/img/payment/2.jpg" alt=""></a>
-                                </li>
-                                <li>
-                                    <a href="#"><img src="/resources/img/payment/3.jpg" alt=""></a>
-                                </li>
-                                <li>
-                                    <a href="#"><img src="/resources/img/payment/4.jpg" alt=""></a>
-                                </li>
-                            </ul>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
         </footer>
         <!-- END FOOTER AREA -->
 
-    </div>
     <!-- Body main wrapper end -->
 
 
@@ -792,10 +646,13 @@
 		<script src="/resources/js/ajax-cartPreview.js"></script>
 	</sec:authorize>
 	
-	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-	<script type="text/javascript" src="/resources/js/quickViewModal.js"></script>
+	<%@include file="/WEB-INF/views/product/QuickViewModal.jsp" %>
+	<script type="text/javascript" src="/resources/js/cartModal.js"></script>
+	<script type="text/javascript" src="/resources/js/wishList.js"></script>
 	
 	<script>
+	
+	// Get Brand Collection List 
 	var productForm = $("#getProduct");
 	
 	$(".getBrand").on("click",function(e){
@@ -806,35 +663,25 @@
 		productForm.submit();
 	});
 	
-	// insert wishList
+	// Insert WishList
 	$(".zmdi-favorite").on("click",function(e){
-		
 		// only member can insert wishList
 		<sec:authorize access="isAnonymous()">
 			alert("로그인 후 가능합니다.");
 			return;
 		</sec:authorize>
 		
-		$.ajax({
-			type : 'post',
-			url : '/product/insertWishListJson',
-			data : JSON.stringify({product_id:$(this).data('id')}),
-			contentType : "application/json; charset=utf-8",
-			success : function(result, status, xhr){
-				if( result == "insert in wishList")
-					alert("wishList에 추가되었습니다.");
-				else if( result == "aleady in wishList")
-					alert("이미 wishList에 있습니다.");
-				else{
-					alert("실패하였습니다.");
-				}
-			},
-			error : function(xhr, status, er){
-				alert("실패하였습니다.");
-			}
-		});
-		
+		wishListService.insert($(this).data('id'));
 	});
+
+	// Insert Cart
+	var msg="${insertmsg}";
+
+	if(msg=="SUCCESS"){
+		alert("성공적으로 추가되었습니다!");
+		}else if(msg=="FAIL"){
+		alert("이미 장바구니에 존재하는 상품입니다");
+	}	
 	</script>
 	
 </body>

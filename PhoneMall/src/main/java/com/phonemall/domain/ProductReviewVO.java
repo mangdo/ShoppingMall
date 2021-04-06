@@ -1,8 +1,10 @@
 package com.phonemall.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
+
 @Data
 public class ProductReviewVO {
 
@@ -16,6 +18,12 @@ public class ProductReviewVO {
 	private int review_rating;
 	
 	private Long order_id;
-	private Long reply_id;
-
+	
+	private List<ProductReplyVO> replyList;
+	private List<ProductImageVO> product_imageList;
+	
+	private String product_title;
+	private String product_brand;
+	private String product_carrier;
+	private String product_type;
 }

@@ -9,10 +9,10 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="breadcrumbs-inner">
-                                <h1 class="breadcrumbs-title">Single Blog</h1>
+                                <h1 class="breadcrumbs-title">Notice</h1>
                                 <ul class="breadcrumb-list">
-                                    <li><a href="index.html">Home</a></li>
-                                    <li>Single Blog</li>
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="/notice/list">Notice</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -88,8 +88,10 @@
                                 <!-- blog-description -->
                                 <div class="blog-description mb-60">                                  
                                     <p><pre style="background-color:transparent; border: none"> ${notice.notice_description} </pre>
-                                	<a class="button extra-small button-white f-right" href='modify?notice_id=${notice.notice_id }'><span>수정</span></a>
-                                	<a class="button extra-small button-white f-right" href='javascript:remove()'><span>삭제</span></a>
+                                	<sec:authorize access="hasRole('ROLE_ADMIN')">
+                                		<a class="button extra-small button-white f-right" href='modify?notice_id=${notice.notice_id }'><span>수정</span></a>
+                                		<a class="button extra-small button-white f-right" href='javascript:remove()'><span>삭제</span></a>
+                                	</sec:authorize>
                                 </div>
                                 <hr style="border-bottom:2px solid #eeeeee">
                                 <div class="text-center"> <a class="button extra-small button-black mb-20" href="list"><span>LIST</span></a></div>

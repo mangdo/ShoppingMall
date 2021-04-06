@@ -11,13 +11,13 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="breadcrumbs-inner">
-                                <h1 class="breadcrumbs-title">주문조회/변경/취소</h1>
+                                <h1 class="breadcrumbs-title">My purchase details</h1>
                                 <ul class="breadcrumb-list">
                                     <li><a href="/">Home</a></li>
-                                    <li><a href="/myPurchase">Purchase</a></li>
-                                    <li><a href="/myInfo">MyInfo</a></li>
-                                    <li><a href="/myReviews">Reviews</a></li>
-                                    <li><a href="/myCoupon">MyCoupons</a></li>
+                                    <li><a href="/myPurchase">MyPurchase</a></li>
+                                    <li><a href="/mypage/myInfo">MyInfo</a></li>
+                                    <li><a href="/mypage/myReviews">MyReviews</a></li>
+                                    <li><a href="/mypage/myCoupon">MyCoupons</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -29,8 +29,11 @@
         <!-- 	주문 조회/변경/취소 -->
         <div class="container">
         	<div class="row">
-        		<div class="col">
-        			<h2>* 기본 / 배송 정보 </h2>
+        		<div class="col-md-12 mb-30">
+        			<div class="section-title text-left mb-20">
+						<h2 class="uppercase">주문 상세 조회</h2>
+						<h6 >기본 정보와 배송 정보를 확인할 수 있습니다.</h6>
+					</div>
         			<table class="table table-bordered" style="color:rgb(0, 0, 0);">
 					  <tbody>
 					    <tr>
@@ -56,8 +59,11 @@
 					  </tbody>
 					</table>
         		</div>
-        		<div class="col">
-        			<h2>* 결제 정보 </h2>
+        		<div class="col-md-12">
+        			<div class="section-title text-left mb-20">
+						<h2 class="uppercase">결제 조회</h2>
+						<h6>결제 정보를 확인 할 수 있습니다.</h6>
+					</div>
         			<table class="table table-bordered" style="color:rgb(0, 0, 0);">
 					  <tbody>
 					    <tr>

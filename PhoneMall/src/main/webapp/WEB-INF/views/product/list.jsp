@@ -10,10 +10,10 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="breadcrumbs-inner">
-                                <h1 class="breadcrumbs-title">product grid view</h1>
+                                <h1 class="breadcrumbs-title">products</h1>
                                 <ul class="breadcrumb-list">
                                     <li><a href="/">Home</a></li>
-                                    <li>product grid view</li>
+                                    <li>products</li>
                                 </ul>
                             </div>
                         </div>
@@ -40,13 +40,9 @@
 
                                         
                                     </ul>
-                                    <a class="button extra-small button-black f-right" id='regBtn' ><span style="height:30px;padding:4px 20px">Register</span></a>
-                                    <!-- showing 
-                                    <div class="showing f-right text-right">
-                                        
-                                    </div> 
-                                    -->
-                                                                      
+                                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                    	<a class="button extra-small button-black f-right" id='regBtn' ><span style="height:30px;padding:4px 20px">Register</span></a>
+                                    </sec:authorize>                            
                                 </div>
                                 <!-- shop-option end -->
                                 <!-- Tab Content start -->
@@ -116,9 +112,6 @@
                                                                  data-id="${product.product_id}" data-title="${product.product_title }" data-price="${product.product_price}" data-information="${product.product_information}">
                                                                 	<i class="zmdi zmdi-zoom-in"></i>
                                                                 </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
                                                             </li>
                                                             <li>
                                                                 <a href="#" title="Add to cart" onclick="openModal(${product.product_id},${product.product_price})"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
@@ -196,7 +189,7 @@
                                                                 <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
                                                             </li>
                                                             <li>
-                                                                <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                                                <a href="#" title="Add to cart" onclick="openModal(${product.product_id},${product.product_price})"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -393,146 +386,21 @@ aria-lablelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-body">처리가 완료되었습니다.</div>
 			<div class = "modal-footer">
 				<button type ="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<!-- btn btn-primary는 파란색으로 구성된 버튼을 말한다.btn-success,warning등이 있다. -->
 			</div>
 		</div>
 	</div>
 </div>
-<!-- START QUICKVIEW PRODUCT -->
-<div id="quickview-wrapper">
-  <!-- Modal -->
-  <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              </div>
-              <div class="modal-body">
-                  <div class="modal-product clearfix">
-                      <div class="product-images">
-                          <div class="main-image images">
-                              <img alt="" id="quick-img"src="/resources/img/product/quickview.jpg">
-                          </div>
-                      </div><!-- .product-images -->
-                      
-                      <div class="product-info">
-                          <h1 id ="quick-title"> </h1>
-                          <div class="price-box-3">
-                              <div class="s-price-box">
-                                  <span class="new-price" id ="quick-price"> </span>
-                                  <span class="old-price">£190.00</span>
-                              </div>
-                          </div>
-                          <a class ='move see-all' id="quick-id" href='<c:out value="${product.product_id}"/>'>See all features</a>
-                          <div class="quick-add-to-cart">
-                              <form method="post" class="cart">
-                                  <div class="numbers-row">
-                                      <input type="number" id="french-hens" value="1">
-                                  </div>
-                                  <button class="single_add_to_cart_button" type="submit">Add to cart</button>
-                              </form>
-                          </div>
-                          <div id="quick-information" class="quick-desc"></div>
-                          <div class="social-sharing">
-                              <div class="widget widget_socialsharing_widget">
-                                  <h3 class="widget-title-modal">Share this product</h3>
-                                  <ul class="social-icons clearfix">
-                                      <li>
-                                          <a class="facebook" href="#" target="_blank" title="Facebook">
-                                              <i class="zmdi zmdi-facebook"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="google-plus" href="#" target="_blank" title="Google +">
-                                              <i class="zmdi zmdi-google-plus"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="twitter" href="#" target="_blank" title="Twitter">
-                                              <i class="zmdi zmdi-twitter"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="pinterest" href="#" target="_blank" title="Pinterest">
-                                              <i class="zmdi zmdi-pinterest"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="rss" href="#" target="_blank" title="RSS">
-                                              <i class="zmdi zmdi-rss"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                      	<a id="kakao-link-btn" href="#">
-                                          <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" style="width:100%"/>
-  									  	</a>
-  									  </li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div><!-- .product-info -->
-                  </div><!-- .modal-product -->
-              </div><!-- .modal-body -->
-          </div><!-- .modal-content -->
-      </div><!-- .modal-dialog -->
-  </div>
-  <!-- END Modal -->
-</div>
-<!-- END QUICKVIEW PRODUCT -->
-<!-- option Modal -->
-<!-- Modal -->
-<div class="modal fade" id="optionModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-      <form name="form1" action="/purchase/insertCart" method="post">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            	<h4 class="modal-title">옵션 선택</h4>
-            </div>
-            <div class="modal-body">
-            	<div id="hiddenInput"></div>
-				<table>
-					<thead style="color: black;">
-						<tr>
-							<td>수량</td>
-							<td>색깔</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>
-								<div class="cart-plus-minus f-left" style="text-align:center;">
-                                      <input type="text" value="02" name="product_qty" class="cart-plus-minus-box">
-                                </div>
-							</td>
-							<td>
-								<div id="colorSelectBox" style="border:black;">
-                                     <select name="product_color" id="select2">
-									 </select>
-                                </div>
-							</td>
-						</tr>
-				   </tbody>
-				</table>
-            </div><!-- .modal-body -->
-            <div class="modal-footer">
-            	<button id="AddToCartBtn" class="submit-btn-1 btn-hover-1" type="submit">Add to Cart</button>
-            	<button class="submit-btn-1 btn-hover-1" data-dismiss="modal" aria-label="Close" style="background-color : #575757;">취소</button>
-            </div>
-        </div><!-- .modal-content -->
-       </form>
-    </div><!-- .modal-dialog -->
-</div>
-<!-- END Modal -->
+
 <!-- 상품 클릭 후 이동 -->
 <form id='actionForm' action="/product/get" method='get'>
  	<input type='hidden' name='product_id' value=''>
 </form>
+<%@include file = "/WEB-INF/views/purchase/CartModal.jsp" %>
 <%@include file="/WEB-INF/views/layout/foot.jsp" %>
 
 
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript" src="/resources/js/quickViewModal.js"></script>
+<%@include file="/WEB-INF/views/product/QuickViewModal.jsp" %>
+<script type="text/javascript" src="/resources/js/cartModal.js"></script>
 
 <script type="text/javascript">
 
@@ -680,32 +548,6 @@ $(document).ready(function(){
 	
 	
 });
-
-var optionModal = $("#optionModal");
-function openModal(product_id,product_price) {
-	
-	optionModal.modal('show');
-	var price = product_price;
-	var id = product_id;
-	
-	$.getJSON("/product/getColorList",{product_id : id}, function(arr){
-		 console.log(arr);
-		 str="";
-		 str2 = "";
-		 str3 = "";
-		 $(arr).each(function(i, color){
-			console.log(color.product_color);
-			str = str + "<option value='"+color.product_color+"'>"+color.product_color+"</option>";
-		
-		 });
-		 str2 = str2 + "<input type='hidden' name='product_id' value='"+product_id+"'/>"
-		 str3 = str3 + "<input type='hidden' name='product_price' value='"+price+"'/>"
-		 $("#select2").empty().append(str);
-		 $("#hiddenInput").empty().append(str2);
-		 $("#hiddenInput").append(str3)
-	 });
-	
-	};
 	
 var msg="${msg}";
 
@@ -722,6 +564,5 @@ if(msg=="SUCCESS"){
 	}else if(msg=="FAIL"){
 	alert("이미 장바구니에 존재하는 상품입니다");
 }	
-
 
 </script>

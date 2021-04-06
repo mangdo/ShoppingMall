@@ -54,7 +54,7 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getList" resultMap="NoticeMap">
-		SELECT *
+		SELECT n.notice_id, notice_title, notice_information, image_uuid, image_uploadPath, image_name
 		FROM notice AS n
 		LEFT OUTER JOIN notice_image AS i
 		ON i.notice_id = n.notice_id AND i.notice_id>0
@@ -78,4 +78,14 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 		notice_information = #{notice_information}
 		WHERE notice_id = #{notice_id}
 	</update>
+	
+	<select id="getRecentList" resultMap="NoticeMap">
+		SELECT n.notice_id, notice_title, notice_information, image_uuid, image_uploadPath, image_name
+		FROM notice AS n
+		LEFT OUTER JOIN notice_image AS i
+		ON i.notice_id = n.notice_id AND i.notice_id>0
+		WHERE n.notice_id > 0
+		ORDER BY n.notice_id DESC
+		LIMIT 2
+	</select>
 </mapper>

@@ -8,19 +8,25 @@
 <bean id = "customUserDetailsService" class="com.phonemall.security.CustomUserDetailsService"></bean>
 <bean id = "customAccessDenied" class="com.phonemall.security.CustomAccessDeniedHandler"></bean>
 <bean id = "customLoginSuccess" class="com.phonemall.security.CustomLoginSuccessHandler"></bean>
-<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+<bean id = "bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+<bean id = "customLoginFail" class="com.phonemall.security.CustomLoginFailHandler"/>
+
 <security:http auto-config="true" use-expressions="true">
-	
-	<!--  <security:intercept-url pattern="/**" access="permitAll" /> -->
-	
+		
 	<security:intercept-url pattern="/mypage/customlogin" access="permitAll" />
 	<security:intercept-url pattern="/myPurchase" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
 	<security:intercept-url pattern="/purchase/orderInsert" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
 	<security:intercept-url pattern="/purchase/insertCart" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
 	<security:intercept-url pattern="/purchase/viewCart" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
 	<security:intercept-url pattern="/product/insertWishList" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
-	<security:intercept-url pattern="/mypage/wishList" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />	
-	<security:form-login login-page="/mypage/customlogin" login-processing-url="/mypage/login" username-parameter="email" password-parameter="userpw" default-target-url="/"/>
+	<security:intercept-url pattern="/mypage/wishList" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
+	<security:intercept-url pattern="/mypage/myReviews" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
+	<security:intercept-url pattern="/mypage/myInfo" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
+	<security:intercept-url pattern="/mypage/myCoupon" access="hasAnyRole('ROLE_MEMBER, ROLE_ADMIN')" />
+	
+	<security:form-login login-page="/mypage/customlogin" login-processing-url="/mypage/login" username-parameter="email" password-parameter="userpw" 
+		authentication-success-handler-ref="customLoginSuccess" authentication-failure-handler-ref="customLoginFail"/>
+	<security:access-denied-handler ref="customAccessDenied" />
 	<security:csrf disabled="true" />
 </security:http>
 

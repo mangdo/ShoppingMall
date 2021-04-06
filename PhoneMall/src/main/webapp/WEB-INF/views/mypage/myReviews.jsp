@@ -15,9 +15,9 @@
                         <h1 class="breadcrumbs-title">My Reviews</h1>
                         <ul class="breadcrumb-list">
                             <li><a href="/">Home</a></li>
-                            <li><a href="/myPurchase">Purchase</a></li>
-                            <li><a href="/myInfo">MyInfo</a></li>
-                            <li><a href="/myReviews">Reviews</a></li>
+                            <li><a href="/myPurchase">myPurchase</a></li>
+                            <li><a href="/mypage/myInfo">MyInfo</a></li>
+                            <li>myReviews</li>
                             <li><a href="/mypage/myCoupon">MyCoupons</a></li>
                         </ul>
                     </div>
@@ -35,7 +35,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="row">
 					<div class="section-title text-left ">
 						<h2 class="uppercase">my reviews</h2>
 						<h6 class="mb-40">내가 작성한 리뷰 내역을 확인할 수 있습니다.</h6>
@@ -44,18 +43,14 @@
 
 					<c:forEach items="${reviewList}" var="review" varStatus="status">
 					<!-- review -->
-					<c:if test="${review.review_rating != 0}">
-					<c:if test="${status.first }">
-						<c:set var="cnt" value='-1'/>
-					</c:if>
-						<c:set var="cnt" value="${cnt+1}"/>
+					
 					<li class="p-20" >
 							<div class="row">
 							<div class="product-img col-sm-2 col-xs-3 col-md-1">
-	                            <a class ='move' href='product/get?product_id=<c:out value="${productList[cnt].product_id}"/>'>	                            	
+	                            <a class ='move' href='/product/get?product_id=<c:out value="${review.product_id}"/>'>	                            	
                                     <img id='main-img${status.index}'  alt="image error" onError ="this.src='/resources/img/product/9.jpg'">
                                     <script>
-                                   	var imageName = encodeURIComponent('${productList[cnt].product_imageList[0].image_uploadPath}'+'/s_'+'${productList[cnt].product_imageList[0].image_uuid}'+'_'+'${productList[cnt].product_imageList[0].image_name}');
+                                   	var imageName = encodeURIComponent('${review.product_imageList[0].image_uploadPath}'+'/s_'+'${review.product_imageList[0].image_uuid}'+'_'+'${review.product_imageList[0].image_name}');
                                    	var realSrc = '/product/display?fileName='+imageName;
                                    	
                                		document.getElementById('main-img${status.index}').src= realSrc;
@@ -65,11 +60,11 @@
 	                        <div class="col-md-11">
 								<div class="row" >
 				                    <h6 class="widget-title">
-			                       	<a class ='move'href='product/get?product_id=<c:out value="${productList[cnt].product_id}"/>'><c:out value="${productList[cnt].product_title}"/></a>
+			                       	<a class ='move'href='/product/get?product_id=<c:out value="${review.product_id}"/>'><c:out value="${review.product_title}"/></a>
 			                        </h6>
 			                        <h6 class="brand-name mb-15">
-			                   		 <c:out value="${productList[cnt].product_brand}"/> / <c:out value="${productList[cnt].product_type}"/> /
-			                   		  <c:out value="${productList[cnt].product_carrier}"/>
+			                   		 <c:out value="${review.product_brand}"/> / <c:out value="${review.product_type}"/> /
+			                   		  <c:out value="${review.product_carrier}"/>
 			                   	    </h6>
 								</div>
 							</div>
@@ -97,33 +92,26 @@
 		                        </div>
 		                        <c:out value="${review.review_content }"/>
 							</div>
-							</li>
-							
-							<!-- this review has no reply-->
-							<c:if test="${reviewList[status.index+1].review_rating!=0 }">
-								<hr style="border-bottom: 2px solid #999999; margin:0px;">
-							</c:if>
-					</c:if>
-					
+							</li>					
 					<!-- reply -->
-					<c:if test="${review.review_rating == 0}">
+					<c:forEach items="${review.replyList}" var="reply" varStatus="status">
 					<li class="p-30" style="padding-top:0px">							
 						<div class="media mt-10" style="background-color:#f6f6f6; padding:15px">
 							<div class="media-body">
 								<div class="clearfix"> 
 									<h6 class="media-heading">판매자</h6>
-									<p class="mb-10"><fmt:formatDate value="${review.review_regDate }" type="both"/>
-									<c:if test="${review.review_updateDate ne null}">
-	                        			<br><fmt:formatDate value="${review.review_regDate }" type="both"/>(수정됨)
+									<p class="mb-10"><fmt:formatDate value="${reply.reply_regDate }" type="both"/>
+									<c:if test="${reply.reply_updateDate ne null}">
+	                        			<br><fmt:formatDate value="${reply.reply_regDate }" type="both"/>(수정됨)
 	                        		</c:if>
 									</p>
-									<p class="mb-0"><c:out value="${review.review_content }"/></p>									
+									<p class="mb-0"><c:out value="${reply.reply_content }"/></p>									
 								</div>
 							</div>
 						</div>
 					</li>
+					</c:forEach>
 					<hr style="border-bottom: 2px solid #999999;margin:0px;">
-					</c:if>
 				</c:forEach>
 				</ul>
 				<br>
@@ -152,7 +140,6 @@
                        	</c:if>
                        </ul>
                        <!-- shop-pagination end -->
-				</div>
 			</div>
 			</div>	
 		</div>

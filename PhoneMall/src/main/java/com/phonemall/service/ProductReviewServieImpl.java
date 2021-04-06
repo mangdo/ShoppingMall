@@ -1,12 +1,14 @@
 package com.phonemall.service;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.phonemall.domain.Criteria;
+import com.phonemall.domain.ProductReplyVO;
 import com.phonemall.domain.ProductReviewVO;
-import com.phonemall.domain.ProductReviewPageDTO;
 import com.phonemall.mapper.ProductMapper;
 import com.phonemall.mapper.ProductReviewMapper;
 import com.phonemall.mapper.PurchaseMapper;
@@ -66,30 +68,34 @@ public class ProductReviewServieImpl implements ProductReviewService{
 	}
 
 	@Override
-	public ProductReviewPageDTO getListPage(Criteria cri, Long product_id) {
+	public List<ProductReviewVO> getListPage(Criteria cri, Long product_id) {
 		log.info("Get review list of a product, "+product_id);
 		
-		return new ProductReviewPageDTO(mapper.getCountByProductId(product_id),
-				mapper.getListWithPaging(cri, product_id));
+		return mapper.getListWithPaging(cri, product_id);
+	}
+	
+	@Override
+	public int getTotal(Long product_id) {
+		return mapper.getCountByProductId(product_id);
 	}
 	
 
 	@Override
-	public int registerReply(ProductReviewVO vo) {
+	public int registerReply(ProductReplyVO vo) {
 		log.info("Regitser Reply , " + vo);
 		
 		return mapper.insertReply(vo);
 	}
 	
 	@Override
-	public ProductReviewVO getReply(Long reply_id) {
+	public ProductReplyVO getReply(Long reply_id) {
 		log.info("Get Reply , "+reply_id);
 		
 		return mapper.readReply(reply_id);
 	}
 
 	@Override
-	public int modifyReply(ProductReviewVO vo) {
+	public int modifyReply(ProductReplyVO vo) {
 		log.info("Modify Reply , "+ vo);
 		
 		return mapper.updateReply(vo);
@@ -103,11 +109,15 @@ public class ProductReviewServieImpl implements ProductReviewService{
 	}
 
 	@Override
-	public ProductReviewPageDTO getMyReviewListPage(Criteria cri, String review_reviewer) {
+	public List<ProductReviewVO> getMyReviewListPage(Criteria cri, String review_reviewer) {
 		log.info("Get my review list , "+review_reviewer);
 		
-		return new ProductReviewPageDTO(mapper.getCountByReviewer(review_reviewer),
-				mapper.getMyReviewListWithPaging(cri, review_reviewer), productMapper.myReviewProductList(cri, review_reviewer));
+		return mapper.getMyReviewListWithPaging(cri, review_reviewer);
+	}
+
+	@Override
+	public int getMyTotal(String review_reviewer) {
+		return mapper.getCountByReviewer(review_reviewer);
 	}
 
 }

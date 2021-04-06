@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,20 +35,17 @@ import com.phonemall.domain.ProductColorListVO;
 import com.phonemall.domain.ProductImageVO;
 import com.phonemall.service.ProductService;
 
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-//import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @Log4j
 @RequestMapping("/product/*")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProductController {
 	
-	@Setter(onMethod_=@Autowired)
-	private ProductService service;
+	private final ProductService service;
 	
 	@GetMapping("/list")
 	public String list(Criteria cri, Model model) {
@@ -65,11 +61,13 @@ public class ProductController {
 		return "/product/list";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/register")
 	public String register() {
 		return "/product/register";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/register")
 	public String register(ProductVO product, RedirectAttributes rttr, MultipartFile mainImage, MultipartFile[] subImage) {
 		

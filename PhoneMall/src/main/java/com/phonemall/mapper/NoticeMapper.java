@@ -17,4 +17,6 @@ public interface NoticeMapper {
 	public int delete(Long notice_id);
 	
 	public int update(NoticeVO notice);
+	
+	public List<NoticeVO> getRecentList();
 }

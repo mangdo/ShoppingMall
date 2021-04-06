@@ -53,7 +53,7 @@
                     <div class="row">
                         <div class="col-sm-6 hidden-xs">
                             <div class="call-us">
-                                <p class="mb-0 roboto">(+88) 01234-567890</p>
+                                <p class="mb-0 roboto"></p>
                             </div>
                         </div>
                         <div class="col-sm-6 col-xs-12">
@@ -145,8 +145,8 @@
                                     <div class="total-cart total-cart-2 f-left">
                                         <div class="total-cart-in">
                                             <div class="cart-toggler">
-                                                <a href="#">
-                                                    <span class="cart-quantity">02</span><br>
+                                                <a href="/purchase/viewCart">
+                                                    <span class="cart-quantity" id ="cart-quantity">00</span><br>
                                                     <span class="cart-icon">
                                                         <i class="zmdi zmdi-shopping-cart-plus"></i>
                                                     </span>
@@ -175,13 +175,6 @@
                                                     <div class="top-cart-inner view-cart">
                                                         <h4 class="text-uppercase">
                                                             <a href="/purchase/viewCart">View cart</a>
-                                                        </h4>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="top-cart-inner check-out">
-                                                        <h4 class="text-uppercase">
-                                                            <a href="/checkOut">Check out</a>
                                                         </h4>
                                                     </div>
                                                 </li>

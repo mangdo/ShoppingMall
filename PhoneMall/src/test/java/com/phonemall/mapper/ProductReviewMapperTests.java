@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.phonemall.domain.Criteria;
+import com.phonemall.domain.ProductReplyVO;
 import com.phonemall.domain.ProductReviewVO;
 
 import lombok.Setter;
@@ -58,7 +59,7 @@ public class ProductReviewMapperTests {
 	
 	@Test
 	public void testUpdateReply() {
-		ProductReviewVO vo= mapper.readReply(1L);
+		ProductReplyVO vo= mapper.readReply(1L);
 		log.info("update : "+mapper.updateReply(vo));
 		log.info(vo);
 	}

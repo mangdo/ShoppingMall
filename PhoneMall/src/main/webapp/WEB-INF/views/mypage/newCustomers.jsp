@@ -13,10 +13,11 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="breadcrumbs-inner">
-                                <h1 class="breadcrumbs-title">Login / Register</h1>
+                                <h1 class="breadcrumbs-title">Register</h1>
                                 <ul class="breadcrumb-list">
                                     <li><a href="/">Home</a></li>
-                                    <li>Login / Register</li>
+                                    <li><a href="/mypage/customlogin">Login</a></li>
+                                    <li>Register</li>
                                 </ul>
                             </div>
                         </div>
@@ -35,9 +36,12 @@
                     <div class="row">
                         <!-- new-customers -->
                         <div class="col-md-6">
+                        	<div class="section-title text-left">
+                            	<h2 class="uppercase">NEW CUSTOMERS</h2>
+                            	<h6 class="mb-40">회원가입을 통해 더 편리하고 다양한 기능을 즐기세요.</h6>
+                            </div>
                             <div class="new-customers">
                                 <form id="my-form" action="/mypage/newCustomers" method="post">
-                                    <h6 class="widget-title border-left mb-50">NEW CUSTOMERS</h6>
                                     <div class="login-account p-30 box-shadow">
                                         <div class="row">
                                             <div class="col-sm-6">

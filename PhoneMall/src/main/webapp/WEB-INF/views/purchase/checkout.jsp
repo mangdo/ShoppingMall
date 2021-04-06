@@ -2,7 +2,26 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@include file="/WEB-INF/views/layout/top.jsp" %>	
+<%@include file="/WEB-INF/views/layout/top.jsp" %>
+	<!-- BREADCRUMBS SETCTION START -->
+    <div class="breadcrumbs-section plr-200 mb-80">
+        <div class="breadcrumbs overlay-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="breadcrumbs-inner">
+                            <h1 class="breadcrumbs-title">CheckOut</h1>
+                            <ul class="breadcrumb-list">
+                                <li><a href="/">Home</a></li>
+                                <li>CheckOut</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BREADCRUMBS SETCTION END -->
     <!-- Start page content -->
 
         <section id="page-content" class="page-wrapper">

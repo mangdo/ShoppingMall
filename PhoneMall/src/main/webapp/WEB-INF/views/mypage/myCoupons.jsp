@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/layout/top.jsp" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
         <!-- BREADCRUMBS SETCTION START -->
         <div class="breadcrumbs-section plr-200 mb-80">
@@ -10,13 +9,13 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="breadcrumbs-inner">
-                                <h1 class="breadcrumbs-title">My Purchase</h1>
+                                <h1 class="breadcrumbs-title">My Coupons</h1>
                                 <ul class="breadcrumb-list">
                                     <li><a href="/">Home</a></li>
-                                    <li><a href="/myPurchase">Purchase</a></li>
-                                    <li><a href="/myInfo">MyInfo</a></li>
-                                    <li><a href="/myReviews">Reviews</a></li>
-                                    <li><a href="/myCoupon">MyCoupons</a></li>
+                                    <li><a href="/myPurchase">myPurchase</a></li>
+                                    <li><a href="/mypage/myInfo">MyInfo</a></li>
+                                    <li><a href="/mypage/myReviews">myReviews</a></li>
+                                    <li>MyCoupons</li>
                                 </ul>
                             </div>
                         </div>
@@ -25,13 +24,20 @@
             </div>
         </div>
         <!-- BREADCRUMBS SETCTION END -->
-                <!-- Start page content -->
+        
+        <!-- Start page content -->
         <div id="page-content" class="page-wrapper">
 
             <!-- LOGIN SECTION START -->
             <div class="login-section mb-80">
                 <div class="container">               
-					<div>
+					<div class="row">
+						<div class= "col-md-12">
+							<div class="section-title text-left mb-40">
+								<h2 class="uppercase">my Coupons</h2>
+								<h6>쿠폰을 등록하고 조회할 수 있습니다.</h6>
+							</div>
+						</div>
                     	<div class="col-md-6">
                     	  <form name="form1" action="/mypage/searchAndInsertCoupon" method="GET">
                             <div class="coupon-discount box-shadow p-30 mb-50">
@@ -64,6 +70,8 @@
 				</div>
 			</div>
 		</div>
+		<%@include file="/WEB-INF/views/layout/foot.jsp" %>
+		
 <script type="text/javascript">
 var el =  document.getElementsByClassName("used");
 console.log(el);

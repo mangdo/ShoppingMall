@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,23 +25,25 @@ import com.phonemall.domain.NoticeVO;
 import com.phonemall.domain.PageDTO;
 import com.phonemall.service.NoticeService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
-@RequestMapping("/notice/*")
-@Controller
 @Log4j
-@AllArgsConstructor
+@RequestMapping("/notice/*")
+@RequiredArgsConstructor
+@Controller
 public class NoticeController {
 	
-	private NoticeService service;
+	private final NoticeService service;
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/register")
 	public String toNoticePage() {
 		log.info("Register Notice Form");
 		return "/notice/register";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/register")
 	public String regitser(NoticeVO notice, RedirectAttributes rttr, MultipartFile noticeImage) {
 				
@@ -100,7 +103,7 @@ public class NoticeController {
 	}
 	
 	@GetMapping("/list")
-	public String list(@RequestParam(required=true,defaultValue="1") Integer page, Model model) {
+	public String list(@RequestParam(required=false, defaultValue="1") Integer page, Model model) {
 		log.info("Notice List");
 		Criteria cri = new Criteria(page,6);
 		int total = service.getTotal();
@@ -109,7 +112,7 @@ public class NoticeController {
 		return "/notice/list";
 	}
 	
-	//@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/remove")
 	public String remove(@RequestParam("notice_id") Long notice_id, RedirectAttributes rttr) {
 		log.info("remove notice "+notice_id);
@@ -141,7 +144,7 @@ public class NoticeController {
 		}
 	}
 	
-	//@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/modify")
 	public String modify(@RequestParam("notice_id") Long notice_id, Model model) {
 		
@@ -151,6 +154,7 @@ public class NoticeController {
 		
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/modify")
 	public String modify(RedirectAttributes rttr, NoticeVO notice, MultipartFile noticeImage) {
 		log.info("modify notice : "+notice);

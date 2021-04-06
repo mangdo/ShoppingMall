@@ -9,10 +9,10 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="breadcrumbs-inner">
-                                <h1 class="breadcrumbs-title">About</h1>
+                                <h1 class="breadcrumbs-title">About Us</h1>
                                 <ul class="breadcrumb-list">
                                     <li><a href="/">Home</a></li>
-                                    <li>About</li>
+                                    <li>About Us</li>
                                 </ul>
                             </div>
                         </div>
@@ -31,8 +31,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="section-title text-left ">
-                                <h2 class="uppercase">about subas</h2>
-                                <h6 class="mb-40">There are many variations of passages of brands available,</h6>
+                                <h2 class="uppercase">about project</h2>
+                                <h6 class="mb-40">프로젝트에 대한 간단한 설명입니다.</h6>
                             </div>
                         </div>
                     </div>                    
@@ -44,12 +44,12 @@
                         </div>
                         <div class="col-md-7">
                             <div class="about-description mt-50">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labo
-                                et dolore magn aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequa. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                <p>본 프로젝트는 Spring Framework를 이용한 쇼핑몰 웹 프로젝트입니다.</p>
 
-                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia is be deserunt mollit anim est laborum. Sed ut perspiciatis unde omnis iste natus error sit. voluptatem accusantium doloremque laudantium,</p>
-
-                                <p>totam remes aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam.</p>
+                                <p>Back-end로 Java 8, Spring Framework 5.0.2, Maven 2.5.1, MyBatis 3.4.1 , MySQL, Spring Security 5.0.6을 사용하였고
+									Front-end로 bootstrap 4, JQuery 3.1.1를 사용하였습니다.</p>
+                                <p> 사용한 API로는 카카오 페이 API, 구글 지도 API, 카카오 메시지 API, 카카오 우편 서비스가 있습니다. 프로젝트 내에 @RestController와 Ajax를 이용하여 REST방식을 일부 적용하였습니다.</p>
+                                <p> 사용 기술에 대한 더 자세한 내용은 아래 Github 링크를 참고해주세요. </p>
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                         <div class="col-md-12">
                             <div class="section-title text-left ">
                                 <h2 class="uppercase">team member</h2>
-                                <h6 class="mb-40">There are many variations of passages of brands available,</h6>
+                                <h6 class="mb-40">프로젝트를 진행한 팀원입니다.</h6>
                             </div>
                         </div>
                     </div>                
@@ -77,21 +77,15 @@
                                         <img src="/resources/img/team/1.png" alt="">
                                     </div>
                                     <div class="team-member-info pt-20">
-                                        <h5 class="member-name"><a href="#">Nancy holland</a></h5>
-                                        <p class="member-position">Chairman</p>
-                                        <p class="mb-20">There are many variations of passage of Lorem Ipsum available, but the in majority have suffered.</p>
+                                        <h5 class="member-name"><a href="#">CHOI MIN SEO</a></h5>
+                                        <p class="member-position">최민서</p>
+                                        <p class="mb-20">&nbsp;&nbsp; 가톨릭대학교 정보통신 전자공학을 졸업하였고 재학 중 C, C++, Java, Python을 이용한 프로젝트를 진행하였습니다. 현재는 WEB 개발공부를 하고 있습니다.</p>
                                         <ul class="footer-social">
                                             <li>
-                                                <a class="facebook" href="" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>
+                                                <a class="facebook" href="https://github.com/mangdo" title="Facebook"><i class="zmdi zmdi-github"></i></a>
                                             </li>
                                             <li>
-                                                <a class="google-plus" href="" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="twitter" href="" title="Twitter"><i class="zmdi zmdi-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="rss" href="" title="RSS"><i class="zmdi zmdi-rss"></i></a>
+                                                <a class="rss" href="https://doing7.tistory.com/" title="Tistory"><i class="zmdi zmdi-blogger"></i></a>
                                             </li>
                                         </ul>                                     
                                     </div>
@@ -107,91 +101,7 @@
                                     <div class="team-member-info pt-20">
                                         <h5 class="member-name"><a href="#">Nancy holland</a></h5>
                                         <p class="member-position">Chairman</p>
-                                        <p class="mb-20">There are many variations of passage of Lorem Ipsum available, but the in majority have suffered.</p>
-                                        <ul class="footer-social">
-                                            <li>
-                                                <a class="facebook" href="" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="google-plus" href="" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="twitter" href="" title="Twitter"><i class="zmdi zmdi-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="rss" href="" title="RSS"><i class="zmdi zmdi-rss"></i></a>
-                                            </li>
-                                        </ul>                                     
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- team-member end -->
-                            <!-- team-member start -->
-                            <div class="col-md-12">
-                                <div class="team-member box-shadow bg-shape">
-                                    <div class="team-member-photo">
-                                        <img src="/resources/img/team/3.png" alt="">
-                                    </div>
-                                    <div class="team-member-info pt-20">
-                                        <h5 class="member-name"><a href="#">Nancy holland</a></h5>
-                                        <p class="member-position">Chairman</p>
-                                        <p class="mb-20">There are many variations of passage of Lorem Ipsum available, but the in majority have suffered.</p>
-                                        <ul class="footer-social">
-                                            <li>
-                                                <a class="facebook" href="" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="google-plus" href="" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="twitter" href="" title="Twitter"><i class="zmdi zmdi-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="rss" href="" title="RSS"><i class="zmdi zmdi-rss"></i></a>
-                                            </li>
-                                        </ul>                                     
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- team-member end -->
-                            <!-- team-member start -->
-                            <div class="col-md-12">
-                                <div class="team-member box-shadow bg-shape">
-                                    <div class="team-member-photo">
-                                        <img src="/resources/img/team/1.png" alt="">
-                                    </div>
-                                    <div class="team-member-info pt-20">
-                                        <h5 class="member-name"><a href="#">Nancy holland</a></h5>
-                                        <p class="member-position">Chairman</p>
-                                        <p class="mb-20">There are many variations of passage of Lorem Ipsum available, but the in majority have suffered.</p>
-                                        <ul class="footer-social">
-                                            <li>
-                                                <a class="facebook" href="" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="google-plus" href="" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="twitter" href="" title="Twitter"><i class="zmdi zmdi-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="rss" href="" title="RSS"><i class="zmdi zmdi-rss"></i></a>
-                                            </li>
-                                        </ul>                                     
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- team-member end -->
-                            <!-- team-member start -->
-                            <div class="col-md-12">
-                                <div class="team-member box-shadow bg-shape">
-                                    <div class="team-member-photo">
-                                        <img src="/resources/img/team/2.png" alt="">
-                                    </div>
-                                    <div class="team-member-info pt-20">
-                                        <h5 class="member-name"><a href="#">Nancy holland</a></h5>
-                                        <p class="member-position">Chairman</p>
-                                        <p class="mb-20">There are many variations of passage of Lorem Ipsum available, but the in majority have suffered.</p>
+                                        <p class="mb-20">There are many variations of passages of brands available.There are many variations of passage of Lorem Ipsum available, but the in majority have suffered.</p>
                                         <ul class="footer-social">
                                             <li>
                                                 <a class="facebook" href="" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>

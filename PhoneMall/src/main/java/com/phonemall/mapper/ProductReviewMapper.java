@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.phonemall.domain.Criteria;
+import com.phonemall.domain.ProductReplyVO;
 import com.phonemall.domain.ProductReviewVO;
 
 public interface ProductReviewMapper {
@@ -23,13 +24,13 @@ public interface ProductReviewMapper {
 	public int getCountByProductId(Long product_id);
 	
 	// Reply of review
-	public int insertReply(ProductReviewVO vo);
+	public int insertReply(ProductReplyVO vo);
 	
-	public ProductReviewVO readReply(Long reply_id);
+	public ProductReplyVO readReply(Long reply_id);
 	
 	public int deleteReply(Long reply_id);
 	
-	public int updateReply(ProductReviewVO vo);
+	public int updateReply(ProductReplyVO vo);
 	
 	
 	// my review list

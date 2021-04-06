@@ -52,7 +52,7 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 		<result property = "product_brand" column = "product_brand"/>
 		<result property = "product_type" column = "product_type"/>
 		<result property = "product_carrier" column = "product_carrier"/>
-		<collection property="product_imageList" resultMap = "imageMap"></collection>
+		<association property="product_imageList" resultMap = "imageMap"></association>
 	</resultMap>
 	
 	<insert id="insert">
@@ -72,7 +72,7 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="ListCart" resultMap = "CartListMap">
 		select p.product_id, c.product_color, c.product_qty, c.user_email, product_title, p.product_price,product_carrier,product_brand,product_type,image_uuid, image_uploadPath, image_name, image_type
 		from cart c, product p, product_image i
-		where c.product_id=p.product_id and c.user_email=#{user_email} and p.product_id = i.product_id
+		where c.product_id=p.product_id and c.user_email=#{user_email} and p.product_id = i.product_id and i.image_type="mainImage"
 	</select>
 	
 	<select id="sumMoney" resultType = "int">

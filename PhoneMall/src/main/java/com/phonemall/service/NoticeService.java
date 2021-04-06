@@ -21,4 +21,5 @@ public interface NoticeService {
 	
 	public boolean modify(NoticeVO notice);
 	
+	public List<NoticeVO> getRecentList();
 }

@@ -59,7 +59,7 @@
                     <div class="row">
                         <div class="col-sm-6 hidden-xs">
                             <div class="call-us">
-                                <p class="mb-0 roboto">(+88) 01234-567890</p>
+                                <p class="mb-0 roboto"></p>
                             </div>
                         </div>
                         <div class="col-sm-6 col-xs-12">
@@ -137,9 +137,9 @@
                                            <button class="search-toggle">
                                             <i class="zmdi zmdi-search"></i>
                                            </button>
-                                            <form action="#">
+                                            <form id='topSearchForm' action="/product/list" method='get'>
                                                 <div class="top-search-box">
-                                                    <input type="text" placeholder="Search here your product...">
+                                                    <input type="text" name = "keyword" placeholder="Search here your product...">
                                                     <button type="submit">
                                                         <i class="zmdi zmdi-search"></i>
                                                     </button>
@@ -151,8 +151,8 @@
                                     <div class="total-cart total-cart-2 f-left">
                                         <div class="total-cart-in">
                                             <div class="cart-toggler">
-                                                <a href="#">
-                                                    <span class="cart-quantity">02</span><br>
+                                                <a href="/purchase/viewCart">
+                                                    <span class="cart-quantity" id ="cart-quantity">00</span><br>
                                                     <span class="cart-icon">
                                                         <i class="zmdi zmdi-shopping-cart-plus"></i>
                                                     </span>
@@ -166,81 +166,21 @@
                                                 </li>
                                                 <li>
                                                     <div class="total-cart-pro">
-                                                        <!-- single-cart -->
-                                                        <div class="single-cart clearfix">
-                                                            <div class="cart-img f-left">
-                                                                <a href="#">
-                                                                    <img src="/resources/img/cart/1.jpg" alt="Cart Product" />
-                                                                </a>
-                                                                <div class="del-icon">
-                                                                    <a href="#">
-                                                                        <i class="zmdi zmdi-close"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cart-info f-left">
-                                                                <h6 class="text-capitalize">
-                                                                    <a href="#">Dummy Product Name</a>
-                                                                </h6>
-                                                                <p>
-                                                                    <span>Brand <strong>:</strong></span>Brand Name
-                                                                </p>
-                                                                <p>
-                                                                    <span>Model <strong>:</strong></span>Grand s2
-                                                                </p>
-                                                                <p>
-                                                                    <span>Color <strong>:</strong></span>Black, White
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <!-- single-cart -->
-                                                        <div class="single-cart clearfix">
-                                                            <div class="cart-img f-left">
-                                                                <a href="#">
-                                                                    <img src="/resources/img/cart/1.jpg" alt="Cart Product" />
-                                                                </a>
-                                                                <div class="del-icon">
-                                                                    <a href="#">
-                                                                        <i class="zmdi zmdi-close"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cart-info f-left">
-                                                                <h6 class="text-capitalize">
-                                                                    <a href="#">Dummy Product Name</a>
-                                                                </h6>
-                                                                <p>
-                                                                    <span>Brand <strong>:</strong></span>Brand Name
-                                                                </p>
-                                                                <p>
-                                                                    <span>Model <strong>:</strong></span>Grand s2
-                                                                </p>
-                                                                <p>
-                                                                    <span>Color <strong>:</strong></span>Black, White
-                                                                </p>
-                                                            </div>
-                                                        </div>
+                                                        
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div class="top-cart-inner subtotal">
                                                         <h4 class="text-uppercase g-font-2">
                                                             Total  =  
-                                                            <span>$ 500.00</span>
+                                                            <span id ="total_money">0</span>
                                                         </h4>
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div class="top-cart-inner view-cart">
                                                         <h4 class="text-uppercase">
-                                                            <a href="/viewCart">View cart</a>
-                                                        </h4>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="top-cart-inner check-out">
-                                                        <h4 class="text-uppercase">
-                                                            <a href="/checkOut">Check out</a>
+                                                            <a href="/purchase/viewCart">View cart</a>
                                                         </h4>
                                                     </div>
                                                 </li>
@@ -369,78 +309,58 @@
                                             <img src="/resources/img/logo/logo.png" alt="">
                                         </div>
                                         <div class="footer-brief">
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the subas industry's standard dummy text ever since the 1500s,</p>
-                                            <p>When an unknown printer took a galley of type and If you are going to use a passage of Lorem Ipsum scrambled it to make.</p>
+                                            <p>본 프로젝트는 Spring Framework을 이용한 쇼핑몰 웹 프로젝트입니다.</p>
+                                            <p>Java8, Spring Framework 5.0, MyBatis, MySQL, Spring Security, bootstrap4, JQuery 3.0, 카카오와 구글 API를 사용하였으며 REST방식을 일부 적용하였습니다.</p>
                                         </div>
                                         <ul class="footer-social">
                                             <li>
-                                                <a class="facebook" href="" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="google-plus" href="" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="twitter" href="" title="Twitter"><i class="zmdi zmdi-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a class="rss" href="" title="RSS"><i class="zmdi zmdi-rss"></i></a>
+                                                <a class="facebook" href="https://github.com/mangdo/shoppingMallProject" title="github"><i class="zmdi zmdi-github"></i></a>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 hidden-md hidden-sm">
                                     <div class="single-footer">
-                                        <h4 class="footer-title border-left">Shipping</h4>
+                                        <h4 class="footer-title border-left">Menu</h4>
                                         <ul class="footer-menu">
                                             <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>New Products</span></a>
+                                                <a href="/product/list"><i class="zmdi zmdi-circle"></i><span>Products</span></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Discount Products</span></a>
+                                                <a href="/notice/list"><i class="zmdi zmdi-circle"></i><span>Notice</span></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Best Sell Products</span></a>
+                                                <a href="/about"><i class="zmdi zmdi-circle"></i><span>About Us</span></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Popular Products</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Manufactirers</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Suppliers</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Special Products</span></a>
+                                                <a href="/contact"><i class="zmdi zmdi-circle"></i><span>Contact</span></a>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 col-sm-4">
                                     <div class="single-footer">
-                                        <h4 class="footer-title border-left">my account</h4>
+                                        <h4 class="footer-title border-left">my page</h4>
                                         <ul class="footer-menu">
                                             <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>My Account</span></a>
+                                                <a href="/myPurchase"><i class="zmdi zmdi-circle"></i><span>My Purchase</span></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>My Wishlist</span></a>
+                                                <a href="/mypage/myReviews"><i class="zmdi zmdi-circle"></i><span>My Reviews</span></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>My Cart</span></a>
+                                                <a href="/mypage/myCoupon"><i class="zmdi zmdi-circle"></i><span>My Coupon</span></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Sign In</span></a>
+                                                <a href="/mypage/myInfo"><i class="zmdi zmdi-circle"></i><span>My Info</span></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Registration</span></a>
+                                                <a href="/mypage/wishList"><i class="zmdi zmdi-circle"></i><span>My Wishlist</span></a>
                                             </li>
                                             <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Check out</span></a>
+                                                <a href="/purchase/viewCart"><i class="zmdi zmdi-circle"></i><span>My Cart</span></a>
                                             </li>
-                                            <li>
-                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Oder Complete</span></a>
-                                            </li>
+                                            
                                         </ul>
                                     </div>
                                 </div>
@@ -448,7 +368,7 @@
                                     <div class="single-footer">
                                         <h4 class="footer-title border-left">Get in touch</h4>
                                         <div class="footer-message">
-                                            <form action="#">
+                                            <form class="contact-form" action="/mail/send" method="post">
                                                 <input type="text" name="name" placeholder="Your name here...">
                                                 <input type="text" name="email" placeholder="Your email here...">
                                                 <textarea class="height-80" name="message" placeholder="Your messege here..."></textarea>
@@ -462,37 +382,7 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom black-bg">
-                <div class="container-fluid">
-                    <div class="plr-185">
-                        <div class="copyright">
-                            <div class="row">
-                                <div class="col-sm-6 col-xs-12">
-                                    <div class="copyright-text">
-                                        <p>&copy; <a href="https://themeforest.net/user/codecarnival/portfolio" target="_blank">CodeCarnival</a> 2016. All Rights Reserved.</p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-xs-12">
-                                    <ul class="footer-payment text-right">
-                                        <li>
-                                            <a href="#"><img src="/resources/img/payment/1.jpg" alt=""></a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><img src="/resources/img/payment/2.jpg" alt=""></a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><img src="/resources/img/payment/3.jpg" alt=""></a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><img src="/resources/img/payment/4.jpg" alt=""></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </footer>
         <!-- END FOOTER AREA --> 
     </div>
@@ -508,6 +398,14 @@
     <!-- Main js file that contents all jQuery plugins activation. -->
     <script src="/resources/js/main.js"></script>
 
+	<!-- cartPreview -->
+	<sec:authorize access="isAuthenticated()">
+		<script src="/resources/js/ajax-cartPreview.js"></script>
+	</sec:authorize>
+	
+	<!-- ajax-mail js -->
+    <script src="/resources/js/ajax-mail.js"></script>
+    
     <script>
     $(document).ready(function(){
       $('#summernote').summernote({

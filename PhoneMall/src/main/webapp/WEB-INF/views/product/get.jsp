@@ -11,10 +11,10 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="breadcrumbs-inner">
-                                <h1 class="breadcrumbs-title">Single Product Without Sidebar</h1>
+                                <h1 class="breadcrumbs-title">Products</h1>
                                 <ul class="breadcrumb-list">
-                                    <li><a href="index.html">Home</a></li>
-                                    <li>Single Product Without Sidebar</li>
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="/product/list">Products</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                                                     <p class="color-title f-left">Color</p>
                                                     <div class="widget-color f-left">
                                                         <ul>
-                                                        <li class='color-1'><a href='#'></a></li> <li class='color-1'><a href='#'></a></li>
+                                                        
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -257,15 +257,14 @@
                                                         <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite" data-id="<c:out value='${product.product_id }'/>"></i></a>
                                                     </li>
                                                     <li>
-                                                        <a href="#" data-toggle="modal" data-target="#productModal"
-                                                            title="Quickview" data-id="<c:out value='${product.product_id }'/>"><i class="zmdi zmdi-zoom-in"></i></a>
+                                                    	<a href="#" data-id="<c:out value='${product.product_id}'/>" data-toggle="modal"  data-target="#productModal" title="Quickview">
+                                                    		<i class="zmdi zmdi-zoom-in"></i>
+                                                    	</a>
                                                     </li>
                                                     <li>
-                                                        <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" title="Add to cart"><i
-                                                                class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                                        <a href="#" title="Add to cart" onclick="openModal(${product.product_id},${product.product_price})">
+                                                        	<i class="zmdi zmdi-shopping-cart-plus"></i>
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -290,6 +289,8 @@
 <form id='operForm' action='product/modify' method='get'>
 	<input type="hidden" id='product_id' name='product_id' value='<c:out value="${product.product_id}"/>'>
 </form>
+
+<%@include file="/WEB-INF/views/purchase/CartModal.jsp" %>
 
 <%@include file="/WEB-INF/views/layout/foot.jsp" %>
                                    
@@ -369,92 +370,13 @@
 </div>
 <!-- END reply Modal -->
 
-<!-- START QUICKVIEW PRODUCT -->
-<div id="quickview-wrapper">
-  <!-- Modal -->
-  <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              </div>
-              <div class="modal-body">
-                  <div class="modal-product clearfix">
-                      <div class="product-images">
-                          <div class="main-image images">
-                              <img alt="" id="quick-img"src="/resources/img/product/quickview.jpg">
-                          </div>
-                      </div><!-- .product-images -->
-                      
-                      <div class="product-info">
-                          <h1 id ="quick-title"> </h1>
-                          <div class="price-box-3">
-                              <div class="s-price-box">
-                                  <span class="new-price" id ="quick-price"> </span>
-                              </div>
-                          </div>
-                          <a class ='move see-all' id="quick-id" href='<c:out value="${product.product_id}"/>'>See all features</a>
-                          <div class="quick-add-to-cart">
-                              <form method="post" class="cart">
-                                  <div class="numbers-row">
-                                      <input type="number" id="french-hens" value="1">
-                                  </div>
-                                  <button class="single_add_to_cart_button" type="submit">Add to cart</button>
-                              </form>
-                          </div>
-                          <div id="quick-information" class="quick-desc"></div>
-                          <div class="social-sharing">
-                              <div class="widget widget_socialsharing_widget">
-                                  <h3 class="widget-title-modal">Share this product</h3>
-                                  <ul class="social-icons clearfix">
-                                      <li>
-                                          <a class="facebook" href="#" target="_blank" title="Facebook">
-                                              <i class="zmdi zmdi-facebook"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="google-plus" href="#" target="_blank" title="Google +">
-                                              <i class="zmdi zmdi-google-plus"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="twitter" href="#" target="_blank" title="Twitter">
-                                              <i class="zmdi zmdi-twitter"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="pinterest" href="#" target="_blank" title="Pinterest">
-                                              <i class="zmdi zmdi-pinterest"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a class="rss" href="#" target="_blank" title="RSS">
-                                              <i class="zmdi zmdi-rss"></i>
-                                          </a>
-                                      </li>
-                                      <li>
-                                      	<a id="kakao-link-btn" href="#">
-                                          <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" style="width:100%"/>
-  									  	</a>
-  									  </li>
-                                  </ul>
-                              </div>
-                          </div>
-                      </div><!-- .product-info -->
-                  </div><!-- .modal-product -->
-              </div><!-- .modal-body -->
-          </div><!-- .modal-content -->
-      </div><!-- .modal-dialog -->
-  </div>
-  <!-- END Modal -->
-</div>
-<!-- END QUICKVIEW PRODUCT -->
-
 <script type="text/javascript" src="/resources/js/review.js"></script>
 <script type="text/javascript" src="/resources/js/reply.js"></script>
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript" src="/resources/js/quickViewModal.js"></script>
 
+<%@include file="/WEB-INF/views/product/QuickViewModal.jsp" %>
+<script type="text/javascript" src="/resources/js/cartModal.js"></script>
+<script type="text/javascript" src="/resources/js/wishList.js"></script>
+	
 <script type="text/javascript">
  $(document).ready(function(){
 	 
@@ -463,7 +385,6 @@
 		 var id = '<c:out value = "${product.product_id}"/>';
 		 
 		 $.getJSON("/product/getColorList",{product_id : id}, function(arr){
-			 console.log(arr);
 			 str="";
 			 
 			 $(arr).each(function(i, color){
@@ -508,46 +429,48 @@
 				 reviewsTabDiv.html("<p>아직 작성된 리뷰가 없습니다.</p>");
 				 return;
 			 }
-			for(var i=0, len = list.length||0; i<len; i++){
-				if(list[i].reply_id==null){ //review
-					str += '<div class="media mt-30">';
-					str += '<div class="media-left"><img class="media-object" src="/resources/img/author/5.jpg">';
-	                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
-	                str += '<h6 class="media-heading">'+list[i].review_reviewer.substring(0,3)+"****"+'</h6>';
-	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate);
-	                if(list[i].review_updateDate){
-	                	str += '<br>'+reviewService.displayTime(list[i].review_updateDate)+'(수정됨)';
-	                }
-	                str += '</p></div> <ul class="reply-delate pull-right"> <li><a class="reply-register" data-id='+list[i].review_id+'>답글</a></li> <li>/</li> ';
-	                str += '<li><a class= "review-update" href='+list[i].review_id+' data-reviewer='+list[i].review_reviewer+'>수정</a></li> <li>/</li> <li><a class= "review-delete" href='+list[i].review_id+' data-reviewer='+list[i].review_reviewer+'>삭제</a></li> ';
-	                str += '</ul> </div> <div class="pro-rating sin-pro-rating" style="display:inline-block">';
-	                
-					for(var j=0; j < list[i].review_rating; j++){
-						str += '<a><i class="zmdi zmdi-star"></i></a>';
-					}
-					for(var j=0; j < 5-list[i].review_rating; j++){
-						str += '<a><i class="zmdi zmdi-star-outline"></i></a>';
-					}
-					str += '<p class="mb-0">'+ list[i].review_content+'</p> </div> </div> </div>';
+			 list.forEach(function(review){
+				//review
+				str += '<div class="media mt-30">';
+				str += '<div class="media-left"><img class="media-object" src="/resources/img/author/5.jpg">';
+                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
+                str += '<h6 class="media-heading">'+review.review_reviewer.substring(0,3)+"****"+'</h6>';
+                str += '<p class="mb-10">'+reviewService.displayTime(review.review_regDate);
+                if(review.review_updateDate){
+	                str += '<br>'+reviewService.displayTime(review.review_updateDate)+'(수정됨)';
+	            }
+	            str += '</p></div> <ul class="reply-delate pull-right"> <li><a class="reply-register" data-id='+review.review_id+'>답글</a></li> <li>/</li> ';
+	            str += '<li><a class= "review-update" href='+review.review_id+' data-reviewer='+review.review_reviewer+'>수정</a></li> <li>/</li> <li><a class= "review-delete" href='+review.review_id+' data-reviewer='+review.review_reviewer+'>삭제</a></li> ';
+	            str += '</ul> </div> <div class="pro-rating sin-pro-rating" style="display:inline-block">';
+	            
+	            // review rating
+				for(var j=0; j < review.review_rating; j++){
+					str += '<a><i class="zmdi zmdi-star"></i></a>';
 				}
-				else{ // reply
+				for(var j=0; j < 5-review.review_rating; j++){
+					str += '<a><i class="zmdi zmdi-star-outline"></i></a>';
+				}
+				str += '<p class="mb-0">'+ review.review_content+'</p> </div> </div> </div>';
+				
+				//reply
+				review.replyList.forEach(function(reply){
+				
 					str += '<div class="media" style="background-color:#f6f6f6; margin-left:40px;margin-top:0px; padding:15px">';
-					
 					str += '<div class="media-left"><img class="media-object" src="/resources/img/author/4.jpg">';
-	                str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
-	                str += '<h6 class="media-heading">'+"판매자"+'</h6>';
-	                str += '<p class="mb-10">'+reviewService.displayTime(list[i].review_regDate);
-	                if(list[i].review_updateDate){
-	                	str += '<br>'+reviewService.displayTime(list[i].review_updateDate)+'(수정됨)';
+                	str += '</div> <div class="media-body"> <div class="clearfix"> <div class="name-commenter pull-left">';
+                	str += '<h6 class="media-heading">'+"판매자"+'</h6>';
+	                
+	                str += '<p class="mb-10">'+reviewService.displayTime(reply.reply_regDate);
+	                if(reply.reply_updateDate){
+	                	str += '<br>'+reviewService.displayTime(reply.reply_updateDate)+'(수정됨)';
 	                }
-	                str += '</p></div> <ul class="reply-delate pull-right"> <li><a class= "reply-update" href='+list[i].reply_id+' data-reviewer='+list[i].review_reviewer+'>수정</a></li>';
-	                str += ' <li>/</li><li><a class= "reply-delete" href="'+list[i].reply_id+'">삭제</a></li> </ul> </div>';
+	                str += '</p></div> <ul class="reply-delate pull-right"> <li><a class= "reply-update" href='+reply.reply_id+' data-reviewer='+reply.reply_replier+'>수정</a></li>';
+	                str += ' <li>/</li><li><a class= "reply-delete" href="'+reply.reply_id+'">삭제</a></li> </ul> </div>';
 	                str += '<div class="pro-rating sin-pro-rating">';
-	                str += '<p class="mb-0">'+ list[i].review_content+'</p> </div> </div> </div>';
-				
-				}
-				
-			}
+	                str += '<p class="mb-0">'+ reply.reply_content+'</p> </div> </div> </div>';
+					
+				});
+			});
 			reviewsTabDiv.html(str);
 			showReviewPage(reviewTotal);
 		});
@@ -627,7 +550,7 @@
 				product_id : productID
 		};
 		reviewService.update(review, function(result){
-			alert("result: "+result);
+			alert("리뷰를 수정하였습니다.");
 			reviewModal.modal("hide");
 			showList(1);
 		});
@@ -649,7 +572,7 @@
 			return;
 		}
 		reviewService.remove(review_id, originalReviewer, function(result){
-				alert("remove result:"+result);
+				alert("리뷰를 삭제하였습니다");
 				showList(1);
 		});
 	});
@@ -683,12 +606,12 @@
 	// reply register
 	$("#replyRegisterBtn").on("click",function(e){
 		var reply = {
-				review_content : replyModal.find("textarea[name='reply_content']").val(),
-				review_reviewer : replyModal.find("input[name='reply_replier']").val(),
+				reply_content : replyModal.find("textarea[name='reply_content']").val(),
+				reply_reviewer : replyModal.find("input[name='reply_replier']").val(),
 				review_id : replyModal.data("review_id")
 		};
 		replyService.add(reply, function(result){
-			alert("register reply result: " + result);
+			alert("답글을 등록하였습니다.");
 			replyModal.modal("hide");
 			showList(1);
 		});
@@ -706,7 +629,6 @@
 		var reply_id = $(this).attr("href");
 		
 		replyService.get(reply_id, function(reply){
-			console.log(reply);
 			replyModal.find("textarea[name='reply_content']").val(reply.review_content);
 			replyModal.find("input[name='reply_replier']").val(user);
 			replyModal.find("button[id='replyRegisterBtn']").hide();
@@ -720,11 +642,11 @@
 	$("#replyUpdateBtn").on("click", function(e){
 		var reply = {
 				reply_id : replyModal.data("reply_id"),
-				review_content : replyModal.find("textarea[name='reply_content']").val(),
-				review_reviewer : replyModal.find("input[name='reply_replier']").val()
+				reply_content : replyModal.find("textarea[name='reply_content']").val(),
+				reply_replier : replyModal.find("input[name='reply_replier']").val()
 		};
 		replyService.update(reply, function(result){
-			alert("result: "+result);
+			alert("답글을 수정하였습니다.");
 			replyModal.modal("hide");
 			showList(1);
 		});
@@ -743,7 +665,7 @@
 		
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
 		replyService.remove(reply_id, function(result){
-			alert("remove result: "+result);
+			alert("답글을 삭제하였습니다.");
 			replyModal.modal("hide");
 			showList(1);
 		});
@@ -754,6 +676,7 @@
 		</sec:authorize>		
 	});
 	
+	// Insert Cart
 	var msg="${insertmsg}"
 
 	if(msg=="SUCCESS"){
@@ -768,17 +691,16 @@
 		
 	});
 	
+	// Insert WishList
+	$(".zmdi-favorite").on("click",function(e){
+		// only member can insert wishList
+		<sec:authorize access="isAnonymous()">
+			alert("로그인 후 가능합니다.");
+			return;
+		</sec:authorize>
+		
+		wishListService.insert($(this).data('id'));
+	});
  });
- 	
-	
-	
-	
-	
-	
-	
-
- 
-
-
  
 </script>

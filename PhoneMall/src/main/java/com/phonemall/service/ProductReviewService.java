@@ -1,9 +1,11 @@
 package com.phonemall.service;
 
 
+import java.util.List;
+
 import com.phonemall.domain.Criteria;
+import com.phonemall.domain.ProductReplyVO;
 import com.phonemall.domain.ProductReviewVO;
-import com.phonemall.domain.ProductReviewPageDTO;
 
 public interface ProductReviewService {
 
@@ -15,16 +17,20 @@ public interface ProductReviewService {
 	
 	public int remove(Long review_id);
 	
-	public ProductReviewPageDTO getListPage(Criteria cri, Long product_id);
+	public List<ProductReviewVO> getListPage(Criteria cri, Long product_id);
+	
+	public int getTotal(Long product_id);
 	
 	// reply of reviews
-	public int registerReply(ProductReviewVO vo);
+	public int registerReply(ProductReplyVO vo);
 	
-	public ProductReviewVO getReply(Long reply_id);
+	public ProductReplyVO getReply(Long reply_id);
 	
-	public int modifyReply(ProductReviewVO vo);
+	public int modifyReply(ProductReplyVO vo);
 	
 	public int removeReply(Long review_id);
 	
-	public ProductReviewPageDTO getMyReviewListPage(Criteria cri, String review_reviewer);
+	public List<ProductReviewVO> getMyReviewListPage(Criteria cri, String review_reviewer);
+
+	public int getMyTotal(String review_reviewer);
 }

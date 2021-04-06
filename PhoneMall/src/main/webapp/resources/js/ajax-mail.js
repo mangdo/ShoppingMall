@@ -1,7 +1,7 @@
 $(function() {
 
 	// Get the form.
-	var form = $('#contact-form');
+	var form = $('.contact-form');
 
 	// Get the messages div.
 	var formMessages = $('.form-messege');
@@ -16,7 +16,7 @@ $(function() {
 		"email" : form.find("input[name='email']").val(), 
 		"title" : form.find("input[name='title']").val(),
 		"phone" : form.find("input[name='phone']").val(),
-		"message":form.find("input[name='message']").val()};
+		"message":form.find("textarea[name='message']").val()};
 		
 		alert("메시지 전송중");
 
@@ -37,7 +37,7 @@ $(function() {
 			alert("메시지를 보냈습니다.");
 			
 			// Clear the form.
-			$('#contact-form input,#contact-form textarea').val('');
+			$('.contact-form input, .contact-form textarea').val('');
 		})
 		.fail(function(data) {
 			// Make sure that the formMessages div has the 'error' class.

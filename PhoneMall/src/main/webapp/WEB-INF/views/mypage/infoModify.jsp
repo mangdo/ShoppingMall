@@ -12,13 +12,13 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="breadcrumbs-inner">
-                                <h1 class="breadcrumbs-title">MyInfo</h1>
+                                <h1 class="breadcrumbs-title">My Info Modify</h1>
                                 <ul class="breadcrumb-list">
                                     <li><a href="/">Home</a></li>
-                                    <li><a href="/myPurchase">Purchase</a></li>
-                                    <li><a href="/myInfo">MyInfo</a></li>
-                                    <li><a href="/myReviews">Reviews</a></li>
-                                    <li><a href="/myCoupon">MyCoupons</a></li>
+                                    <li><a href="/myPurchase">myPurchase</a></li>
+                                    <li><a href="/mypage/myInfo">MyInfo</a></li>
+                                    <li><a href="/mypage/myReviews">myReviews</a></li>
+                                    <li><a href="/mypage/myCoupon">MyCoupons</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -29,8 +29,11 @@
         <!-- BREADCRUMBS SETCTION END -->
         <div class="container">
         	<div class="row">
-        		<div class="col">
-        			<h2>* 개인 정보 변경   </h2>
+        		<div class="col-md-12 mb-40">
+        			<div class="section-title text-left mb-40">
+						<h2 class="uppercase">my info modify</h2>
+						<h6 >개인 정보를 변경 합니다.</h6>
+					</div>
         			<form id="form1" action='<c:url value="/mypage/update"/>' method="post">
         			  <table class="table table-bordered" style="color:rgb(0, 0, 0);">
 					    <tbody>
@@ -53,10 +56,10 @@
 					      <tr>
 					        <th scope="row">휴대번호</th>
 					        <td><input name="phonenum" id="btnUpdate" size="50" value="<sec:authentication property="principal.user.phonenum"/>"></td>
-					        <td><button class="btn btn-primary btn-sm" type="submit" onClick="alert('Success! Now Please login again!')">확인</button></td>
 					      </tr>	    
 					    </tbody>
-					  </table>	
+					  </table>
+					  <button class="btn-lg btn-primary f-right" type="submit" onClick="alert('Success! Now Please login again!')">확인</button>
 					</form>				
 				</div>
 			</div>

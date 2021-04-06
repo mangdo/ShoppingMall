@@ -3,6 +3,39 @@
 PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.phonemall.mapper.ProductReviewMapper">
+<resultMap type="com.phonemall.domain.ProductReviewVO" id ="reviewMap">
+	<id property = "review_id" column = "review_id"/>
+	<result property="product_id" column = "product_id"/>
+	<result property="review_content" column = "review_content"/>
+	<result property="review_reviewer" column = "review_reviewer"/>
+	<result property="review_regDate" column = "review_regDate"/>
+	<result property="review_updateDate" column = "review_updateDate"/>
+	<result property="review_rating" column = "review_rating"/>
+
+	<result property="product_title" column = "product_title"/>
+	<result property="product_brand" column = "product_brand"/>
+	<result property="product_carrier" column = "product_carrier"/>
+	<result property="product_type" column = "product_type"/>
+
+	<association property="replyList" resultMap = "replyMap"/>
+	<collection property="product_imageList" resultMap = "imageMap"/>
+</resultMap>
+
+<resultMap type="com.phonemall.domain.ProductReplyVO" id ="replyMap">
+	<id property = "reply_id" column = "reply_id"/>
+	<result property="reply_content" column = "reply_content"/>
+	<result property="reply_replier" column = "reply_replier"/>
+	<result property="reply_regDate" column = "reply_regDate"/>
+	<result property="reply_updateDate" column = "reply_updateDate"/>
+</resultMap>
+
+<resultMap type = "com.phonemall.domain.ProductImageVO" id = "imageMap">
+	<id property = "image_uuid" column = "image_uuid"/>
+	<result property="image_uploadPath" column = "image_uploadPath"/>
+	<result property="image_name" column="image_name"/>
+	<result property = "image_type" column="image_type"/>
+	<result property = "product_id" column="product_id"/>
+</resultMap>
 
 <insert id="insert">
 	INSERT INTO product_reviews(product_id, review_content, review_reviewer, review_rating)
@@ -22,26 +55,15 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE review_id = #{review_id}
 </update>
 
-<select id="getListWithPaging" resultType="com.phonemall.domain.ProductReviewVO" >
-	
-(SELECT review_id, null AS reply_id, review_content, review_reviewer, review_regDate, review_updateDate, review_rating
-FROM product_reviews USE INDEX (idx_reviews)
-WHERE product_id = #{product_id}
-LIMIT #{cri.pageStart}, #{cri.amount})
-UNION ALL(
-SELECT * FROM (
-	SELECT r.review_id, r.reply_id, r.reply_content, r.reply_replier, r.reply_regDate, r.reply_updateDate, null
-	FROM review_replies r USE INDEX (idx_replies)
-	JOIN (
-		SELECT review_id 
-		FROM product_reviews USE INDEX (idx_reviews)
+<select id="getListWithPaging" resultMap="reviewMap">
+	SELECT r1.*, r.reply_id, r.reply_replier, r.reply_content, r.reply_regDate, r.reply_updateDate
+	FROM (SELECT review_id, product_id, review_reviewer, review_content, review_regDate, review_updateDate, review_rating
+		FROM product_reviews
 		WHERE product_id = #{product_id}
-		LIMIT #{cri.pageStart}, #{cri.amount}
-            )rr
-	ON r.review_id = rr.review_id
-) tmp
-)ORDER BY review_id DESC
-	
+		ORDER BY review_id DESC
+		LIMIT  #{cri.pageStart}, #{cri.amount} ) r1
+	LEFT OUTER JOIN review_replies r
+	ON r1.review_id = r.review_id
 </select>
 
 <select id="getCountByProductId" resultType="int">
@@ -50,10 +72,10 @@ SELECT * FROM (
 
 <insert id="insertReply">
 	INSERT INTO review_replies(review_id, reply_content, reply_replier)
-	VALUES ( #{review_id}, #{review_content}, #{review_reviewer})
+	VALUES ( #{review_id}, #{reply_content}, #{reply_replier})
 </insert>
 
-<select id="readReply" resultType="com.phonemall.domain.ProductReviewVO">
+<select id="readReply" resultType="com.phonemall.domain.ProductReplyVO">
 	SELECT reply_id, reply_content AS review_content, reply_regDate AS review_regDate, reply_updateDate AS review_updateDate FROM review_replies 
 	WHERE reply_id = #{reply_id}
 </select>
@@ -63,29 +85,24 @@ SELECT * FROM (
 </delete>
 
 <update id="updateReply">
-	UPDATE review_replies SET reply_content = #{review_content}, reply_replier = #{review_reviewer}, reply_updateDate=SYSDATE() 
+	UPDATE review_replies SET reply_content = #{reply_content}, reply_replier = #{reply_replier}, reply_updateDate=SYSDATE() 
 	WHERE reply_id = #{reply_id}
 </update>
 
-<select id="getMyReviewListWithPaging" resultType="com.phonemall.domain.ProductReviewVO">
-(SELECT review_id, review_reviewer, review_content, review_regDate, review_updateDate, review_rating
-FROM product_reviews
-WHERE review_reviewer = #{review_reviewer}
-LIMIT #{cri.pageStart}, #{cri.amount})
-UNION ALL(
-SELECT * FROM (
-	SELECT r.review_id, r.reply_replier, r.reply_content, r.reply_regDate, r.reply_updateDate, null
-	FROM review_replies r USE INDEX (idx_replies)
-	JOIN (
-		SELECT  review_id 
+<select id="getMyReviewListWithPaging" resultMap="reviewMap">
+	SELECT r1.*, r.reply_id, r.reply_replier, r.reply_content, r.reply_regDate, r.reply_updateDate
+		 , image_uuid, image_uploadPath, image_name, p.product_brand, p.product_carrier, p.product_type, p.product_title 
+	FROM (SELECT review_id, product_id, review_reviewer, review_content, review_regDate, review_updateDate, review_rating
 		FROM product_reviews
 		WHERE review_reviewer = #{review_reviewer}
-		LIMIT #{cri.pageStart}, #{cri.amount}
-            )rr
-	ON r.review_id = rr.review_id 
-) tmp
-)ORDER BY review_id DESC
-
+		ORDER BY review_id DESC
+		LIMIT #{cri.pageStart}, #{cri.amount}) r1
+	LEFT OUTER JOIN product_image AS i
+	ON r1.product_id = i.product_id AND i.image_type = "mainImage"
+	LEFT OUTER JOIN product AS p
+	ON r1.product_id = p.product_id
+	LEFT OUTER JOIN review_replies r
+	ON r1.review_id = r.review_id
 </select>
 
 <select id="getCountByReviewer" resultType="int">

@@ -15,9 +15,9 @@
                                 <h1 class="breadcrumbs-title">My Purchase</h1>
                                 <ul class="breadcrumb-list">
                                     <li><a href="/">Home</a></li>
-                                    <li><a href="/myPurchase">Purchase</a></li>
-                                    <li><a href="/myInfo">MyInfo</a></li>
-                                    <li><a href="/myReviews">Reviews</a></li>
+                                    <li>myPurchase</li>
+                                    <li><a href="/mypage/myInfo">MyInfo</a></li>
+                                    <li><a href="/mypage/myReviews">myReviews</a></li>
                                     <li><a href="/mypage/myCoupon">MyCoupons</a></li>
                                 </ul>
                             </div>
@@ -280,7 +280,7 @@ $(document).ready(function(){
 				order_id : reviewModal.find("input[name='order_id']").val()
 		};
 		reviewService.add(review, function(result){
-			alert("result: "+result);
+			alert("리뷰를 등록하였습니다.");
 			reviewModal.modal("hide");
 			
 			var a = id +" a";

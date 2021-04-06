@@ -326,13 +326,13 @@
 
 	/* ********************************************
 		15. Cart tab menu active
-	******************************************** */  
+	********************************************  
     $('.cart-tab li a').on("click", function(){
         $(this).addClass("active");
         $(this).parent('li').prevAll('li').find('a').addClass("active");
         $(this).parent('li').nextAll('li').find('a').removeClass("active");
     });
-
+	*/
 	/* ********************************************
 		16. Blog page manu dropdown 
 	******************************************** */
