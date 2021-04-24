@@ -1,16 +1,17 @@
 package com.phonemall.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,15 +29,17 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.phonemall.domain.ProductVO;
+import com.amazonaws.util.IOUtils;
 import com.phonemall.domain.Criteria;
 import com.phonemall.domain.PageDTO;
 import com.phonemall.domain.ProductColorListVO;
 import com.phonemall.domain.ProductImageVO;
 import com.phonemall.service.ProductService;
+import com.phonemall.service.S3Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
-import net.coobird.thumbnailator.Thumbnailator;
+
 
 @Controller
 @Log4j
@@ -46,6 +48,7 @@ import net.coobird.thumbnailator.Thumbnailator;
 public class ProductController {
 	
 	private final ProductService service;
+	private final S3Service s3service;
 	
 	@GetMapping("/list")
 	public String list(Criteria cri, Model model) {
@@ -103,33 +106,26 @@ public class ProductController {
 	}
 	
 	
-	private void imageFolderSave(MultipartFile mainImage, List<ProductImageVO> imagelist, String imageType) {
-		
-		String uploadFolder = "c:\\phoneMall\\upload";
+	private void imageFolderSave(MultipartFile image, List<ProductImageVO> imagelist, String imageType) {
 		
 		// make folder
 		String uploadFolderPath = getFolder();
-		File uploadPath = new File(uploadFolder, uploadFolderPath);
-		if(!uploadPath.exists()) {
-			uploadPath.mkdirs();
-		}
 
 		UUID uuid = UUID.randomUUID();
-		String uploadImageName = uuid.toString()+"_"+mainImage.getOriginalFilename();
+		String uploadImageName = uuid.toString()+"_"+image.getOriginalFilename();
+		
 		try {
-			// original image save
-			File saveImage = new File(uploadPath, uploadImageName);
-			mainImage.transferTo(saveImage);
+			String s3Path = uploadFolderPath+"/"+uploadImageName;
+			s3service.uploadFile(image, s3Path);
 			
 			if(imageType.equals("mainImage")) {
-				// thumbnail image create, save
-				FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_"+uploadImageName));
-				Thumbnailator.createThumbnail(mainImage.getInputStream(), thumbnail, 400, 333);
-				thumbnail.close();
+				
+				String thumbs3Path = uploadFolderPath+"/s_"+uploadImageName;
+				s3service.uploadThumbFile(image, thumbs3Path);
 			}
 			
-			// productImageVO create
-			imagelist.add(new ProductImageVO(uuid.toString(), uploadFolderPath.toString().replace("\\", "/"), mainImage.getOriginalFilename(), imageType, null));
+			// productImageVO create for DB
+			imagelist.add(new ProductImageVO(uuid.toString(), uploadFolderPath.toString().replace("\\", "/"), image.getOriginalFilename(), imageType, null));
 
 		}catch(Exception e){log.error(e.getMessage());}
 	}
@@ -220,14 +216,12 @@ public class ProductController {
 	private void deleteFile(ProductImageVO image) {
 		log.info("delete imageFile");
 		try {
-			Path file = Paths.get("C:\\phoneMall\\upload\\"+
-					image.getImage_uploadPath().replace("/", "\\")+"\\"+image.getImage_uuid()+"_"+image.getImage_name());
-			Files.deleteIfExists(file);
+			// delete original image on s3
+			s3service.deleteFile(image.getImage_uploadPath()+"/"+image.getImage_uuid()+"_"+image.getImage_name());
 			
+			// delete thumbnail image on s3
 			if(image.getImage_type().contains("mainImage")) {
-				Path thumbNail = Paths.get("C:\\phoneMall\\upload\\"+
-						image.getImage_uploadPath().replace("/", "\\")+"\\s_"+image.getImage_uuid()+"_"+image.getImage_name());
-				Files.deleteIfExists(thumbNail);
+				s3service.deleteFile(image.getImage_uploadPath()+"/s_"+image.getImage_uuid()+"_"+image.getImage_name());
 			}
 		}catch(Exception e) {
 			log.error("delete file error"+e.getMessage());
@@ -250,14 +244,27 @@ public class ProductController {
 	public ResponseEntity<byte[]> getFile(String fileName){
 		log.info("fileName: "+ fileName);
 		
-		File file = new File("c:\\phoneMall\\upload\\"+fileName);
+		//File file = new File("c:\\phoneMall\\upload\\"+fileName);
 		ResponseEntity<byte[]> result = null;
+		
 		try {
+			
 			HttpHeaders header = new HttpHeaders();
 			
 			// MIME regardless of extention
-			header.add("Content-Type", Files.probeContentType(file.toPath()));
-			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+			//header.add("Content-Type", Files.probeContentType(file.toPath()));
+			//result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+		
+			// read from S3
+			URL url = new URL(s3service.getFileURL(fileName));
+			HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+			InputStream fileIS = urlConn.getInputStream();
+			
+			// MIME regardless of extention
+			header.add("Content-Type", URLConnection.guessContentTypeFromStream(fileIS));
+			
+			result = new ResponseEntity<>(IOUtils.toByteArray(fileIS), header, HttpStatus.OK);
+		
 		} catch(IOException e) {
 			log.info("wrong file path");
 		}

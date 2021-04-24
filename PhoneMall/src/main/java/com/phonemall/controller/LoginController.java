@@ -22,7 +22,7 @@ public class LoginController {
 	
 	@RequestMapping("/customlogin")
 	public String loginPage(String logout, Model model) {
-		log.info("로그인 페이지로 이동");
+		log.info("login page");
 		log.info("logout : " + logout );
 
 		if(logout != null) { 

@@ -263,7 +263,7 @@
                                             <input type="text" name="product_title" placeholder="Product Tittle">
                                         </div>
                                         <div class="col-lg-12">
-                                            <input type="text" name="product_price" placeholder="Product Price">
+                                            <input type="text" id = "product_price" name="product_price" placeholder="Product Price">
                                         </div>
                                         <div class="col-lg-12">
                                         	<div class="single-pro-color-rating clearfix">
@@ -531,6 +531,7 @@ $(document).ready(function(e){
 			return false;
 		}
 		
+		// Must set main image
 		if(!mainImage.val()) {
 			alert("메인 사진은 필수!");
 		    return false;
@@ -541,7 +542,12 @@ $(document).ready(function(e){
 	    	// 색깔이 체크된 것만 값을 뽑아서 배열에 push
 	    	str += "<input type ='hidden' name='product_colorList["+i+"].product_color' value='"+$(this).val()+"'>";
 	    });
-
+		
+	    // Must set product price
+	    if(!($("#product_price").val()>0)){
+	    	alert("금액을 지정해주세요.");
+	    	return false;
+	    }
 	    formObj.append(str).submit();
 	});
 	

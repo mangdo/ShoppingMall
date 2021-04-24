@@ -39,15 +39,15 @@ public class KakaoPayController {
     
     @GetMapping("/kakaoPayCancel")
 	public String kakaoPayCancel(Long purchaseId) {
+		log.info("kakaopay is cancel");
 		purchaseservice.deleteById(purchaseId);
-		log.info("결제가 취소되었습니다.");
 		return "/error/payCancel";
 	}
 
 	@GetMapping("/kakaoPayFail")
 	public String kakaoPayFail(Long purchaseId) {
+		log.info("kakaopay is fail");
 		purchaseservice.deleteById(purchaseId);
-		log.info("결제가 실패하였습니다.");
 		return "/error/payFail";
 	}
 }

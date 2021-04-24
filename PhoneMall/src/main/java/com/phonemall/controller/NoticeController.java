@@ -2,9 +2,6 @@ package com.phonemall.controller;
 
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -24,6 +21,7 @@ import com.phonemall.domain.NoticeImageVO;
 import com.phonemall.domain.NoticeVO;
 import com.phonemall.domain.PageDTO;
 import com.phonemall.service.NoticeService;
+import com.phonemall.service.S3Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -35,6 +33,7 @@ import lombok.extern.log4j.Log4j;
 public class NoticeController {
 	
 	private final NoticeService service;
+	private final S3Service s3service;
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/register")
@@ -68,22 +67,16 @@ public class NoticeController {
 	
 	
 	private NoticeImageVO imageFolderSave(MultipartFile mainImage) {
-		
-		String uploadFolder = "c:\\phoneMall\\upload";
-		
+				
 		// make folder
 		String uploadFolderPath = getFolder();
-		File uploadPath = new File(uploadFolder, uploadFolderPath);
-		if(!uploadPath.exists()) {
-			uploadPath.mkdirs();
-		}
 
 		UUID uuid = UUID.randomUUID();
 		String uploadImageName = uuid.toString()+"_"+mainImage.getOriginalFilename();
 		try {
 			// original image save
-			File saveImage = new File(uploadPath, uploadImageName);
-			mainImage.transferTo(saveImage);
+			String s3Path = uploadFolderPath+"/"+uploadImageName;
+			s3service.uploadFile(mainImage, s3Path);
 
 			// productImageVO create
 			return new NoticeImageVO(uuid.toString(), uploadFolderPath.toString().replace("\\", "/"), mainImage.getOriginalFilename(), null);
@@ -133,12 +126,9 @@ public class NoticeController {
 	private void deleteFile(NoticeImageVO image) {
 		log.info("delete imageFile");
 		try {
-			Path file = Paths.get("C:\\phoneMall\\upload\\"+
-					image.getImage_uploadPath().replace("/", "\\")+"\\"+image.getImage_uuid()+"_"+image.getImage_name());
-			String path = "C:\\phoneMall\\upload\\"+
-					image.getImage_uploadPath().replace("/", "\\")+"\\"+image.getImage_uuid()+"_"+image.getImage_name();
-			log.info(path);
-			Files.deleteIfExists(file);
+			// delete original image on s3
+			s3service.deleteFile(image.getImage_uploadPath()+"/"+image.getImage_uuid()+"_"+image.getImage_name());
+						
 		}catch(Exception e) {
 			log.error("delete file error"+e.getMessage());
 		}

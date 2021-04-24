@@ -31,7 +31,7 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 
 		log.info("kakao :  " + kakao);
 		
-		// RestTemplate: REST API 호출하고 응답을 받을 때까지 기다리는 동기방식의 spring inner class
+		// RestTemplate: Synchronous spring inner class(call REST API and wait for response)
 		RestTemplate restTemplate = new RestTemplate();
 
         // Requested Header
@@ -43,7 +43,7 @@ public class KakaoPayServiceImpl implements KakaoPayService {
         // Requested Body
         // RequestBody use MultiValueMap instead of HashMap to transmit
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("cid", "TC0ONETIME"); // Teat CID(가맹점 코드) Provided by Kakao
+        params.add("cid", "TC0ONETIME"); // Teat CID Provided by Kakao
         params.add("partner_order_id", String.valueOf(kakao.getPurchase_id()));
         params.add("partner_user_id", kakao.getUser_email());
         params.add("item_name", kakao.getPurchase_name());

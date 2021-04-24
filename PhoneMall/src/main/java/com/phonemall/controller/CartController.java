@@ -142,7 +142,7 @@ public class CartController {
 	@RequestMapping("orderComplete")
 	public String toOrderComplete(@RequestParam(value = "purchase_id") Long purchase_id, Model model, Principal principal) {
 		
-		// kakaoPay결제 중 실패를 방지하여 결제 완료후 insert order, cart delete
+		// After kakaoPay success, insert order & cart delete
 		purchaseservice.insertCompleteOrder(purchase_id, principal.getName());
 		cartservice.deleteAllCart(principal.getName());
 		
@@ -177,7 +177,7 @@ public class CartController {
 		//show products in cart
 		if(list.size()==0) {
 			model.addAttribute("total_money",0);
-			model.addAttribute("emptyCart","장바구니가 비었습니다");
+			model.addAttribute("emptyCart","cart is empty.");
 			model.addAttribute("discount_result",0);
 			List<CouponUserVO> coupon_list=couponservice.getValidList(email);
 			model.addAttribute("coupon_list",coupon_list);

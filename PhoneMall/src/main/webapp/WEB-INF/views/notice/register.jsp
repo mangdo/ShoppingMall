@@ -255,7 +255,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="message-box box-shadow white-bg">
-						        <form action="/notice/register" method="post" enctype="multipart/form-data">
+						        <form id = "registerNotice" action="/notice/register" method="post" enctype="multipart/form-data">
 						             <div class="row">
                                         <div class="col-lg-12">
                                             <h4 class="blog-section-title border-left mb-30">공지 등록</h4>
@@ -264,7 +264,7 @@
                                             <input type="text" name="notice_title" placeholder="제목">
                                         </div>
                                         <div class="col-lg-12">
-                                            <input type="text" id="notice_writer" name="notice_writer" placeholder="작성자">
+                                            <input type="hidden" id="notice_writer" name="notice_writer" value='<sec:authentication property="principal.username"/>' readonly="readonly">
                                         </div>
                                         <div class="col-lg-6">
 											<p class="color-title f-left">메인 사진</p>
@@ -434,6 +434,18 @@
     	$("#summernote").summernote('undo');
     });
 	});
+    </script>
+    
+    <script>
+    $("button[type='submit']").on("click",function(e){
+    	e.preventDefault();
+    	
+    	if(!$("#noticeImage").val()) {
+			alert("메인 사진은 필수!");
+		    return false;
+		}
+    	 $("form[id='registerNotice']").submit();
+    });
     </script>
     
 </body>
