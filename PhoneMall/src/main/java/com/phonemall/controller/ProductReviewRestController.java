@@ -32,7 +32,7 @@ public class ProductReviewRestController {
 	private final ProductReviewService service;
 	
 	// register review
-	@PreAuthorize("hasRole('ROLE_ADMIN','ROLE_MEMBER')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')")
 	@PostMapping(value="/new", consumes="application/json", produces= {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> create(@RequestBody ProductReviewVO vo){
 		log.info("ReviewVO : " + vo);

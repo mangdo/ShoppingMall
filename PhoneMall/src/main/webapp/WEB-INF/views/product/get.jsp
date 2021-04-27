@@ -38,7 +38,8 @@
                                     <!-- imgs-zoom-area start -->
                                     <div class="col-lg-5">
                                         <div class="imgs-zoom-area">
-                                        	<c:forEach items="${product.product_imageList}" var="image" begin='0' end='0'>            	
+                                        	<c:forEach items="${product.product_imageList}" var="image">
+                                        		<c:if test="${image.image_type eq 'mainImage'}">            	
 	                                        	<img id="zoom_03" alt="image error" onError ="this.src='/resources/img/product/2.jpg'">
 	                                            <script>
 	                                            	var imageName = encodeURIComponent('${image.image_uploadPath}'+'/'+'${image.image_uuid}'+'_'+'${image.image_name}');
@@ -47,6 +48,7 @@
 	                                        		document.getElementById('zoom_03').setAttribute("data-zoom-image",realSrc);
 	                                        		document.getElementById('zoom_03').src= realSrc;
 												</script>
+												</c:if>
                                             </c:forEach>
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -76,7 +78,7 @@
                                     <!-- imgs-zoom-area end -->
                                     <!-- single-product-info start -->
                                     <div class="col-lg-7">
-                                      <form id="cartform" name="form1" action="/purchase/insertCart" method="post">
+                                      <form id="cartform1" name="form1" action="/purchase/insertCart" method="post">
                                         <div class="single-product-info">
                                             <h3 class="text-black-1"><c:out value="${product.product_title}"/></h3>
                                             <h6 class="brand-name-2">
@@ -108,7 +110,7 @@
                                                     		<a><i class="zmdi zmdi-star-outline"></i></a>
                                                     	</c:if>
                                                    	</c:if>
-                                                   	<c:if test="${ product.product_rating - rating == 0 }">
+                                                   	<c:if test="${ product.product_rating - rating == 0 && product.product_rating != 5 }">
                                                     	<a><i class="zmdi zmdi-star-outline"></i></a>
                                                    	</c:if>
                                                    	<c:forEach var="i" begin="${product.product_rating+2}" end="5">
@@ -287,7 +289,7 @@
         
 <!-- 수정페이지 이동시킬때 필요한 정보 -->
 <form id='operForm' action='product/modify' method='get'>
-	<input type="hidden" id='product_id' name='product_id' value='<c:out value="${product.product_id}"/>'>
+	<input type="hidden" name='product_id' value='<c:out value="${product.product_id}"/>'>
 </form>
 
 <%@include file="/WEB-INF/views/purchase/CartModal.jsp" %>
@@ -687,7 +689,7 @@
 	
 	$("#customSubmit2").on("click", function(e){
 		
-		$("#cartform").submit();
+		$("#cartform1").submit();
 		
 	});
 	

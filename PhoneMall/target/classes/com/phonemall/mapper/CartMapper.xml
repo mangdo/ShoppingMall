@@ -77,8 +77,8 @@ PUBLIC "=//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="sumMoney" resultType = "int">
 		select SUM(p.product_price * c.product_qty)
-		from cart c, product p, product_image i
-		where c.product_id=p.product_id and c.user_email=#{user_email} and p.product_id = i.product_id
+		from cart c, product p
+		where c.product_id=p.product_id and c.user_email=#{user_email}
 	</select>
 	
 	<delete id="deleteAll">

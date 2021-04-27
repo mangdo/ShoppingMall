@@ -90,7 +90,7 @@
 	                                                        		<a><i class="zmdi zmdi-star-outline"></i></a>
 	                                                        	</c:if>
                                                         	</c:if>
-                                                        	<c:if test="${ product.product_rating - rating == 0 }">
+                                                        	<c:if test="${ product.product_rating - rating == 0  && product.product_rating != 5}">
 		                                                    	<a><i class="zmdi zmdi-star-outline"></i></a>
 		                                                   	</c:if>
 		                                                   	<c:forEach var="i" begin="${product.product_rating+2}" end="5">

@@ -64,7 +64,7 @@
                                 <p class="slider2-title-4">&nbsp;스마트폰 촬영의 혁신을 경험해보세요. 8K 동영상 촬영에, 바로 영상에서 고화질 사진까지 추출할 수 있다니. 말 다했죠? 6,400만 화소 카메라, 갤럭시 사상 가장 빠른 칩과 대용량 올데이 배터리까지. 감탄할 준비, 되셨나요?</p>
                             </div>
                             <div class="slider-button wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.5s">
-                                <a href="SAMSUNG" class="button extra-small button-black getBrand">
+                                <a href="/product/list?brand=SAMSUNG&type=Phone" class="button extra-small button-black getBrand">
                                     <span class="text-uppercase">Buy now</span>
                                 </a>
                             </div>
@@ -94,7 +94,7 @@
                                 <p class="slider2-title-4">&nbsp;시네마틱한 대화면의 노치리스 올레드 풀비전 디스플레이는 화면자체로도 빛이 납니다. 세컨드 스크린까지 더해져 멀티태스킹, 짐벌 모션 카메라, 듀얼 레코딩 등 놀라운 기능을 확인해보세요.</p>
                             </div>
                             <div class="slider-button wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.5s">
-                                <a href="LG" class="button extra-small button-black getBrand">
+                                <a href="/product/list?brand=LG&type=Phone" class="button extra-small button-black getBrand">
                                     <span class="text-uppercase">Buy now</span>
                                 </a>
                             </div>
@@ -533,10 +533,10 @@
                                         </div>
                                         <div class="col-md-6 col-xs-12">
                                             <div class="blog-desc">
-                                                <h5 class="blog-title-2"><a href="#"><c:out value='${recentNotice[0].notice_title }'/></a></h5>
+                                                <h5 class="blog-title-2"><a href="notice/get?notice_id=<c:out value='${notice.notice_id}'/>"><c:out value='${notice.notice_title }'/></a></h5>
                                                 <p><c:out value='${notice.notice_information }'/></p>
                                                 <div class="read-more">
-                                                    <a href="#">Read more</a>
+                                                    <a href="notice/get?notice_id=<c:out value='${notice.notice_id}'/>">Read more</a>
                                                 </div>
                                             </div>
                                         </div>

@@ -14,8 +14,8 @@
         imageUrl:
         	'https://cdn.pixabay.com/photo/2017/06/04/20/31/tablet-2372149_960_720.png',
         link: {
-          mobileWebUrl: 'http://localhost:8080/product/get?product_id='+data.product_id,
-          webUrl: 'http://localhost:8080/product/get?product_id='+data.product_id,
+          mobileWebUrl: 'http://54.180.88.148:8080/product/get?product_id='+data.product_id,
+          webUrl: 'http://54.180.88.148:8080/product/get?product_id='+data.product_id,
         },
       },
       commerce: {
@@ -27,8 +27,8 @@
         {
           title: '구매하기',
           link: {
-            mobileWebUrl: 'http://localhost:8080/product/get?product_id='+data.product_id,
-            webUrl: 'http://localhost:8080/product/get?product_id='+data.product_id,
+            mobileWebUrl: 'http://54.180.88.148:8080/product/get?product_id='+data.product_id,
+            webUrl: 'http://54.180.88.148:8080/product/get?product_id='+data.product_id,
           },
         },
       ],

@@ -244,17 +244,12 @@ public class ProductController {
 	public ResponseEntity<byte[]> getFile(String fileName){
 		log.info("fileName: "+ fileName);
 		
-		//File file = new File("c:\\phoneMall\\upload\\"+fileName);
 		ResponseEntity<byte[]> result = null;
 		
 		try {
 			
 			HttpHeaders header = new HttpHeaders();
-			
-			// MIME regardless of extention
-			//header.add("Content-Type", Files.probeContentType(file.toPath()));
-			//result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-		
+
 			// read from S3
 			URL url = new URL(s3service.getFileURL(fileName));
 			HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
